@@ -3,8 +3,8 @@
 */
 #include "mbed.h"
 #include "RessourcesHardware.h"
-#include "CGlobale.h"
-//#include <sys/string.h>
+#include "CEEPROM.h"
+
 
 
 //___________________________________________________________________________
@@ -15,10 +15,8 @@
    \return --
 */
 CEEPROM::CEEPROM() 
+    :m_initialized(false)
 {
- // Commence par lire le fichier d'entrée et affecter les valeurs de certaines données membres des claasses
-
- m_configFile.read("/local/eeprom.ini");
 }
 
 //___________________________________________________________________________
@@ -30,57 +28,18 @@ CEEPROM::CEEPROM()
 */
 CEEPROM::~CEEPROM() 
 {
-
 }
-
 
 //___________________________________________________________________________
  /*!
-   \brief Lit le fichier de parametrage	et renseigne les variables en RAM de l'application
-
-   \param --
-   \return --
+   \brief Ouvre le fichier EEPROM
 */
-void CEEPROM::Read(void)
+void CEEPROM::_init()
 {
-	 // Lit les paramèrtes de l'EEPROM et initialise les valeurs
-	 // valeurs pour le module Globale
-//    char *key;
-//    key=strdup("ModeFonctionnement");
-//    getValue(key, &Application.ModeFonctionnement);
-//    free(key);
-//    key=NULL;
-     getValue("ModeFonctionnement", &Application.ModeFonctionnement);
-	
-	
-	 // valeurs pour le module Asservissement
-	getValue("cde_max", &(Application.m_asservissement.cde_max));
-	getValue("cde_min", &(Application.m_asservissement.cde_min));
-	getValue("kp_distance", &(Application.m_asservissement.kp_distance));
-	getValue("ki_distance", &(Application.m_asservissement.ki_distance));
-	getValue("kp_angle", &(Application.m_asservissement.kp_angle));
-	getValue("ki_angle", &(Application.m_asservissement.ki_angle));
-	getValue("k_angle", &(Application.m_asservissement.k_angle));
-	getValue("seuil_conv_distance", &(Application.m_asservissement.seuil_conv_distance));
-	getValue("seuil_conv_angle", &(Application.m_asservissement.seuil_conv_angle));
-	getValue("compteur_max", &(Application.m_asservissement.compteur_max));
-	getValue("zone_morte_D", &(Application.m_asservissement.zone_morte_D));
-	getValue("zone_morte_G", &(Application.m_asservissement.zone_morte_G));
-
-	getValue("rackCommandeMax", &(Application.m_asservissement_chariot.commande_chariot_max_C));
-	getValue("rackGainPosVit", &(Application.m_asservissement_chariot.gain_position_vitesse_C));
-	getValue("rackGainP", &(Application.m_asservissement_chariot.gain_prop_C));
-	getValue("rackGainI", &(Application.m_asservissement_chariot.gain_int_C));
-	getValue("rackSeuilConv", &(Application.m_asservissement_chariot.seuil_conv_C));
-    getValue("rackZMdw", &(Application.m_asservissement_chariot.compensation_zone_morte_dw_C));
-    getValue("rackZMup", &(Application.m_asservissement_chariot.compensation_zone_morte_up_C));
-    getValue("rackGradVit", &(Application.m_asservissement_chariot.offset_vitesse_max_C));
-
-
+    if (!m_initialized) {
+        m_initialized = m_configFile.read((char*)EEPROM_FILE);
+    }
 }
-	
-
-
 
 //___________________________________________________________________________
  /*!
@@ -93,6 +52,7 @@ bool CEEPROM::getValue(char *key, float *val)
 {
   bool ret = false;
    
+  _init();  // ouvre le fichier s'il ne l'est pas déjà
   if (m_configFile.getValue(key, &value[0], sizeof(value))) {
 	sscanf(value, "%f", val);
 	ret= true;  // La donnée existe
@@ -110,10 +70,11 @@ bool CEEPROM::getValue(char *key, float *val)
 */
 bool CEEPROM::getValue(char *key, long *val)
 {
-  bool ret = false;
+   bool ret = false;
 
+   _init();  // ouvre le fichier s'il ne l'est pas déjà
    if (m_configFile.getValue(key, &value[0], sizeof(value))) {
-    sscanf(value, "%d", val);
+    sscanf(value, "%ld", val);
 	ret= true;  // La donnée existe
   }
   return(ret);
@@ -131,6 +92,7 @@ bool CEEPROM::getValue(char *key, unsigned int *val)
 {
   bool ret = false;
   			 
+  _init();  // ouvre le fichier s'il ne l'est pas déjà
   if (m_configFile.getValue(key, &value[0], sizeof(value))) {
     sscanf(value, "%d", val);
 	ret= true;  // La donnée existe
@@ -149,6 +111,7 @@ bool CEEPROM::getValue(char *key, int *val)
 {
   bool ret = false;
 				 
+  _init();  // ouvre le fichier s'il ne l'est pas déjà
   if (m_configFile.getValue(key, &value[0], sizeof(value))) {
 	sscanf(value, "%d", val);
 	ret= true;  // La donnée existe
@@ -168,6 +131,7 @@ bool CEEPROM::getValue(char *key, char *val)
 {
   bool ret = false;
 
+  _init();  // ouvre le fichier s'il ne l'est pas déjà
   if (m_configFile.getValue(key, &val[0], sizeof(value))) {
 	// pas de recopie, la valeur est rangée directement dans val
 	ret= true;  // La donnée existe
@@ -183,7 +147,7 @@ bool CEEPROM::setValue(char *key, float val)
    //todo mettre le flottant dans la chaine de caractere
    
 	if (m_configFile.setValue(key, tampon)){
-		if (m_configFile.write("/local/eeprom.ini")) 
+        if (m_configFile.write((char*)EEPROM_FILE))
 			ret= true;  // La donnee a ete ecrite
 		else
 			ret=false;
@@ -199,7 +163,7 @@ bool CEEPROM::setValue(char *key, short val)
    //todo mettre le flottant dans la chaine de caractere
    
 	if (m_configFile.setValue(key, tampon)){
-		if (m_configFile.write("/local/eeprom.ini")) 
+        if (m_configFile.write((char*)EEPROM_FILE))
 			ret= true;  // La donnee a ete ecrite
 		else
 			ret=false;
@@ -215,7 +179,7 @@ bool CEEPROM::setValue(char *key, unsigned short val)
    //todo mettre le flottant dans la chaine de caractere
    
 	if (m_configFile.setValue(key, tampon)){
-		if (m_configFile.write("/local/eeprom.ini")) 
+        if (m_configFile.write((char*)EEPROM_FILE))
 			ret= true;  // La donnee a ete ecrite
 		else
 			ret=false;

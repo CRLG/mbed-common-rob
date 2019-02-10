@@ -15,7 +15,7 @@ public :
 	~CEEPROM();
 
 	//! Lit le fichier
-	void Read(void);
+        virtual void Read(void) { } // L'applicatif peut hériter de la classe et ré-implémenter la méthode Read pour réaliser toutes la lecture EEPROM d'un seul coup dans cette méthode.
 	//! Ecrit une donnee de type float dont le nom (la cle) est passee en parametre
 	bool setValue(char *key, float val);
 	//! Ecrit une donnee de type short dont le nom (la cle) est passee en parametre
@@ -23,7 +23,6 @@ public :
 	//! Ecrit une donnee de type unsigned short dont le nom (la cle) est passee en parametre
 	bool setValue(char *key, unsigned short val);
 	
-
 	//! Lit une donnée de type flottant dont le nom (la cle) est passee en parametre
 	bool getValue(char *key, float *val);
 	//! Lit une donnée de type long dont le nom (la cle) est passee en parametre
@@ -35,14 +34,18 @@ public :
 	//! Lit une donnée de type string dont le nom (la cle) est passee en parametre
 	bool getValue(char *key, char *val);
 
-	
-	//! TODO : implémenter les méthodes setValue
 private : 
-	//! Buffer de recuperation d'une valeur 
-    char value[BUFSIZ];
+        const char *EEPROM_FILE="/local/eeprom.ini";
 
-	//! Point d'entree pour la gestion 
-	ConfigFile m_configFile;
+        //! Buffer de recuperation d'une valeur
+        char value[BUFSIZ];
+
+        //! Point d'entree pour la gestion
+        ConfigFile m_configFile;
+
+        bool m_initialized;
+
+        void _init();
 };
 
 
