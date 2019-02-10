@@ -14,7 +14,6 @@
 #include "CServoMoteurSD20.h"
 #include "CServoMoteurAX.h"
 #include "CMoteurs.h"
-#include "CCamera.h"
 #include "CAsservissementSulfateuse.h"
 #include "CAsservissementChariot.h"
 #include "MessengerXbeeNetwork2019.h"
@@ -67,9 +66,6 @@ public :
     // ATTENTION : l'instance de la classe asservisement doit être mise après l'instance de eeprom car CAsservissement utilise CEEPROM dans son constructeur
 	CAsservissement m_asservissement;
 
-	//! La gestion de la caméra
-	CCamera m_camera;
-
 	//! Gestion des servos moteurs controlés par le SD20
 	CServoMoteurSD20 m_servos_sd20;
 	//! Gestion des servos moteurs AX
@@ -111,13 +107,6 @@ private :
 	
 	//! Gestion du mode autonome
 	void ModeAutonome(void);
-	//! Reception RS232 en IRQ
-	void ReceiveRS232_Camera(void);
-	//! Verifie et traite la reception de trames de la camera
-	void CheckReceptionTrameCamera(void);
-	//! Envoie les trames vers la caméra
-	void SendTramesCamera(void);
-
 	//! Sequenceur de taches en mode autonome
 	void SequenceurModeAutonome(void);
 	//! Sequenceur de taches en mode pilote par Anaconbot

@@ -28,11 +28,6 @@ void CGlobale::ModeAutonome(void)
 
    m_match.Initialise();
 
-   // Initialise une IRQ sur réception RS232 de la caméra
-   // Ligne ci-dessous mise en commentaire volontairement tant que la pinoche RX est en l'air (pour éviter d'avoir des IRQ parasites)
-   // TODO: à  décommenter dès que la caméra sera branchée
-   //_rs232_camera_rx.attach(&Application, &CGlobale::ReceiveRS232_Camera);  	// Callback sur réception d'une donnée sur la RS232
-  
    periodicTick.attach(&Application, &CGlobale::IRQ_Tick_ModeAutonome, (float(PERIODE_TICK)/1000.0f));
 
    while(1) {
@@ -56,19 +51,7 @@ void CGlobale::IRQ_Tick_ModeAutonome(void)
 	Tick = 1;
 }
 
-//___________________________________________________________________________
- /*!
-   \brief Fonction d'IRQ sur reception RS232 de l'ecran
 
-   \param --
-   \return --
-*/
-void CGlobale::ReceiveRS232_Camera(void)
-{
-  char rxData;
-  rxData = _rs232_camera_rx.getc();
-  m_camera.Reconstitution(rxData);
-}
 
 
 //___________________________________________________________________________
@@ -166,23 +149,7 @@ void CGlobale::SequenceurModeAutonome(void)
 }
 
 
-//___________________________________________________________________________
- /*!
-   \brief Verifie et traite les trames recues en attente
 
-   \param --
-   \return --
-*/
-void CGlobale::CheckReceptionTrameCamera(void)
-{
-  // ___________________________
-  if  (m_camera.m_CAM_RESULT_TRACKING.isNewTrame() ) {
-    // TODO : à  relier avec les entrées du modèle SIMULINK
-    // modele.IN_xxx = m_camera.m_CAM_RESULT_TRACKING.Pos_X;
-    // modele.IN_xxx = m_camera.m_CAM_RESULT_TRACKING.Pos_Y;
-  }
-
-}
 
 
 
