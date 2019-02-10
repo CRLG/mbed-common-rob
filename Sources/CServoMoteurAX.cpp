@@ -5,8 +5,6 @@
 
 CServoMoteurAX::CServoMoteurAX()
 {
-    setTxEnable(false);
-    _ax12_serial.baud(1000000);
 }
 
 CServoMoteurAX::~CServoMoteurAX()
@@ -155,6 +153,10 @@ tAxErr CServoMoteurAX::Init(void)
 {
     tAxErr err;
     err = readEEPROM(); // Lit l'EEPROM et configure le module
+
+    setTxEnable(false);
+    _ax12_serial.baud(1000000);
+
     return err;
 }
 
