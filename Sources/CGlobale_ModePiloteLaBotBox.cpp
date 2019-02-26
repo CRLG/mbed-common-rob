@@ -64,8 +64,8 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   if (cpt10msec >= TEMPO_10msec) {
   	cpt10msec = 0;
 
-    //m_servos_sd20.GestionTransfert();
-    //m_LaBotBox.Execute();
+    m_servos_sd20.GestionTransfert();
+    m_LaBotBox.Execute();
  }
 
   // ______________________________
@@ -73,7 +73,7 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   if (cpt20msec >= TEMPO_20msec) {
   	cpt20msec = 0;
 
-    //m_capteurs.Traitement();
+    m_capteurs.Traitement();
     m_asservissement.CalculsMouvementsRobots();
     m_asservissement_chariot.Asser_chariot();
   }
@@ -101,7 +101,7 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   if (cpt500msec >= TEMPO_500msec) {
   	cpt500msec = 0;
 
-    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.send();
+    //Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.send();
     //_led1 = !_led1;
   }
   // ______________________________
@@ -109,7 +109,7 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   if (cpt1sec >= TEMPO_1sec) {
   	cpt1sec = 0;
 
-    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.Timestamp++;
+    //Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.Timestamp++;
   }
 
 }
