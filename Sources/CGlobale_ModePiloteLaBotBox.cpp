@@ -101,15 +101,16 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   if (cpt500msec >= TEMPO_500msec) {
   	cpt500msec = 0;
 
-    //Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.send();
-    //_led1 = !_led1;
+    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.setDestinationAddress(0xFFFF);
+    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.send();
   }
   // ______________________________
   cpt1sec++;
   if (cpt1sec >= TEMPO_1sec) {
   	cpt1sec = 0;
 
-    //Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.Timestamp++;
+    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.Timestamp++;
+
   }
 
 }
