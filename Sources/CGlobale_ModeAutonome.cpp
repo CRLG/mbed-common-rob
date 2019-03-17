@@ -24,6 +24,7 @@ void CGlobale::ModeAutonome(void)
    m_teta_debug=0;
 
    m_LaBotBox.Start();
+   m_LaBotBox.setAllTransmitPeriod(200);
    m_messenger_xbee_ntw.start();
 
    m_match.Initialise();
@@ -141,6 +142,7 @@ void CGlobale::SequenceurModeAutonome(void)
   if (cpt1sec >= TEMPO_1sec) {
   	cpt1sec = 0;
 
+    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.send();  // le timestamp est mis à jour dans le modèle Yakindu
   }
 
 }

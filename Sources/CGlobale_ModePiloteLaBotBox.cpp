@@ -82,6 +82,8 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   cpt50msec++;
   if (cpt50msec >= TEMPO_50msec) {
   	cpt50msec = 0;
+
+    m_messenger_xbee_ntw.execute();
     m_leds.compute();
   }
 
@@ -101,8 +103,6 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   if (cpt500msec >= TEMPO_500msec) {
   	cpt500msec = 0;
 
-    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.setDestinationAddress(0xFFFF);
-    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.send();
   }
   // ______________________________
   cpt1sec++;
@@ -110,7 +110,7 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   	cpt1sec = 0;
 
     Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.Timestamp++;
-
+    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.send();
   }
 
 }

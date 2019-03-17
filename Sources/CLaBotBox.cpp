@@ -735,7 +735,7 @@ void CLaBotBox::CheckReceptionTrame(void)
       switch(m_ETAT_ECRAN.CodeCommande) {
       // _________________________________________
       case LBB_CMDE_CHOIX_EQUIPE : // Choix couleur équipe
-          Application.m_match.m_couleur_equipe = m_ETAT_ECRAN.Valeur;
+          Application.m_match.m_dde_couleur_equipe = m_ETAT_ECRAN.Valeur;
           break;
       // _________________________________________
       case LBB_CMDE_TEST_ACTIONNEURS :

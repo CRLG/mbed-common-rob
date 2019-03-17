@@ -1,5 +1,5 @@
 /*! \file CMatch.h
-	\brief Classe qui contient toute l'application
+        \brief Classe qui contient toute l'application
 */
 
 #ifndef _MATCH_H_
@@ -20,22 +20,23 @@ class IA;
 class CMatch {
 #define MODEL_REFRESH_PERIOD 20 // [msec]
 public :
-	float m_duree;
-	unsigned char m_couleur_equipe;
-	unsigned char m_dde_test_actionneurs;
+    float m_duree;
+    unsigned char m_couleur_equipe;
+    unsigned char m_dde_couleur_equipe;
+    unsigned char m_dde_test_actionneurs;
     unsigned char m_choix_strategie;
     float m_old_cde_mot[NBRE_MAX_MOTEURS+1]; // +1 par facilité de lecture du code car l'index utilisé MOTEUR_1, ... commence à  1 et pas à  "0"
     float m_old_cde_servo[NBRE_SERVOS_SD20+1]; // +1 (même explication)
-	int m_obstacleDetecte;   
+    int m_obstacleDetecte;
 
-	CMatch();
-	~CMatch();
+    CMatch();
+    ~CMatch();
 
-	//! Initialise les structures
-	void Initialise(void);
-	
-	//! Execute un pas de calcul
-	void step(void);
+    //! Initialise les structures
+    void Initialise(void);
+
+    //! Execute un pas de calcul
+    void step(void);
 
     //! Indique si le match est en cours ou non
     bool isMatchEnCours();
@@ -43,12 +44,12 @@ public :
     bool isMatchTermine();
 
     //! Debug sur la RS232
-	void debug(void);
+    void debug(void);
 
     IA *m_ia;
     CPPTimerInterface m_timer_sct;
-//    IA::DefaultSCI *m_iaSCI;
-//    IA::SCI_Chariot *m_iaSCI_Chariot;
+    //    IA::DefaultSCI *m_iaSCI;
+    //    IA::SCI_Chariot *m_iaSCI_Chariot;
     static bool frontMontant(float prec_value, float value);
 
     float m_obstacle_AVG;
@@ -65,11 +66,11 @@ public :
     float m_teta_pos_hold;
 
 private :
-  float m_convergence_old;
-  float m_convergence_rapide_old;
-  int m_tirette_old;
-  int m_convergence_rack_old;
-  int m_convergence_rack_conf;
+    float m_convergence_old;
+    float m_convergence_rapide_old;
+    int m_tirette_old;
+    int m_convergence_rack_old;
+    int m_convergence_rack_conf;
 
 
 };

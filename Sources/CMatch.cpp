@@ -100,7 +100,7 @@ void CMatch::Initialise(void)
 */
 bool CMatch::isMatchEnCours()
 {
-    return (m_duree >=0.02) && (m_duree < 89.92);
+    return (m_duree >=0.02) && (m_duree < (DUREE_MATCH-0.06));
 }
 
 //___________________________________________________________________________
@@ -112,7 +112,7 @@ bool CMatch::isMatchEnCours()
 */
 bool CMatch::isMatchTermine()
 {
-    return (m_duree >= 89.92);
+    return (m_duree >= (DUREE_MATCH-0.06));
 }
 
 
@@ -138,12 +138,8 @@ void CMatch::step(void)
 	
     //____________________________
     //Variables de l'Ecran ou du switch
-
-    if(Application.m_capteurs.m_b_Etor5==1)//jaune
-    	m_couleur_equipe=1;
-    else //bleu
-		m_couleur_equipe=0;
-    m_iaSCI->set_iN_Couleur(m_couleur_equipe);
+    //if(Application.m_capteurs.m_b_Etor5==1)//jaune
+    m_iaSCI->set_iN_Couleur(m_dde_couleur_equipe);
 
     //____________________________
     //capteurs US
@@ -167,7 +163,6 @@ void CMatch::step(void)
     //____________________________
 	//Capteurs TOR
     //m_b_Etor1==1 => tirette enlevee
-
     if((Application.m_capteurs.m_b_Etor1==1)&&(m_tirette_old==0))
     {
         m_iaSCI->raise_eV_Tirette();
@@ -215,10 +210,12 @@ void CMatch::step(void)
 
 	// ___________________________ 
 	// Divers
-    m_duree = m_iaSCI->get_tempsMatch() * 0.02;    // m_match.m_duree est en nombre de passage dans la boucle de 20msec
+    m_duree = m_iaSCI->get_tempsMatch();
+    m_couleur_equipe = m_iaSCI->get_couleur();
 	
 	// Asservissement
 	//Application.m_asservissement.CalculsMouvementsRobots();
+
 }
 
 

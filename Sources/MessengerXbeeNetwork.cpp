@@ -5,7 +5,8 @@
 MessengerXbeeNetwork::MessengerXbeeNetwork()
 {
     init(&m_transporter, &m_database);
-    m_database.m_TimestampMatch.setTransmitPeriod(100);
+    m_database.m_TimestampMatch.setDestinationAddress(0xFFFF);
+    m_database.m_TimestampMatch.setTransmitPeriod(1000);
 }
 
 MessengerXbeeNetwork::~MessengerXbeeNetwork()
@@ -64,11 +65,7 @@ void MessengerXbeeNetwork::stop()
 void MessengerXbeeNetwork::execute()
 {
     int current_time = _Global_Timer.read_ms();
-
-    if (m_database.m_ExperienceStatus.isTimeToSend(current_time)) {
-        m_database.m_ExperienceStatus.setDestinationAddress(0xFFFF);
-        m_database.m_ExperienceStatus.send();
-    }
+    m_database.checkAndSendPeriodicMessages(current_time);
 }
 
 // ===================================================
