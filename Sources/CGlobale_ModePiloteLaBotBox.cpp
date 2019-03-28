@@ -103,6 +103,7 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   if (cpt500msec >= TEMPO_500msec) {
   	cpt500msec = 0;
 
+    m_power_switch.refreshOutputs();
   }
   // ______________________________
   cpt1sec++;

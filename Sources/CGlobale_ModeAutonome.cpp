@@ -102,7 +102,6 @@ void CGlobale::SequenceurModeAutonome(void)
 
     m_messenger_xbee_ntw.execute();
     m_leds.compute();
-
   }
 
   // ______________________________
@@ -136,6 +135,8 @@ void CGlobale::SequenceurModeAutonome(void)
   cpt500msec++;
   if (cpt500msec >= TEMPO_500msec) {
   	cpt500msec = 0;
+
+    m_power_switch.refreshOutputs();
   }
   // ______________________________
   cpt1sec++;

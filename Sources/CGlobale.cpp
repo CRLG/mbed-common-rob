@@ -12,7 +12,7 @@
    \param --
    \return --
 */
-CGlobale::CGlobale() 
+CGlobale::CGlobale()
 {
     ModeFonctionnement = MODE_AUTONOME;
 }
@@ -70,6 +70,9 @@ void CGlobale::Run(void)
     m_servos_ax.Init();
 
     m_messenger_xbee_ntw.start();
+
+    // Carte de commutationd e puissance Power Switch
+    m_power_switch.init(POWER_SWITCH_I2C_ADDR);
 
     //Init de l'asservissement chariot en cas de plantage de l'eeprom
     if ((Application.m_asservissement_chariot.commande_chariot_max_C==0) ||
