@@ -163,7 +163,7 @@ void CMatch::step(void)
     //____________________________
 	//Capteurs TOR
     //m_b_Etor1==1 => tirette enlevee
-    if((Application.m_capteurs.m_b_Etor1==1)&&(m_tirette_old==0))
+    if((Application.m_capteurs.m_b_Eana1<2.0f)&&(m_tirette_old==0))
     {
         m_iaSCI->raise_eV_Tirette();
         m_tirette_old=1;
