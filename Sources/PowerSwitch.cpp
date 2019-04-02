@@ -38,6 +38,12 @@ void PowerSwitch::setOutput(unsigned char input, bool val)
 }
 
 // ______________________________________________
+void PowerSwitch::setPort(unsigned char val)
+{
+    writePortB(val);
+}
+
+// ______________________________________________
 void PowerSwitch::clearAll()
 {
     writePorts(0, 0);

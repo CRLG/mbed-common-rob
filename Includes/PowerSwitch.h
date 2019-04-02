@@ -32,6 +32,7 @@ typedef enum {
 
     void init(unsigned char i2c_address_8bits);
     void setOutput(unsigned char input, bool val);
+    void setPort(unsigned char val);
     void clearAll();
 };
 

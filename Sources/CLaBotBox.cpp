@@ -43,6 +43,7 @@ void CLaBotBox::initListeTrames()
 {
     m_nombre_trames = 0;
 
+    m_liste_trames[m_nombre_trames++] = &m_ELECTROBOT_CDE_POWER_SWITCH;
     m_liste_trames[m_nombre_trames++] = &m_ELECTROBOT_CDE_MOTEURS;
     m_liste_trames[m_nombre_trames++] = &m_COMMANDE_MVT_XY;
     m_liste_trames[m_nombre_trames++] = &m_ASSERV_RESET;
@@ -472,6 +473,10 @@ void CLaBotBox::DecodeTrame(tStructTrameLaBotBox *trameRecue)
 void CLaBotBox::CheckReceptionTrame(void)
 {
   char cbuff[64];
+  // ___________________________
+  if  (m_ELECTROBOT_CDE_POWER_SWITCH.isNewTrame() ) {
+      Application.m_power_switch.setPort(m_ELECTROBOT_CDE_POWER_SWITCH.port);
+  }
   // ___________________________
   if  (m_ELECTROBOT_CDE_MOTEURS.isNewTrame() ) {
     Application.m_moteurs.CommandeVitesse(MOTEUR_1, (signed char)m_ELECTROBOT_CDE_MOTEURS.cde_moteur_1);  // Attention : obligation de mettre le cast explicit en "signed", sinon, la valeur est interprétée non signée

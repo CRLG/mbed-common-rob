@@ -21,6 +21,7 @@
 
 
 // Enumérés, defines, ...
+#define ID_ELECTROBOT_CDE_POWER_SWITCH 0x54
 #define ID_ELECTROBOT_CDE_SERVOS_SD20 0x53
 #define ID_ELECTROBOT_CDE_SERVOS_AX 0x52
 #define ID_ELECTROBOT_CDE_MOTEURS 0x50
@@ -51,6 +52,7 @@
 #define ID_CONFIG_PERIODE_TRAME 0x108
 
 
+#define DLC_ELECTROBOT_CDE_POWER_SWITCH 1
 #define DLC_ELECTROBOT_CDE_SERVOS_SD20 5
 #define DLC_ELECTROBOT_CDE_SERVOS_AX 5
 #define DLC_ELECTROBOT_CDE_MOTEURS 6
@@ -326,6 +328,24 @@ public :
 	void Decode(tStructTrameLaBotBox* trameRecue);
 };
 
+// -----------------------------
+//! Classe de base pour les trames CAN
+class CTrameLaBotBox_ELECTROBOT_CDE_POWER_SWITCH : public CTrameLaBotBox {
+public :
+        //! Les signaux de la messagerie
+        bool cde_xt1;
+        bool cde_xt2;
+        bool cde_xt3;
+        bool cde_xt4;
+        bool cde_xt5;
+        bool cde_xt6;
+        bool cde_xt7;
+        bool cde_xt8;
+        unsigned char port;
+
+        CTrameLaBotBox_ELECTROBOT_CDE_POWER_SWITCH();
+        void Decode(tStructTrameLaBotBox* trameRecue);
+};
 
 // -----------------------------
 //! Classe de base pour les trames CAN
