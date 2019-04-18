@@ -130,11 +130,11 @@ void CMatch::step(void)
     // ___________________________
     // Recopie les valeurs de l'environnement vers les entrées du modèle
 	//Pour binariser le capteur de depression
-		if (Application.m_capteurs.m_b_Eana1>=0.55)
+        if (Application.m_capteurs.m_b_Eana2>=0.55)
             m_iaSCI->set_iN_Depression(true);
 		else
             m_iaSCI->set_iN_Depression(false);
-	//m_iaSCI->set_iN_Depression(Application.m_capteurs.m_b_Eana1);
+    //m_iaSCI->set_iN_Depression(Application.m_capteurs.m_b_Eana2);
 	
     //____________________________
     //Variables de l'Ecran ou du switch
