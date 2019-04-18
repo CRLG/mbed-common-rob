@@ -1,6 +1,7 @@
 // Codes
 #include "math.h"
 #include "CAsservissementChariot.h"
+#include "ConfigSpecifiqueCoupe.h"
 #include "CGlobale.h"
 #include <algorithm>
 
@@ -57,7 +58,6 @@ void CAsservissementChariot::Init(void)
 	seuil_tempo_time_out_C = 30000;		// Nb de Te pour considerer un echec d'apprentissage
     offset_vitesse_max_C = 0.4;			// gradient de consigne de vitesse / Te
 
-	//Pour l'instant c'est initialise par l'EEPROM
     compensation_zone_morte_dw_C = 30;	// New
     compensation_zone_morte_up_C = 50;	// New
     commande_chariot_max_C = 65;		// Saturation pour la securite ou limiter
@@ -73,7 +73,7 @@ void CAsservissementChariot::Asser_chariot(void)
 	//position
 	codeur_position_chariot=Application.m_capteurs.m_CumulCodeurPosition3;
 	//calcul de vitesse dX/dt
-	vitesse_chariot = float(codeur_position_chariot - codeur_position_chariot_prev)/0.02;
+    vitesse_chariot = float(codeur_position_chariot - codeur_position_chariot_prev)/0.02;
 	//(1/z) de la position
 	codeur_position_chariot_prev = codeur_position_chariot;
 	
@@ -83,7 +83,7 @@ void CAsservissementChariot::Asser_chariot(void)
 		if(commande_moteur_chariot!=0.0)
 		{
 		commande_moteur_chariot=0.0;
-		Application.m_moteurs.CommandeVitesse(MOTEUR_6, commande_moteur_chariot);
+        Application.m_moteurs.CommandeVitesse(CODEUR_CHARIOT, commande_moteur_chariot);
 		}
 	}
 	//dans tous les autres cas
@@ -95,7 +95,7 @@ void CAsservissementChariot::Asser_chariot(void)
 				if(commande_moteur_chariot!=0.0)
 				{
 					commande_moteur_chariot=0.0;
-					Application.m_moteurs.CommandeVitesse(MOTEUR_6, commande_moteur_chariot);
+                    Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
 				}
 			break;
 				
@@ -110,7 +110,7 @@ void CAsservissementChariot::Asser_chariot(void)
                     //Regul_chariot();
                     //manuel
                     commande_moteur_chariot=55.0;
-                    Application.m_moteurs.CommandeVitesse(MOTEUR_6, commande_moteur_chariot);
+                    Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
 				}
                 else if (butee_basse==0) //butee basse
 				{
@@ -118,15 +118,15 @@ void CAsservissementChariot::Asser_chariot(void)
 					//regulation sur la vitesse
                     //Regul_chariot();
                     //manuel
-                    commande_moteur_chariot=-35.0;
-                    Application.m_moteurs.CommandeVitesse(MOTEUR_6, commande_moteur_chariot);
+                    commande_moteur_chariot=-50.0;
+                    Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
 				}
 				else
 				{
 					if(commande_moteur_chariot!=0.0)
 					{
 						commande_moteur_chariot=0.0;
-						Application.m_moteurs.CommandeVitesse(MOTEUR_6, commande_moteur_chariot);
+                        Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
 					}
 					etat_recalage_butee = FAIT;
                     int half_range_rack=floorf(fabsf((butee_haute-butee_basse)/2.0f));
@@ -143,7 +143,7 @@ void CAsservissementChariot::Asser_chariot(void)
 					if(commande_moteur_chariot!=0.0)
 					{
 						commande_moteur_chariot=0.0;
-						Application.m_moteurs.CommandeVitesse(MOTEUR_6, commande_moteur_chariot);
+                        Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
 					}
 
                     butee_basse=codeur_position_chariot;
@@ -154,7 +154,7 @@ void CAsservissementChariot::Asser_chariot(void)
 					if(commande_moteur_chariot!=0.0)
 					{
 						commande_moteur_chariot=0.0;
-						Application.m_moteurs.CommandeVitesse(MOTEUR_6, commande_moteur_chariot);
+                        Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
 					}
 
                     butee_haute=codeur_position_chariot;
@@ -204,7 +204,7 @@ void CAsservissementChariot::Asser_chariot(void)
                     if(commande_moteur_chariot!=0.0)
                     {
                         commande_moteur_chariot=0.0;
-                        Application.m_moteurs.CommandeVitesse(MOTEUR_6, commande_moteur_chariot);
+                        Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
                     }
 				}
 				else
@@ -238,7 +238,7 @@ void CAsservissementChariot::Regul_chariot(void) // Régulateutr de vitesse PI
 		}
 
 
-	float commande_unlim = -(gain_prop_C*erreur_vitesse + terme_integral);
+    float commande_unlim = -(gain_prop_C*erreur_vitesse + terme_integral);
 	if(commande_unlim>0)
         commande_unlim=(commande_unlim+compensation_zone_morte_up_C);	// New, attention la commande positive doit aller dans le sens montée
 	else
@@ -266,7 +266,7 @@ void CAsservissementChariot::Regul_chariot(void) // Régulateutr de vitesse PI
 		}
 	commande_moteur_chariot = commande_lim;
 
-	Application.m_moteurs.CommandeVitesse(MOTEUR_6, commande_moteur_chariot);
+    Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
 }
 
 void CAsservissementChariot::setConsigne(int pos)
