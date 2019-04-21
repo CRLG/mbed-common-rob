@@ -58,13 +58,13 @@ void CAsservissementChariot::Init(void)
 	seuil_tempo_time_out_C = 30000;		// Nb de Te pour considerer un echec d'apprentissage
     offset_vitesse_max_C = 0.4;			// gradient de consigne de vitesse / Te
 
-    compensation_zone_morte_dw_C = 30;	// New
-    compensation_zone_morte_up_C = 50;	// New
-    commande_chariot_max_C = 65;		// Saturation pour la securite ou limiter
+    compensation_zone_morte_dw_C = 60;	// New
+    compensation_zone_morte_up_C = 60;	// New
+    commande_chariot_max_C = 100;		// Saturation pour la securite ou limiter
     gain_position_vitesse_C = 6.0;		// une Carto serait un must mais pas utile (systeme tres amorti)
 	gain_int_C = 0.0;
 	gain_prop_C = 0.01;
-	seuil_conv_C=35;
+    seuil_conv_C=15;
 
 }
 
@@ -83,7 +83,7 @@ void CAsservissementChariot::Asser_chariot(void)
 		if(commande_moteur_chariot!=0.0)
 		{
 		commande_moteur_chariot=0.0;
-        Application.m_moteurs.CommandeVitesse(CODEUR_CHARIOT, commande_moteur_chariot);
+        Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
 		}
 	}
 	//dans tous les autres cas
@@ -109,7 +109,7 @@ void CAsservissementChariot::Asser_chariot(void)
 					//regulation sur la vitesse
                     //Regul_chariot();
                     //manuel
-                    commande_moteur_chariot=55.0;
+                    commande_moteur_chariot=65.0;
                     Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
 				}
                 else if (butee_basse==0) //butee basse
@@ -118,7 +118,7 @@ void CAsservissementChariot::Asser_chariot(void)
 					//regulation sur la vitesse
                     //Regul_chariot();
                     //manuel
-                    commande_moteur_chariot=-50.0;
+                    commande_moteur_chariot=-60.0;
                     Application.m_moteurs.CommandeVitesse(MOTEUR_CHARIOT, commande_moteur_chariot);
 				}
 				else
@@ -131,8 +131,8 @@ void CAsservissementChariot::Asser_chariot(void)
 					etat_recalage_butee = FAIT;
                     int half_range_rack=floorf(fabsf((butee_haute-butee_basse)/2.0f));
 
-                    butee_haute=-half_range_rack;
-                    butee_basse=half_range_rack;
+                    butee_haute=half_range_rack;
+                    butee_basse=-half_range_rack;
                     Application.m_capteurs.RAZ_PositionCodeur(CODEUR_3,butee_basse);
 
 					setConsigne(0);
@@ -238,8 +238,8 @@ void CAsservissementChariot::Regul_chariot(void) // Régulateutr de vitesse PI
 		}
 
 
-    float commande_unlim = -(gain_prop_C*erreur_vitesse + terme_integral);
-	if(commande_unlim>0)
+    float commande_unlim = (gain_prop_C*erreur_vitesse + terme_integral);
+    if(commande_unlim>=0)
         commande_unlim=(commande_unlim+compensation_zone_morte_up_C);	// New, attention la commande positive doit aller dans le sens montée
 	else
         commande_unlim=(commande_unlim-compensation_zone_morte_dw_C);	// New, attention la commande négative doit aller dans le sens descente
@@ -272,10 +272,10 @@ void CAsservissementChariot::Regul_chariot(void) // Régulateutr de vitesse PI
 void CAsservissementChariot::setConsigne(int pos)
 {
 	int pos_seuil=pos;
-    if(pos_seuil<=butee_haute)
-        pos_seuil=butee_haute+5;
-    if(pos_seuil>=butee_basse)
-        pos_seuil=butee_basse-5;
+    if(pos_seuil>=butee_haute)
+        pos_seuil=butee_haute-5;
+    if(pos_seuil<=butee_basse)
+        pos_seuil=butee_basse+5;
 	position_consigne=(float)pos_seuil;
 	etat_asser_chariot=DEPLACEMENT;
 }
