@@ -102,7 +102,10 @@ void MessengerXbeeNetwork::diag_experience(long current_time)
 // ______________________________________________
 void MessengerXbeeNetwork::diag_balise(long current_time)
 {
-    //! TODO
+    if (m_database.m_BalisePositions.isNewMessage()) {
+        m_balise_last_rx_time = current_time;
+    }
+    m_balise_present = (current_time - m_balise_last_rx_time) <= 3000;
 }
 
 // ______________________________________________
