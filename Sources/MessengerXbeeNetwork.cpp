@@ -7,6 +7,13 @@ MessengerXbeeNetwork::MessengerXbeeNetwork()
     init(&m_transporter, &m_database);
     m_database.m_TimestampMatch.setDestinationAddress(0xFFFF);
     m_database.m_TimestampMatch.setTransmitPeriod(1000);
+
+    m_robot_partner_last_rx_time = 0;
+    m_experience_last_rx_time = 0;
+    m_balise_last_rx_time = 0;
+    m_robot_partner_present = false;
+    m_experience_present = false;
+    m_balise_present = false;
 }
 
 MessengerXbeeNetwork::~MessengerXbeeNetwork()
@@ -66,7 +73,51 @@ void MessengerXbeeNetwork::execute()
 {
     int current_time = _Global_Timer.read_ms();
     m_database.checkAndSendPeriodicMessages(current_time);
+    diag_robot_partener(current_time);
+    diag_experience(current_time);
+    diag_balise(current_time);
 }
+
+// ===================================================
+//          COMMUNICATION DIAGNOSTIC
+// ===================================================
+// ______________________________________________
+void MessengerXbeeNetwork::diag_robot_partener(long current_time)
+{
+    //! TODO
+}
+
+// ______________________________________________
+void MessengerXbeeNetwork::diag_experience(long current_time)
+{
+    if (m_database.m_ExperienceStatus.isNewMessage()) {
+        m_robot_partner_last_rx_time = current_time;
+    }
+    m_robot_partner_present = (current_time - m_robot_partner_last_rx_time) <= 3000;
+}
+
+// ______________________________________________
+void MessengerXbeeNetwork::diag_balise(long current_time)
+{
+    //! TODO
+}
+
+// ______________________________________________
+bool MessengerXbeeNetwork::isRobotPartnerPresent()
+{
+    return m_robot_partner_present;
+}
+// ______________________________________________
+bool MessengerXbeeNetwork::isExperiencePresent()
+{
+    return m_experience_present;
+}
+// ______________________________________________
+bool MessengerXbeeNetwork::isBalisePresent()
+{
+    return m_balise_present;
+}
+
 
 // ===================================================
 //              MESSENGER OUTPUT

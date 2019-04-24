@@ -41,6 +41,10 @@ public:
     // This method is called by messenger (message) to inform a data in a message changed value
     virtual void dataChanged(char *name, char *val_str);
 
+    bool isRobotPartnerPresent();
+    bool isExperiencePresent();
+    bool isBalisePresent();
+
     DatabaseXbeeNetwork2019 m_database;
     TransporterGeneric m_transporter;
 
@@ -50,6 +54,18 @@ public:
     tXbeeSettings m_xbee_settings;
 
     void debug_settings();
+
+private :
+    long m_robot_partner_last_rx_time;
+    long m_experience_last_rx_time;
+    long m_balise_last_rx_time;
+    bool m_robot_partner_present;
+    bool m_experience_present;
+    bool m_balise_present;
+
+    void diag_robot_partener(long current_time);
+    void diag_experience(long current_time);
+    void diag_balise(long current_time);
 };
 
 #endif // _XBEE_NETWORK_MESSENGER_H_
