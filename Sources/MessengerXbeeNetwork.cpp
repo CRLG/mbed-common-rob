@@ -84,16 +84,19 @@ void MessengerXbeeNetwork::execute()
 // ______________________________________________
 void MessengerXbeeNetwork::diag_robot_partener(long current_time)
 {
-    //! TODO
+    if (m_database.m_RobotLego2019.isNewMessage()) {
+        m_robot_partner_last_rx_time = current_time;
+    }
+    m_robot_partner_present = (current_time - m_robot_partner_last_rx_time) <= 3000;
 }
 
 // ______________________________________________
 void MessengerXbeeNetwork::diag_experience(long current_time)
 {
     if (m_database.m_ExperienceStatus.isNewMessage()) {
-        m_robot_partner_last_rx_time = current_time;
+        m_experience_last_rx_time = current_time;
     }
-    m_robot_partner_present = (current_time - m_robot_partner_last_rx_time) <= 3000;
+    m_experience_present = (current_time - m_experience_last_rx_time) <= 3000;
 }
 
 // ______________________________________________
