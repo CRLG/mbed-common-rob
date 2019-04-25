@@ -265,13 +265,15 @@ int CMatch::isObstacle(float x, float y, float teta, float speed, float sens)
 {
     //calibration
     //TODO: a remplacer par une carto
-    float seuilDistance=14.5; //en cm
+    float seuilDistance=30.0f; //en cm
     int detection=0;
 
     if (sens>0) //marche avant
         ((m_obstacle_AVD<=seuilDistance)||(m_obstacle_AVG<=seuilDistance))? detection=1:detection=0;
-    else //marche arrière
+    if (sens <0) //marche arrière
         ((m_obstacle_ARD<=seuilDistance)||(m_obstacle_ARG<=seuilDistance))? detection=1:detection=0;
+    if (sens==0)
+        ((m_obstacle_AVD<=seuilDistance)||(m_obstacle_AVG<=seuilDistance)||(m_obstacle_ARD<=seuilDistance)||(m_obstacle_ARG<=seuilDistance))? detection=1:detection=0;
     //on retire les alertes si détection trop proche de la bordure
     /*if ((((x>100)||(x<-100))||((y>300)||(y<-30)))&&(detection==1))
         detection=0;*/
