@@ -108,6 +108,8 @@ void CGlobale::SequenceurModeAutonome(void)
   cpt100msec++;
   if (cpt100msec >= TEMPO_100msec) {
   	cpt100msec = 0;
+    //m_power_switch.configDirections(0xFF,0);
+    //m_power_switch.refreshOutputs();
   }
 
   // ______________________________
@@ -135,7 +137,7 @@ void CGlobale::SequenceurModeAutonome(void)
   cpt500msec++;
   if (cpt500msec >= TEMPO_500msec) {
   	cpt500msec = 0;
-
+    m_power_switch.configDirections(0xFF,0);
     m_power_switch.refreshOutputs();
   }
   // ______________________________

@@ -263,18 +263,51 @@ bool CMatch::frontMontant(float prec_value, float value)
  */
 int CMatch::isObstacle(float x, float y, float teta, float speed, float sens)
 {
+    IA::DefaultSCI *m_iaSCI = m_ia->getDefaultSCI();
     //calibration
     //TODO: a remplacer par une carto
-    float seuilDistance=30.0f; //en cm
+    float seuilDistance=35.0f; //en cm
     int detection=0;
+    int VIOLET=m_iaSCI->get_vIOLET();
+    int JAUNE=m_iaSCI->get_jAUNE();
+    int Couleur=m_iaSCI->get_couleur();
+    bool b_forceObstacle=m_iaSCI->get_forceObstacle();
+    bool US_AV=m_iaSCI->get_uS_AV();
+    bool US_AR=m_iaSCI->get_uS_AR();
+    float f_x=Application.m_asservissement.X_robot;
+                                    float f_y=Application.m_asservissement.Y_robot;
+                                    float f_teta=Application.m_asservissement.angle_robot;
 
-    if (sens>0) //marche avant
-        ((m_obstacle_AVD<=seuilDistance)||(m_obstacle_AVG<=seuilDistance))? detection=1:detection=0;
-    if (sens <0) //marche arrière
-        ((m_obstacle_ARD<=seuilDistance)||(m_obstacle_ARG<=seuilDistance))? detection=1:detection=0;
-    if (sens==0)
+
+    if (((sens>0)&&((m_obstacle_AVD<=seuilDistance)||(m_obstacle_AVG<=seuilDistance))) //marche avant
+        || ((sens <0)&&((m_obstacle_ARD<=seuilDistance)||(m_obstacle_ARG<=seuilDistance))) ) //marche arrière
+    /*if ((((m_obstacle_AVD<=seuilDistance)||(m_obstacle_AVG<=seuilDistance))) //marche avant
+        || (((m_obstacle_ARD<=seuilDistance)||(m_obstacle_ARG<=seuilDistance)))) //marche arrière*/
+    {
+        if(Couleur==JAUNE)
+        {
+            if ((f_y>-71)&&(f_y<17))
+                detection=1;
+            else
+                detection=0;
+        }
+        if(Couleur==VIOLET)
+        {
+             if ((f_y<71)&&(f_y>-17))
+                detection=1;
+            else
+                detection=0;
+        }
+
+        if (b_forceObstacle==true)
+            detection=1;
+    }
+    else
+      detection=0;
+    //à réactiver si on veut détecter à l'arrêt
+    /*if (sens==0)
         ((m_obstacle_AVD<=seuilDistance)||(m_obstacle_AVG<=seuilDistance)||(m_obstacle_ARD<=seuilDistance)||(m_obstacle_ARG<=seuilDistance))? detection=1:detection=0;
-    //on retire les alertes si détection trop proche de la bordure
+    //on retire les alertes si détection trop proche de la bordure*/
     /*if ((((x>100)||(x<-100))||((y>300)||(y<-30)))&&(detection==1))
         detection=0;*/
 
