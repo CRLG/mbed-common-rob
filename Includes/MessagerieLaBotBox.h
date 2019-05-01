@@ -79,7 +79,7 @@
 #define DLC_ETAT_RACK 8
 #define DLC_ELECTROBOT_COLOR_SENSOR 6
 #define DLC_ETAT_ECRAN 4
-#define DLC_ETAT_MATCH 3
+#define DLC_ETAT_MATCH 5
 #define DLC_CONFIG_PERIODE_TRAME 4
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
@@ -673,6 +673,7 @@ public :
 	unsigned char ModeFonctionnement;
 	unsigned char CouleurEquipe;
 	unsigned char TempsMatch;
+        unsigned short Score;
 
 	CTrameLaBotBox_ECRAN_ETAT_MATCH();
 	tStructTrameLaBotBox* Encode(void);

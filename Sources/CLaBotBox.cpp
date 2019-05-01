@@ -886,6 +886,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_MATCH.ObstacleDetecte = Application.m_match.m_obstacleDetecte;
         m_ETAT_MATCH.ConvergenceAsserv = (Application.m_asservissement.convergence_conf == 1);
         m_ETAT_MATCH.DiagBlocage = Application.m_asservissement.diag_blocage;
+        m_ETAT_MATCH.Score = Application.m_match.m_score_total;
         SerialiseTrame(	m_ETAT_MATCH.Encode());
     }
     // _____________________________________________

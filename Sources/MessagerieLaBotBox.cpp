@@ -1058,6 +1058,9 @@ tStructTrameLaBotBox* CTrameLaBotBox_ECRAN_ETAT_MATCH::Encode(void)
   }
 
   	// Encode chacun des signaux de la trame
+    m_trame_brute.Data[4] |= (unsigned char)( ( (Score) & 0xFF) );
+    m_trame_brute.Data[3] |= (unsigned char)( ( (Score >> 8) & 0xFF) );
+
     m_trame_brute.Data[2] |= (unsigned char)( ( (ObstacleDetecte) & 0x3) << 6 );
 
     m_trame_brute.Data[2] |= (unsigned char)( ( (DiagBlocage) & 0x1) << 5 );

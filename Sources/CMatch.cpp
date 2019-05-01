@@ -84,7 +84,9 @@ void CMatch::Initialise(void)
     m_obstacle_ARG=Application.m_capteurs.m_telemetres.m_distance[2];
     m_obstacle_AVD=Application.m_capteurs.m_telemetres.m_distance[3];
 
-   // _led1 = 0;
+    m_score_total = 0;
+
+    // _led1 = 0;
     _led2 = 0;
     _led3 = 0;
     _led4 = 0;
@@ -212,6 +214,7 @@ void CMatch::step(void)
 	// Divers
     m_duree = m_iaSCI->get_tempsMatch();
     m_couleur_equipe = m_iaSCI->get_couleur();
+    m_score_total = m_iaSCI->get_score_total();
 	
 	// Asservissement
 	//Application.m_asservissement.CalculsMouvementsRobots();

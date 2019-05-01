@@ -28,6 +28,7 @@ public :
     float m_old_cde_mot[NBRE_MAX_MOTEURS+1]; // +1 par facilité de lecture du code car l'index utilisé MOTEUR_1, ... commence à  1 et pas à  "0"
     float m_old_cde_servo[NBRE_SERVOS_SD20+1]; // +1 (même explication)
     int m_obstacleDetecte;
+    unsigned short m_score_total;
 
     CMatch();
     ~CMatch();
