@@ -748,7 +748,7 @@ void CLaBotBox::CheckReceptionTrame(void)
           break;
       // _________________________________________
       case LBB_CMDE_CHOIX_NUMERO_STRATEGIE : //Choix de la stratégie
-          Application.m_match.m_choix_strategie = m_ETAT_ECRAN.Valeur;
+          Application.m_match.m_dde_choix_strategie = m_ETAT_ECRAN.Valeur;
           break;
       // _______________________
       default :
@@ -887,6 +887,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_MATCH.ConvergenceAsserv = (Application.m_asservissement.convergence_conf == 1);
         m_ETAT_MATCH.DiagBlocage = Application.m_asservissement.diag_blocage;
         m_ETAT_MATCH.Score = Application.m_match.m_score_total;
+        m_ETAT_MATCH.ChoixStrategie = Application.m_match.m_choix_strategie;
         SerialiseTrame(	m_ETAT_MATCH.Encode());
     }
     // _____________________________________________

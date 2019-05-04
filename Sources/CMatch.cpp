@@ -71,7 +71,7 @@ void CMatch::Initialise(void)
     m_duree = 0;
     m_couleur_equipe = 1;
     m_dde_test_actionneurs = 0;
-    m_choix_strategie = 0;
+    m_dde_choix_strategie = 0;
     m_convergence_old=0;
     m_convergence_rapide_old=0;
     m_tirette_old=0;
@@ -142,6 +142,7 @@ void CMatch::step(void)
     //Variables de l'Ecran ou du switch
     //if(Application.m_capteurs.m_b_Etor5==1)//jaune
     m_iaSCI->set_iN_Couleur(m_dde_couleur_equipe);
+    m_iaSCI->set_iN_choixStrategie(m_dde_choix_strategie);
 
     //____________________________
     //capteurs US
@@ -214,6 +215,7 @@ void CMatch::step(void)
 	// Divers
     m_duree = m_iaSCI->get_tempsMatch();
     m_couleur_equipe = m_iaSCI->get_couleur();
+    m_choix_strategie = m_iaSCI->get_choixStrategie();
     m_score_total = m_iaSCI->get_score_total();
 	
 	// Asservissement
