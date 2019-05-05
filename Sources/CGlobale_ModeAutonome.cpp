@@ -144,8 +144,6 @@ void CGlobale::SequenceurModeAutonome(void)
   cpt1sec++;
   if (cpt1sec >= TEMPO_1sec) {
   	cpt1sec = 0;
-
-    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.send();  // le timestamp est mis à jour dans le modèle Yakindu
   }
 
 }

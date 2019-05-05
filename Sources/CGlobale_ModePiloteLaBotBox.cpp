@@ -115,7 +115,6 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   	cpt1sec = 0;
 
     Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.Timestamp++;
-    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.send();
   }
 
 }
