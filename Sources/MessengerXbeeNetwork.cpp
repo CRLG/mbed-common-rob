@@ -24,7 +24,6 @@ void MessengerXbeeNetwork::IRQ_ReceiveRS232()
 {
     char rxData;
     rxData = _rs232_xbee_network_rx.getc();
-    _rs232_pc_tx.putc(rxData);
     _led3 = !_led3;
     m_xbee.decode(rxData);
 }
