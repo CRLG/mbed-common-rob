@@ -30,6 +30,9 @@ public :
     float m_old_cde_servo[NBRE_SERVOS_SD20+1]; // +1 (même explication)
     int m_obstacleDetecte;
     unsigned short m_score_total;
+    //tableau contenant la stratégie à appliquer
+
+    int32_t strategie[10];
 
     CMatch();
     ~CMatch();

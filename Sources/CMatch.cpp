@@ -57,6 +57,9 @@ void CMatch::Initialise(void)
 	
     //m_iaSCI=m_ia->getDefaultSCI();
     //m_iaSCI_Chariot=m_ia->getSCI_Chariot();
+    for(int i=0;i<10;i++)
+        strategie[i]=0;
+
     m_ia->setTimer(&m_timer_sct);
     m_ia->init();
 
