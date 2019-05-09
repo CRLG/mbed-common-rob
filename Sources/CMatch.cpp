@@ -274,7 +274,6 @@ int CMatch::isObstacle(float x, float y, float teta, float speed, float sens)
     IA::DefaultSCI *m_iaSCI = m_ia->getDefaultSCI();
     //calibration
     //TODO: a remplacer par une carto
-    float seuilDistance=35.0f; //en cm
     int detection=0;
     int VIOLET=m_iaSCI->get_vIOLET();
     int JAUNE=m_iaSCI->get_jAUNE();
@@ -287,8 +286,8 @@ int CMatch::isObstacle(float x, float y, float teta, float speed, float sens)
                                     float f_teta=Application.m_asservissement.angle_robot;
 
 
-    if (((sens>0)&&((m_obstacle_AVD<=seuilDistance)||(m_obstacle_AVG<=seuilDistance))) //marche avant
-        || ((sens <0)&&((m_obstacle_ARD<=seuilDistance)||(m_obstacle_ARG<=seuilDistance))) ) //marche arrière
+    if (((sens>0)&&((m_obstacle_AVD<=SEUILS_DETECTION_OBSTACLE_AVD)||(m_obstacle_AVG<=SEUILS_DETECTION_OBSTACLE_AVG))) //marche avant
+        || ((sens <0)&&((m_obstacle_ARD<=SEUILS_DETECTION_OBSTACLE_ARD)||(m_obstacle_ARG<=SEUILS_DETECTION_OBSTACLE_ARG))) ) //marche arrière
     /*if ((((m_obstacle_AVD<=seuilDistance)||(m_obstacle_AVG<=seuilDistance))) //marche avant
         || (((m_obstacle_ARD<=seuilDistance)||(m_obstacle_ARG<=seuilDistance)))) //marche arrière*/
     {
