@@ -19,7 +19,7 @@ void MessengerXbeeNetwork::initMessages()
     m_database.m_TimestampMatch.setTransmitPeriod(1000);
 
     m_database.m_GrosbotPosition.setDestinationAddress(0xFFFF);
-    m_database.m_GrosbotPosition.setTransmitPeriod(2000);
+    m_database.m_GrosbotPosition.setTransmitPeriod(2100);
 }
 
 // ______________________________________________
@@ -74,7 +74,7 @@ void MessengerXbeeNetwork::execute()
 {
     m_database.m_GrosbotPosition.Position_X = Application.m_asservissement.X_robot;
     m_database.m_GrosbotPosition.Position_Y = Application.m_asservissement.Y_robot;
-    m_database.m_GrosbotPosition.Angle = Application.m_asservissement.angle_robot;
+    m_database.m_GrosbotPosition.Angle = Application.m_asservissement.angle_robot*180./3.14f;
 
     m_database.checkAndSendPeriodicMessages();
     m_database.checkNodeCommunication();
