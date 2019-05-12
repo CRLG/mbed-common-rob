@@ -82,10 +82,15 @@ void CMatch::Initialise(void)
     m_convergence_rack_conf=0;
 
     m_obstacleDetecte=0;
-    m_obstacle_AVG=Application.m_capteurs.m_telemetres.m_distance[0];
-    m_obstacle_ARD=Application.m_capteurs.m_telemetres.m_distance[1];
-    m_obstacle_ARG=Application.m_capteurs.m_telemetres.m_distance[2];
-    m_obstacle_AVD=Application.m_capteurs.m_telemetres.m_distance[3];
+    m_telemetre_AVG=Application.m_capteurs.m_telemetres.m_distance[0];
+    m_telemetre_ARD=Application.m_capteurs.m_telemetres.m_distance[1];
+    m_telemetre_ARG=Application.m_capteurs.m_telemetres.m_distance[2];
+    m_telemetre_AVD=Application.m_capteurs.m_telemetres.m_distance[3];
+
+    m_obstacle_detecte_AVG = m_telemetre_AVG<=SEUILS_DETECTION_OBSTACLE_AVG;
+    m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
+    m_obstacle_detecte_ARG = m_telemetre_ARG<=SEUILS_DETECTION_OBSTACLE_ARG;
+    m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
 
     m_score_total = 0;
 
@@ -149,11 +154,18 @@ void CMatch::step(void)
 
     //____________________________
     //capteurs US
-	//pour les obstacles on ne passe plus un booleen a la strategie mais la distance
-    m_obstacle_AVG=Application.m_capteurs.m_telemetres.m_distance[0];
-    m_obstacle_ARD=Application.m_capteurs.m_telemetres.m_distance[1];
-    m_obstacle_ARG=Application.m_capteurs.m_telemetres.m_distance[2];
-    m_obstacle_AVD=Application.m_capteurs.m_telemetres.m_distance[3];
+    m_telemetre_AVG=Application.m_capteurs.m_telemetres.m_distance[0];
+    m_telemetre_ARD=Application.m_capteurs.m_telemetres.m_distance[1];
+    m_telemetre_ARG=Application.m_capteurs.m_telemetres.m_distance[2];
+    m_telemetre_AVD=Application.m_capteurs.m_telemetres.m_distance[3];
+
+    m_obstacle_detecte_AVG = m_telemetre_AVG<=SEUILS_DETECTION_OBSTACLE_AVG;
+    m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
+    m_obstacle_detecte_ARG = m_telemetre_ARG<=SEUILS_DETECTION_OBSTACLE_ARG;
+    m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
+
+    // Permet de reconstituer une valeur entre 0 et 15 représentant toutes les situations de blocage
+    m_obstacle_detecte_bitfield = (m_obstacle_detecte_ARG << 3) | (m_obstacle_detecte_ARD << 2) | (m_obstacle_detecte_AVG << 1) | (m_obstacle_detecte_AVD << 0);
 
     //____________________________
     //Variables calculées
@@ -286,10 +298,8 @@ int CMatch::isObstacle(float x, float y, float teta, float speed, float sens)
                                     float f_teta=Application.m_asservissement.angle_robot;
 
 
-    if (((sens>0)&&((m_obstacle_AVD<=SEUILS_DETECTION_OBSTACLE_AVD)||(m_obstacle_AVG<=SEUILS_DETECTION_OBSTACLE_AVG))) //marche avant
-        || ((sens <0)&&((m_obstacle_ARD<=SEUILS_DETECTION_OBSTACLE_ARD)||(m_obstacle_ARG<=SEUILS_DETECTION_OBSTACLE_ARG))) ) //marche arrière
-    /*if ((((m_obstacle_AVD<=seuilDistance)||(m_obstacle_AVG<=seuilDistance))) //marche avant
-        || (((m_obstacle_ARD<=seuilDistance)||(m_obstacle_ARG<=seuilDistance)))) //marche arrière*/
+    if (   ((sens>0)&&(m_obstacle_detecte_AVD||m_obstacle_detecte_AVG)) //marche avant
+        || ((sens<0)&&(m_obstacle_detecte_ARD||m_obstacle_detecte_ARG)) ) //marche arrière
     {
         if(Couleur==JAUNE)
         {
@@ -313,7 +323,7 @@ int CMatch::isObstacle(float x, float y, float teta, float speed, float sens)
       detection=0;
     //à réactiver si on veut détecter à l'arrêt
     /*if (sens==0)
-        ((m_obstacle_AVD<=seuilDistance)||(m_obstacle_AVG<=seuilDistance)||(m_obstacle_ARD<=seuilDistance)||(m_obstacle_ARG<=seuilDistance))? detection=1:detection=0;
+        ((m_telemetre_AVD<=seuilDistance)||(m_telemetre_AVG<=seuilDistance)||(m_telemetre_ARD<=seuilDistance)||(m_telemetre_ARG<=seuilDistance))? detection=1:detection=0;
     //on retire les alertes si détection trop proche de la bordure*/
     /*if ((((x>100)||(x<-100))||((y>300)||(y<-30)))&&(detection==1))
         detection=0;*/

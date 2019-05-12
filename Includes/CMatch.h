@@ -57,10 +57,15 @@ public :
     //    IA::SCI_Chariot *m_iaSCI_Chariot;
     static bool frontMontant(float prec_value, float value);
 
-    float m_obstacle_AVG;
-    float m_obstacle_AVD;
-    float m_obstacle_ARG;
-    float m_obstacle_ARD;
+    float m_telemetre_AVG;
+    float m_telemetre_AVD;
+    float m_telemetre_ARG;
+    float m_telemetre_ARD;
+    bool m_obstacle_detecte_AVG;
+    bool m_obstacle_detecte_AVD;
+    bool m_obstacle_detecte_ARG;
+    bool m_obstacle_detecte_ARD;
+    unsigned char m_obstacle_detecte_bitfield;
 
     int isObstacle(float x, float y, float teta, float speed, float sens);
 
