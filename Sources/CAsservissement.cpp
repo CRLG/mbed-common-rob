@@ -1080,4 +1080,11 @@ void CAsservissement::setIndiceSportivite(float idx)
   Ind_perfo=idx;
 }
 
+// -----------------------------------------------------------------------------------------------------------------------
+// Fixe les paramètres cde_min et cde_max de l'asserv
+void CAsservissement::setCdeMinCdeMax(int min, int max)
+{
+    cde_min = min;
+    cde_max = max;
+}
 

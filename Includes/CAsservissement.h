@@ -190,6 +190,7 @@ void CommandeVitesseMouvement(float vit_avance, float vit_angle);
 void CalculsMouvementsRobots(void);
 void setPosition_XYTeta(float x, float y, float teta);
 void setIndiceSportivite(float idx);
+void setCdeMinCdeMax(int min, int max);
 
 
 
