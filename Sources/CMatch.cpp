@@ -82,10 +82,10 @@ void CMatch::Initialise(void)
     m_convergence_rack_conf=0;
 
     m_obstacleDetecte=0;
-    m_telemetre_AVG=Application.m_capteurs.m_telemetres.m_distance[0];
+    m_telemetre_AVD=Application.m_capteurs.m_telemetres.m_distance[0];
     m_telemetre_ARD=Application.m_capteurs.m_telemetres.m_distance[1];
-    m_telemetre_ARG=Application.m_capteurs.m_telemetres.m_distance[2];
-    m_telemetre_AVD=Application.m_capteurs.m_telemetres.m_distance[3];
+    m_telemetre_AVG=Application.m_capteurs.m_telemetres.m_distance[2];
+    m_telemetre_ARG=Application.m_capteurs.m_telemetres.m_distance[3];
 
     m_obstacle_detecte_AVG = m_telemetre_AVG<=SEUILS_DETECTION_OBSTACLE_AVG;
     m_obstacle_detecte_AVD = m_telemetre_AVD<=SEUILS_DETECTION_OBSTACLE_AVD;
@@ -154,10 +154,10 @@ void CMatch::step(void)
 
     //____________________________
     //capteurs US
-    m_telemetre_AVG=Application.m_capteurs.m_telemetres.m_distance[0];
+    m_telemetre_AVD=Application.m_capteurs.m_telemetres.m_distance[0];
     m_telemetre_ARD=Application.m_capteurs.m_telemetres.m_distance[1];
-    m_telemetre_ARG=Application.m_capteurs.m_telemetres.m_distance[2];
-    m_telemetre_AVD=Application.m_capteurs.m_telemetres.m_distance[3];
+    m_telemetre_AVG=Application.m_capteurs.m_telemetres.m_distance[2];
+    m_telemetre_ARG=Application.m_capteurs.m_telemetres.m_distance[3];
 
     m_obstacle_detecte_AVG = m_telemetre_AVG<=SEUILS_DETECTION_OBSTACLE_AVG;
     m_obstacle_detecte_AVD = m_telemetre_AVD<=SEUILS_DETECTION_OBSTACLE_AVD;
