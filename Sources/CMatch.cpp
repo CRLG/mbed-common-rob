@@ -88,7 +88,7 @@ void CMatch::Initialise(void)
     m_telemetre_AVD=Application.m_capteurs.m_telemetres.m_distance[3];
 
     m_obstacle_detecte_AVG = m_telemetre_AVG<=SEUILS_DETECTION_OBSTACLE_AVG;
-    m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
+    m_obstacle_detecte_AVD = m_telemetre_AVD<=SEUILS_DETECTION_OBSTACLE_AVD;
     m_obstacle_detecte_ARG = m_telemetre_ARG<=SEUILS_DETECTION_OBSTACLE_ARG;
     m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
 
@@ -160,7 +160,7 @@ void CMatch::step(void)
     m_telemetre_AVD=Application.m_capteurs.m_telemetres.m_distance[3];
 
     m_obstacle_detecte_AVG = m_telemetre_AVG<=SEUILS_DETECTION_OBSTACLE_AVG;
-    m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
+    m_obstacle_detecte_AVD = m_telemetre_AVD<=SEUILS_DETECTION_OBSTACLE_AVD;
     m_obstacle_detecte_ARG = m_telemetre_ARG<=SEUILS_DETECTION_OBSTACLE_ARG;
     m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
 
