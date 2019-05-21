@@ -1084,6 +1084,50 @@ tStructTrameLaBotBox* CTrameLaBotBox_ECRAN_ETAT_MATCH::Encode(void)
    \param --
    \return --
    */
+CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE::CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE()
+{
+  m_trame_brute.ID = ID_ETAT_EVITEMENT_OBSTACLE;
+  m_trame_brute.DLC = DLC_ETAT_EVITEMENT_OBSTACLE;
+}
+//___________________________________________________________________________
+ /*!
+   \brief Decode les signaux de la trame ETAT_EVITEMENT_OBSTACLE
+
+        - Renseigne les champs de la structure de donnee de la trame
+   \param bufBrut le buffer des octets de la trames a decoder
+   \return --
+   */
+tStructTrameLaBotBox* CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE::Encode(void)
+{
+  unsigned char i=0;
+
+  for (i=0; i<DLC_ETAT_EVITEMENT_OBSTACLE; i++) {
+    m_trame_brute.Data[i] = 0;
+  }
+
+    // Encode chacun des signaux de la trame
+    m_trame_brute.Data[4] |= (unsigned char)( ( (NombreTentatives) & 0xFF) );
+
+    m_trame_brute.Data[3] |= (unsigned char)( ( (NumeroEtape) & 0xFF) );
+
+    m_trame_brute.Data[2] |= (unsigned char)( ( (ObstacleBitfield) & 0xFF) );
+
+    m_trame_brute.Data[1] |= (unsigned char)( ( (SensDeplacement) & 0xFF) );
+
+    m_trame_brute.Data[0] |= (unsigned char)( ( (ForcageDetectObstacleSansPosition) & 0x1) << 3 );
+    m_trame_brute.Data[0] |= (unsigned char)( ( (ObstacleInhibe) & 0x1) << 2 );
+    m_trame_brute.Data[0] |= (unsigned char)( ( (EvitementEnCours) & 0x1) << 1 );
+    m_trame_brute.Data[0] |= (unsigned char)( ( (ObstacleDetecte) & 0x1) << 0 );
+
+    return(&m_trame_brute);
+}
+
+//___________________________________________________________________________
+ /*!
+   \brief Constructeur
+   \param --
+   \return --
+   */
 CTrameLaBotBox_ETAT_RACK::CTrameLaBotBox_ETAT_RACK()
 {
   m_trame_brute.ID = ID_ETAT_RACK;

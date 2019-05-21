@@ -137,7 +137,7 @@ public :
     //! Fixe la période de toutes les trames TX d'un seul coup
     void setAllTransmitPeriod(int period_msec);
 
-#define NOMBRE_MAX_TRAMES_LABOTBOX 30
+#define NOMBRE_MAX_TRAMES_LABOTBOX 32
 	// __________________________________________ INSTANCE DE CHAQUE TRAME
 	//! Trame
     CTrameLaBotBox_ELECTROBOT_CDE_POWER_SWITCH  m_ELECTROBOT_CDE_POWER_SWITCH;
@@ -166,6 +166,7 @@ public :
     CTrameLaBotBox_ELECTROBOT_ETAT_CAPTEURS_1   m_ELECTROBOT_ETAT_CAPTEURS_1;
     CTrameLaBotBox_ECRAN_ETAT_ECRAN             m_ETAT_ECRAN;
     CTrameLaBotBox_ECRAN_ETAT_MATCH             m_ETAT_MATCH;
+    CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE      m_ETAT_EVITEMENT_OBSTACLE;
     CTrameLaBotBox_ETAT_RACK                    m_ETAT_RACK;
     CTrameLaBotBox_ELECTROBOT_COLOR_SENSOR      m_COLOR_SENSOR;
     CTrameLaBotBox_CONFIG_PERIODE_TRAME         m_CONFIG_PERIODE_TRAME;

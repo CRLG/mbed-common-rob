@@ -49,6 +49,7 @@
 #define ID_ELECTROBOT_COLOR_SENSOR 0x21
 #define ID_ETAT_ECRAN 0x91
 #define ID_ETAT_MATCH 0x41
+#define ID_ETAT_EVITEMENT_OBSTACLE 0x42
 #define ID_CONFIG_PERIODE_TRAME 0x108
 
 
@@ -80,6 +81,7 @@
 #define DLC_ELECTROBOT_COLOR_SENSOR 6
 #define DLC_ETAT_ECRAN 4
 #define DLC_ETAT_MATCH 6
+#define DLC_ETAT_EVITEMENT_OBSTACLE 8
 #define DLC_CONFIG_PERIODE_TRAME 4
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
@@ -680,6 +682,23 @@ public :
 	tStructTrameLaBotBox* Encode(void);
 };
 
+// -----------------------------
+//! Classe de base pour les trames CAN
+class CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE : public CTrameLaBotBox {
+public :
+        //! Les signaux de la messagerie
+        signed char SensDeplacement;
+        unsigned char ObstacleBitfield;
+        unsigned char NumeroEtape;
+        unsigned char NombreTentatives;
+        bool EvitementEnCours;
+        bool ObstacleDetecte;
+        bool ObstacleInhibe;
+        bool ForcageDetectObstacleSansPosition;
+
+        CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE();
+        tStructTrameLaBotBox* Encode(void);
+};
 
 // -----------------------------
 //! Classe de base pour les trames CAN

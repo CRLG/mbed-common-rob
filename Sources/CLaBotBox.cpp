@@ -69,6 +69,7 @@ void CLaBotBox::initListeTrames()
     m_liste_trames[m_nombre_trames++] = &m_ELECTROBOT_ETAT_CAPTEURS_1;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_ECRAN;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_MATCH;
+    m_liste_trames[m_nombre_trames++] = &m_ETAT_EVITEMENT_OBSTACLE;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_RACK;
     m_liste_trames[m_nombre_trames++] = &m_COLOR_SENSOR;
     m_liste_trames[m_nombre_trames++] = &m_CONFIG_PERIODE_TRAME;
@@ -889,6 +890,19 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_MATCH.Score = Application.m_match.m_score_total;
         m_ETAT_MATCH.ChoixStrategie = Application.m_match.m_choix_strategie;
         SerialiseTrame(	m_ETAT_MATCH.Encode());
+    }
+    // _____________________________________________
+    if (m_ETAT_EVITEMENT_OBSTACLE.isTimeToSend())
+    {
+        m_ETAT_EVITEMENT_OBSTACLE.SensDeplacement = Application.m_match.m_sens_deplacement;
+        m_ETAT_EVITEMENT_OBSTACLE.ObstacleBitfield = Application.m_match.m_obstacle_detecte_bitfield;
+        m_ETAT_EVITEMENT_OBSTACLE.NumeroEtape = Application.m_match.m_num_etape_evitement;
+        m_ETAT_EVITEMENT_OBSTACLE.NombreTentatives = Application.m_match.m_nbre_tentatives_evitement;
+        m_ETAT_EVITEMENT_OBSTACLE.EvitementEnCours = Application.m_match.m_evitement_en_cours;
+        m_ETAT_EVITEMENT_OBSTACLE.ObstacleDetecte = Application.m_match.m_obstacleDetecte;
+        m_ETAT_EVITEMENT_OBSTACLE.ObstacleInhibe = Application.m_match.m_inhibe_obstacle;
+        m_ETAT_EVITEMENT_OBSTACLE.ForcageDetectObstacleSansPosition = Application.m_match.m_forcage_detect_obstacle_sans_position;
+        SerialiseTrame(	m_ETAT_EVITEMENT_OBSTACLE.Encode());
     }
     // _____________________________________________
     if (m_ETAT_RACK.isTimeToSend())
