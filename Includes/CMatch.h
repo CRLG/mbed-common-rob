@@ -28,7 +28,6 @@ public :
     unsigned char m_choix_strategie;
     float m_old_cde_mot[NBRE_MAX_MOTEURS+1]; // +1 par facilité de lecture du code car l'index utilisé MOTEUR_1, ... commence à  1 et pas à  "0"
     float m_old_cde_servo[NBRE_SERVOS_SD20+1]; // +1 (même explication)
-    int m_obstacleDetecte;
     unsigned short m_score_total;
     //tableau contenant la stratégie à appliquer
 
@@ -57,6 +56,7 @@ public :
     //    IA::SCI_Chariot *m_iaSCI_Chariot;
     static bool frontMontant(float prec_value, float value);
 
+    // Détection et évitement d'obstacle
     float m_telemetre_AVG;
     float m_telemetre_AVD;
     float m_telemetre_ARG;
@@ -66,6 +66,13 @@ public :
     bool m_obstacle_detecte_ARG;
     bool m_obstacle_detecte_ARD;
     unsigned char m_obstacle_detecte_bitfield;
+    int m_obstacleDetecte;
+    int m_sens_deplacement;
+    unsigned short m_num_etape_evitement;
+    unsigned char m_nbre_tentatives_evitement;
+    bool m_evitement_en_cours;
+    bool m_forcage_detect_obstacle_sans_position;
+    bool m_inhibe_obstacle;
 
     int isObstacle(float x, float y, float teta, float speed, float sens);
 

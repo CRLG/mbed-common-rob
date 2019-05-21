@@ -92,8 +92,12 @@ void CMatch::Initialise(void)
     m_obstacle_detecte_ARG = m_telemetre_ARG<=SEUILS_DETECTION_OBSTACLE_ARG;
     m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
 
-    m_score_total = 0;
+    m_num_etape_evitement = 0;
+    m_nbre_tentatives_evitement = 0;
+    m_evitement_en_cours = 0;
 
+    m_score_total = 0;
+    
     // _led1 = 0;
     _led2 = 0;
     _led3 = 0;
@@ -170,12 +174,12 @@ void CMatch::step(void)
     //____________________________
     //Variables calculées
     //sens de deplacement: en fonction du signe si + alors marche avant
-    float sens=copysignf(1.0,Application.m_asservissement.erreur_distance);
+    m_sens_deplacement=copysignf(1.0,Application.m_asservissement.erreur_distance);
     m_obstacleDetecte=isObstacle(Application.m_asservissement.X_robot,
                                 Application.m_asservissement.Y_robot,
                                 Application.m_asservissement.angle_robot,
                                 Application.m_asservissement.vitesse_avance_robot,
-                                sens);
+                                m_sens_deplacement);
     m_iaSCI->set_iN_Obstacle(m_obstacleDetecte);
 
     //____________________________
@@ -194,7 +198,7 @@ void CMatch::step(void)
     m_iaSCI->set_iN_y_pos(Application.m_asservissement.Y_robot);
     m_iaSCI->set_iN_teta_pos(Application.m_asservissement.angle_robot);
     m_iaSCI->set_iN_vitesse(Application.m_asservissement.vitesse_avance_robot); //vitesse de deplacement: a verifier avec guigui
-    m_iaSCI->set_iN_sens_deplacement(sens);
+    m_iaSCI->set_iN_sens_deplacement(m_sens_deplacement);
 
     if (frontMontant(m_convergence_old,Application.m_asservissement.convergence_conf))
         m_iaSCI->raise_eV_ConvergenceMvt();
@@ -232,6 +236,11 @@ void CMatch::step(void)
     m_couleur_equipe = m_iaSCI->get_couleur();
     m_choix_strategie = m_iaSCI->get_choixStrategie();
     m_score_total = m_iaSCI->get_score_total();
+    m_num_etape_evitement = m_iaSCI->get_evit_debug_etape();
+    m_nbre_tentatives_evitement = m_iaSCI->get_evit_nombre_tentatives();
+    m_evitement_en_cours = m_iaSCI->get_evitementEnCours();
+    m_forcage_detect_obstacle_sans_position = m_iaSCI->get_forceObstacle();
+    m_inhibe_obstacle = m_iaSCI->get_inhibeObstacle();
 	
 	// Asservissement
 	//Application.m_asservissement.CalculsMouvementsRobots();
