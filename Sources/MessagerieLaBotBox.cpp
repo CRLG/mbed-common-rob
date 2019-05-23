@@ -1106,6 +1106,8 @@ tStructTrameLaBotBox* CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE::Encode(void)
   }
 
     // Encode chacun des signaux de la trame
+    m_trame_brute.Data[5] |= (unsigned char)( ( (ChoixStrategieEvitement) & 0xFF) );
+
     m_trame_brute.Data[4] |= (unsigned char)( ( (NombreTentatives) & 0xFF) );
 
     m_trame_brute.Data[3] |= (unsigned char)( ( (NumeroEtape) & 0xFF) );

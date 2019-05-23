@@ -155,6 +155,7 @@ void CMatch::step(void)
     //if(Application.m_capteurs.m_b_Etor5==1)//jaune
     m_iaSCI->set_iN_Couleur(m_dde_couleur_equipe);
     m_iaSCI->set_iN_choixStrategie(m_dde_choix_strategie);
+    m_iaSCI->set_evit_choix_strategie(EVITEMENT_NORMAL); // en dur dans un premier temps. Evolution possible : choix depuis l'écran commme la straégie principale
 
     //____________________________
     //capteurs US
@@ -181,7 +182,6 @@ void CMatch::step(void)
                                 Application.m_asservissement.vitesse_avance_robot,
                                 m_sens_deplacement);
     m_iaSCI->set_iN_Obstacle(m_obstacleDetecte);
-
     //____________________________
 	//Capteurs TOR
     //m_b_Etor1==1 => tirette enlevee
@@ -241,6 +241,7 @@ void CMatch::step(void)
     m_evitement_en_cours = m_iaSCI->get_evitementEnCours();
     m_forcage_detect_obstacle_sans_position = m_iaSCI->get_forceObstacle();
     m_inhibe_obstacle = m_iaSCI->get_inhibeObstacle();
+    m_choix_strategie_evitement = m_iaSCI->get_evit_choix_strategie();
 	
 	// Asservissement
 	//Application.m_asservissement.CalculsMouvementsRobots();
