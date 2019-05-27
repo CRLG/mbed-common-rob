@@ -62,8 +62,8 @@ void CAsservissement::Init(void)
  // initialisation des paramètres de l'asservissement
  cde_max = 100;				// %	Commande maximum normalisée pour saturer la régulation
  cde_min = -100 ;			// %	Commande minimum normalisée pour saturer la régulation
- kp_distance =  1.7;		// 		Gain proportionnel pour la régulation en distance
- ki_distance =  3.0;		// 		Gain intégral pour la régulation en distance
+ kp_distance =  1.6;//1.7;		// 		Gain proportionnel pour la régulation en distance
+ ki_distance =  2.5;//3.0;		// 		Gain intégral pour la régulation en distance
  kp_angle =  20;			// 		Gain proportionnel pour la régulation en angle
  ki_angle =  10;			// 		Gain intégral pour la régulation en angle
  k_angle = 0.5;				//		Coeff de filtrage pour le terme dérivé
@@ -150,7 +150,7 @@ void CAsservissement::Init(void)
  seuil_vitesse_diag_blocage = 2;		// cm/s
  commande_min_diag_blocage = 38;		// En cas de blocage l'égrateur charge rapidement à des valeurs importantes
  seuil_vitesse_diag_rotation = 0.1;	// rad/s
- seuil_max_compteur_diag_blocage = 2000;	// k * te = g secondes
+ seuil_max_compteur_diag_blocage = 500;	// k * te = g secondes
  inc_diag_blocage = 1;
  dec_diag_blocage = 2;
  compteur_diag_blocage = 0;

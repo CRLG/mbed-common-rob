@@ -15,10 +15,13 @@
 //#define M_PI (3.14f)
 
 #define NBRE_POINTS_CARTO_ERREUR 13
-const float ini_conv_erreur_dist_vitesse_cur_x[NBRE_POINTS_CARTO_ERREUR] = {-40, -20, -10, -4, -2, -1, 0, 1, 2, 4, 10, 20, 40};							// [cm]
+/*const float ini_conv_erreur_dist_vitesse_cur_x[NBRE_POINTS_CARTO_ERREUR] = {-40, -20, -10, -4, -2, -1, 0, 1, 2, 4, 10, 20, 40};							// [cm]
 const float ini_conv_erreur_dist_vitesse_1_cur[NBRE_POINTS_CARTO_ERREUR] = {-50, -35, -25, -11, -2, -1, 0, 1, 2, 11, 25, 35, 50};						// [cm/s] Carto perfo 0% environ 30cm/s2
-const float ini_conv_erreur_dist_vitesse_2_cur[NBRE_POINTS_CARTO_ERREUR] = {-130, -100, -65, -35, -8, -4, 0, 4, 8, 35, 65, 100, 130};					// [cm/s] Carto perfo 100% environ 190cm/s2
-	
+const float ini_conv_erreur_dist_vitesse_2_cur[NBRE_POINTS_CARTO_ERREUR] = {-130, -100, -65, -35, -8, -4, 0, 4, 8, 35, 65, 100, 130};	*/				// [cm/s] Carto perfo 100% environ 190cm/s2
+const float ini_conv_erreur_dist_vitesse_cur_x[NBRE_POINTS_CARTO_ERREUR] = {-40, -20, -10, -4, -2, -1, 0, 1, 2, 4, 10, 20, 40};							// [cm]
+const float ini_conv_erreur_dist_vitesse_1_cur[NBRE_POINTS_CARTO_ERREUR] = {-50, -35, -20, -8, -2, -1, 0, 1, 2, 8, 20, 35, 50};						// [cm/s] Carto perfo 0% environ 30cm/s2
+const float ini_conv_erreur_dist_vitesse_2_cur[NBRE_POINTS_CARTO_ERREUR] = {-130, -100, -55, -25, -8, -4, 0, 4, 8, 25, 55, 100, 130};
+
 const float ini_conv_erreur_angle_vitesse_cur_x[NBRE_POINTS_CARTO_ERREUR] = {-1.6, -0.8, -0.4, -0.2, -0.1, -0.05, 0, 0.05, 0.1, 0.2, 0.4, 0.8, 1.6};	// [rad]
 const float ini_conv_erreur_angle_vitesse_1_cur[NBRE_POINTS_CARTO_ERREUR] = {-4, -2.8, -2, -1.4, -1, -0.5, 0, 0.5, 1, 1.4, 2, 2.8, 4};					// [rad/s] Carto perfo 0% environ 5rad/s2
 const float ini_conv_erreur_angle_vitesse_2_cur[NBRE_POINTS_CARTO_ERREUR] = {-8, -5.65, -4, -2.82, -2, -0.5, 0, 0.5, 2, 2.82, 4, 5.65, 8};				// [rad/s] Carto perfo 100% environ 20rad/s2
