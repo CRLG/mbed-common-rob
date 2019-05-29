@@ -338,7 +338,7 @@ int CMatch::isObstacle(float x, float y, float teta, float speed, float sens)
     /*if ((((x>100)||(x<-100))||((y>300)||(y<-30)))&&(detection==1))
         detection=0;*/
 
-    return 0;//detection;
+    return detection;
 }
 
 /*!
