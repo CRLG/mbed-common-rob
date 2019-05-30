@@ -155,7 +155,6 @@ void CMatch::step(void)
     //if(Application.m_capteurs.m_b_Etor5==1)//jaune
     m_iaSCI->set_iN_Couleur(m_dde_couleur_equipe);
     m_iaSCI->set_iN_choixStrategie(m_dde_choix_strategie);
-    m_iaSCI->set_evit_choix_strategie(EVITEMENT_NEUTRE); // en dur dans un premier temps. Evolution possible : choix depuis l'écran commme la straégie principale
 
     //____________________________
     //capteurs US
