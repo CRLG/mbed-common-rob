@@ -313,14 +313,14 @@ int CMatch::isObstacle(float x, float y, float teta, float speed, float sens)
     {
         if(Couleur==JAUNE)
         {
-            if ((f_y>-69)&&(f_y<8))
+            if ((f_y>-69)&&(f_y<8)&&(x>35))
                 detection=1;
             else
                 detection=0;
         }
         if(Couleur==VIOLET)
         {
-             if ((f_y<69)&&(f_y>-8))
+             if ((f_y<69)&&(f_y>-8)&&(x>35))
                 detection=1;
             else
                 detection=0;
