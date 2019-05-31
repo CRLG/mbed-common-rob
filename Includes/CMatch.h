@@ -74,6 +74,7 @@ public :
     bool m_forcage_detect_obstacle_sans_position;
     bool m_inhibe_obstacle;
     unsigned char m_choix_strategie_evitement;
+    int m_seuil_detection_obstacle; // [cm]
 
     int isObstacle(float x, float y, float teta, float speed, float sens);
 

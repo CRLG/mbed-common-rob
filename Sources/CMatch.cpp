@@ -87,11 +87,11 @@ void CMatch::Initialise(void)
     m_telemetre_ARD=Application.m_capteurs.m_telemetres.m_distance[1];
     m_telemetre_AVG=Application.m_capteurs.m_telemetres.m_distance[2];
     m_telemetre_ARG=Application.m_capteurs.m_telemetres.m_distance[3];
-
-    m_obstacle_detecte_AVG = m_telemetre_AVG<=SEUILS_DETECTION_OBSTACLE_AVG;
-    m_obstacle_detecte_AVD = m_telemetre_AVD<=SEUILS_DETECTION_OBSTACLE_AVD;
-    m_obstacle_detecte_ARG = m_telemetre_ARG<=SEUILS_DETECTION_OBSTACLE_ARG;
-    m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
+    m_seuil_detection_obstacle = 35; // [cm] valeur par défaut historique si aucune autre valeur n'est affectée
+    m_obstacle_detecte_AVG = m_telemetre_AVG<=m_seuil_detection_obstacle;
+    m_obstacle_detecte_AVD = m_telemetre_AVD<=m_seuil_detection_obstacle;
+    m_obstacle_detecte_ARG = m_telemetre_ARG<=m_seuil_detection_obstacle;
+    m_obstacle_detecte_ARD = m_telemetre_ARD<=m_seuil_detection_obstacle;
 
     m_num_etape_evitement = 0;
     m_nbre_tentatives_evitement = 0;
@@ -164,10 +164,10 @@ void CMatch::step(void)
     m_telemetre_AVG=Application.m_capteurs.m_telemetres.m_distance[2];
     m_telemetre_ARG=Application.m_capteurs.m_telemetres.m_distance[3];
 
-    m_obstacle_detecte_AVG = m_telemetre_AVG<=SEUILS_DETECTION_OBSTACLE_AVG;
-    m_obstacle_detecte_AVD = m_telemetre_AVD<=SEUILS_DETECTION_OBSTACLE_AVD;
-    m_obstacle_detecte_ARG = m_telemetre_ARG<=SEUILS_DETECTION_OBSTACLE_ARG;
-    m_obstacle_detecte_ARD = m_telemetre_ARD<=SEUILS_DETECTION_OBSTACLE_ARD;
+    m_obstacle_detecte_AVG = m_telemetre_AVG<=m_seuil_detection_obstacle;
+    m_obstacle_detecte_AVD = m_telemetre_AVD<=m_seuil_detection_obstacle;
+    m_obstacle_detecte_ARG = m_telemetre_ARG<=m_seuil_detection_obstacle;
+    m_obstacle_detecte_ARD = m_telemetre_ARD<=m_seuil_detection_obstacle;
 
     // Permet de reconstituer une valeur entre 0 et 15 représentant toutes les situations de blocage
     m_obstacle_detecte_bitfield = (m_obstacle_detecte_ARG << 3) | (m_obstacle_detecte_ARD << 2) | (m_obstacle_detecte_AVG << 1) | (m_obstacle_detecte_AVD << 0);
@@ -242,6 +242,7 @@ void CMatch::step(void)
     m_forcage_detect_obstacle_sans_position = m_iaSCI->get_forceObstacle();
     m_inhibe_obstacle = m_iaSCI->get_inhibeObstacle();
     m_choix_strategie_evitement = m_iaSCI->get_evit_choix_strategie();
+    m_seuil_detection_obstacle = m_iaSCI->get_evit_seuil_detection_obstacle();
 	
 	// Asservissement
 	//Application.m_asservissement.CalculsMouvementsRobots();
