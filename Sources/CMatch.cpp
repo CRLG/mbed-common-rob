@@ -73,6 +73,7 @@ void CMatch::Initialise(void)
 
     m_duree = 0;
     m_couleur_equipe = 1;
+    m_dde_couleur_equipe=1;
     m_dde_test_actionneurs = 0;
     m_dde_choix_strategie = 0;
     m_convergence_old=0;
