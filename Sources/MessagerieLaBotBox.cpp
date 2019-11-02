@@ -193,6 +193,77 @@ void CTrameLaBotBox_ELECTROBOT_CDE_POWER_SWITCH::Decode(tStructTrameLaBotBox *tr
    \param --
    \return --
    */
+CTrameLaBotBox_COMMANDE_POWER_ELECTROBOT::CTrameLaBotBox_COMMANDE_POWER_ELECTROBOT()
+{
+  m_trame_brute.ID = ID_COMMANDE_POWER_ELECTROBOT;
+  m_trame_brute.DLC = DLC_COMMANDE_POWER_ELECTROBOT;
+}
+//___________________________________________________________________________
+ /*!
+   \brief Decode les signaux de la trame COMMANDE_POWER_ELECTROBOT
+
+        - Renseigne les champs de la structure de donnee de la trame
+   \param bufBrut le buffer des octets de la trames a decoder
+   \return --
+   */
+void CTrameLaBotBox_COMMANDE_POWER_ELECTROBOT::Decode(tStructTrameLaBotBox *trameRecue)
+{
+    // Decode les signaux de la trame
+    commande = ((unsigned short)trameRecue->Data[0] << 8) + trameRecue->Data[1];
+    val = ((unsigned short)trameRecue->Data[2] << 8) + trameRecue->Data[3];
+    m_new_trame = true;
+    m_nombre_recue++;
+}
+
+//___________________________________________________________________________
+ /*!
+   \brief Constructeur
+   \param --
+   \return --
+   */
+CTrameLaBotBox_ETAT_POWER_ELECTROBOT::CTrameLaBotBox_ETAT_POWER_ELECTROBOT()
+{
+  m_trame_brute.ID = ID_ETAT_POWER_ELECTROBOT;
+  m_trame_brute.DLC = DLC_ETAT_POWER_ELECTROBOT;
+}
+//___________________________________________________________________________
+ /*!
+   \brief Decode les signaux de la trame ETAT_POWER_ELECTROBOT
+
+        - Renseigne les champs de la structure de donnee de la trame
+   \param bufBrut le buffer des octets de la trames a decoder
+   \return --
+   */
+tStructTrameLaBotBox* CTrameLaBotBox_ETAT_POWER_ELECTROBOT::Encode(void)
+{
+  unsigned char i=0;
+
+  for (i=0; i<DLC_ETAT_POWER_ELECTROBOT; i++) {
+    m_trame_brute.Data[i] = 0;
+  }
+
+    // Encode chacun des signaux de la trame
+    m_trame_brute.Data[0] |= (unsigned char)( ( (battery_voltage_mV >> 8) & 0xFF) );
+    m_trame_brute.Data[1] |= (unsigned char)( ( (battery_voltage_mV) & 0xFF) );
+
+    m_trame_brute.Data[2] |= (unsigned char)( ( (global_current_mA >> 8) & 0xFF) );
+    m_trame_brute.Data[3] |= (unsigned char)( ( (global_current_mA) & 0xFF) );
+
+    m_trame_brute.Data[4] |= (unsigned char)( ( (current_out1_mA >> 8) & 0xFF) );
+    m_trame_brute.Data[5] |= (unsigned char)( ( (current_out1_mA) & 0xFF) );
+
+    m_trame_brute.Data[6] |= (unsigned char)( ( (current_out2_mA >> 8) & 0xFF) );
+    m_trame_brute.Data[7] |= (unsigned char)( ( (current_out2_mA) & 0xFF) );
+
+    return(&m_trame_brute);
+}
+
+//___________________________________________________________________________
+ /*!
+   \brief Constructeur
+   \param --
+   \return --
+   */
 CTrameLaBotBox_COMMANDE_MVT_XY::CTrameLaBotBox_COMMANDE_MVT_XY()
 {
   m_trame_brute.ID = ID_COMMANDE_MVT_XY;

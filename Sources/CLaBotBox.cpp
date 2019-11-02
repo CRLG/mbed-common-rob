@@ -43,6 +43,8 @@ void CLaBotBox::initListeTrames()
 {
     m_nombre_trames = 0;
 
+    m_liste_trames[m_nombre_trames++] = &m_COMMANDE_POWER_ELECTROBOT;
+    m_liste_trames[m_nombre_trames++] = &m_ETAT_POWER_ELECTROBOT;
     m_liste_trames[m_nombre_trames++] = &m_ELECTROBOT_CDE_POWER_SWITCH;
     m_liste_trames[m_nombre_trames++] = &m_ELECTROBOT_CDE_MOTEURS;
     m_liste_trames[m_nombre_trames++] = &m_COMMANDE_MVT_XY;
@@ -474,6 +476,74 @@ void CLaBotBox::DecodeTrame(tStructTrameLaBotBox *trameRecue)
 void CLaBotBox::CheckReceptionTrame(void)
 {
   char cbuff[64];
+  // ___________________________
+  if  (m_COMMANDE_POWER_ELECTROBOT.isNewTrame() ) {
+      switch(m_COMMANDE_POWER_ELECTROBOT.commande) {
+          case cCDE_PWR_ELECTROBOT_ALL_OUTPUTS :
+              Application.m_power_electrobot.setAllOutputs(m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case  cCDE_PWR_ELECTROBOT_OUTPUT_1:
+              Application.m_power_electrobot.setOutput(PowerElectrobot::OUTPUT_STOR1, m_COMMANDE_POWER_ELECTROBOT.val);
+              _led3 = !_led3;
+          break;
+          case  cCDE_PWR_ELECTROBOT_OUTPUT_2:
+              Application.m_power_electrobot.setOutput(PowerElectrobot::OUTPUT_STOR2, m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case  cCDE_PWR_ELECTROBOT_OUTPUT_3:
+              Application.m_power_electrobot.setOutput(PowerElectrobot::OUTPUT_STOR3, m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case  cCDE_PWR_ELECTROBOT_OUTPUT_4:
+              Application.m_power_electrobot.setOutput(PowerElectrobot::OUTPUT_STOR4, m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case  cCDE_PWR_ELECTROBOT_OUTPUT_5:
+              Application.m_power_electrobot.setOutput(PowerElectrobot::OUTPUT_STOR5, m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case  cCDE_PWR_ELECTROBOT_OUTPUT_6:
+              Application.m_power_electrobot.setOutput(PowerElectrobot::OUTPUT_STOR6, m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case  cCDE_PWR_ELECTROBOT_OUTPUT_7:
+              Application.m_power_electrobot.setOutput(PowerElectrobot::OUTPUT_STOR7, m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case  cCDE_PWR_ELECTROBOT_OUTPUT_8:
+              Application.m_power_electrobot.setOutput(PowerElectrobot::OUTPUT_STOR8, m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case cCDE_PWR_ELECTROBOT_CHANGE_I2C_ADDR:
+              Application.m_power_electrobot.changeI2CAddress(m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case cCDE_PWR_ELECTROBOT_UNLOCK_EEPROM:
+              Application.m_power_electrobot.unlockWriteEEPROM();
+          break;
+          case cCDE_PWR_ELECTROBOT_RESET_FACTORY:
+              Application.m_power_electrobot.resetFactoryEEPROM();
+          break;
+          case cCDE_PWR_ELECTROBOT_CALIB_BATTERY_VOLTAGE_POINT1:
+              Application.m_power_electrobot.setCalibrationBatteryVoltagePoint1(m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case cCDE_PWR_ELECTROBOT_CALIB_BATTERY_VOLTAGE_POINT2:
+              Application.m_power_electrobot.setCalibrationBatteryVoltagePoint2(m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case cCDE_PWR_ELECTROBOT_CALIB_GLOBAL_CURRENT_POINT1:
+              Application.m_power_electrobot.setCalibrationGlobalCurrentPoint1(m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case cCDE_PWR_ELECTROBOT_CALIB_GLOBAL_CURRENT_POINT2:
+              Application.m_power_electrobot.setCalibrationGlobalCurrentPoint2(m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case cCDE_PWR_ELECTROBOT_CALIB_CURRENT_OUT1_POINT1:
+              Application.m_power_electrobot.setCalibrationCurrentOut1Point1(m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case cCDE_PWR_ELECTROBOT_CALIB_CURRENT_OUT1_POINT2:
+              Application.m_power_electrobot.setCalibrationCurrentOut1Point2(m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case cCDE_PWR_ELECTROBOT_CALIB_CURRENT_OUT2_POINT1:
+              Application.m_power_electrobot.setCalibrationCurrentOut2Point1(m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          case cCDE_PWR_ELECTROBOT_CALIB_CURRENT_OUT2_POINT2:
+              Application.m_power_electrobot.setCalibrationCurrentOut2Point2(m_COMMANDE_POWER_ELECTROBOT.val);
+          break;
+          default :
+          break;
+      }
+  }
   // ___________________________
   if  (m_ELECTROBOT_CDE_POWER_SWITCH.isNewTrame() ) {
       Application.m_power_switch.setPort(m_ELECTROBOT_CDE_POWER_SWITCH.port);
@@ -920,6 +990,15 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_COLOR_SENSOR.G=Application.m_capteurs.m_color_sensor_G;
         m_COLOR_SENSOR.B=Application.m_capteurs.m_color_sensor_B;
         SerialiseTrame(	m_COLOR_SENSOR.Encode());
+    }
+    // _____________________________________________
+    if (m_ETAT_POWER_ELECTROBOT.isTimeToSend())
+    {
+        m_ETAT_POWER_ELECTROBOT.battery_voltage_mV = Application.m_power_electrobot.getRawBatteryVoltage();
+        m_ETAT_POWER_ELECTROBOT.global_current_mA = Application.m_power_electrobot.getRawGlobalCurrent();
+        m_ETAT_POWER_ELECTROBOT.current_out1_mA = Application.m_power_electrobot.getRawCurrentOut1();
+        m_ETAT_POWER_ELECTROBOT.current_out2_mA = Application.m_power_electrobot.getRawCurrentOut2();
+        SerialiseTrame(m_ETAT_POWER_ELECTROBOT.Encode());
     }
 }
 

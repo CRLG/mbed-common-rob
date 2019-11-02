@@ -98,7 +98,8 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   // ______________________________
   cpt200msec++;
   if (cpt200msec >= TEMPO_200msec) {
-  	cpt200msec = 0;
+    m_power_electrobot.periodicCall();
+    cpt200msec = 0;
   }
   // ______________________________
   cpt500msec++;
@@ -115,6 +116,7 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   	cpt1sec = 0;
 
     Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.Timestamp++;
+    m_power_electrobot.refreshOuptuts();
   }
 
 }

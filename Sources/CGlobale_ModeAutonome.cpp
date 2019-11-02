@@ -133,6 +133,8 @@ void CGlobale::SequenceurModeAutonome(void)
             m_LaBotBox.setAllTransmitPeriod(200);  // Toutes les trames sont envoyées à Labotbox avec la même période
         }
     }
+    m_power_electrobot.periodicCall();
+
   }
   // ______________________________
   cpt500msec++;
@@ -145,6 +147,7 @@ void CGlobale::SequenceurModeAutonome(void)
   cpt1sec++;
   if (cpt1sec >= TEMPO_1sec) {
   	cpt1sec = 0;
+    m_power_electrobot.refreshOuptuts();
   }
 
 }

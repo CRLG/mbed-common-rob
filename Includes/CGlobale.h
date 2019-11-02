@@ -18,6 +18,7 @@
 #include "CAsservissementChariot.h"
 #include "MessengerXbeeNetwork.h"
 #include "PowerSwitch.h"
+#include "PowerElectrobot.h"
 
 typedef enum {
     MODE_AUTONOME = 0,
@@ -40,6 +41,7 @@ typedef enum {
 #define TEMPO_15sec     (15000/PERIODE_TICK)
 
 #define POWER_SWITCH_I2C_ADDR 0x48
+#define POWER_ELECTROBOT_I2C_ADDR 0x54
 
 // -----------------------------
 //! Classe de gestion des options d'exécution passees en ligne de commande
@@ -68,6 +70,8 @@ public :
     CAsservissement m_asservissement;
     //! Carte PowerSwitch
     PowerSwitch m_power_switch;
+    //! Carte PowerElectrobot
+    PowerElectrobot m_power_electrobot;
     //! Gestion des servos moteurs controlés par le SD20
     CServoMoteurSD20 m_servos_sd20;
     //! Gestion des servos moteurs AX

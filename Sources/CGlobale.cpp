@@ -74,6 +74,9 @@ void CGlobale::Run(void)
     // Carte de commutationd e puissance Power Switch
     m_power_switch.init(POWER_SWITCH_I2C_ADDR);
 
+    // Carte PowerElectrobot
+    m_power_electrobot.init(POWER_ELECTROBOT_I2C_ADDR);
+
     //Init de l'asservissement chariot en cas de plantage de l'eeprom
     if ((Application.m_asservissement_chariot.commande_chariot_max_C==0) ||
             (Application.m_asservissement_chariot.compensation_zone_morte_dw_C==0) ||

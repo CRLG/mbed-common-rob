@@ -21,6 +21,8 @@
 
 
 // Enumérés, defines, ...
+#define ID_COMMANDE_POWER_ELECTROBOT 0x60
+#define ID_ETAT_POWER_ELECTROBOT 0x62
 #define ID_ELECTROBOT_CDE_POWER_SWITCH 0x54
 #define ID_ELECTROBOT_CDE_SERVOS_SD20 0x53
 #define ID_ELECTROBOT_CDE_SERVOS_AX 0x52
@@ -52,7 +54,8 @@
 #define ID_ETAT_EVITEMENT_OBSTACLE 0x42
 #define ID_CONFIG_PERIODE_TRAME 0x108
 
-
+#define DLC_COMMANDE_POWER_ELECTROBOT 4
+#define DLC_ETAT_POWER_ELECTROBOT 8
 #define DLC_ELECTROBOT_CDE_POWER_SWITCH 1
 #define DLC_ELECTROBOT_CDE_SERVOS_SD20 5
 #define DLC_ELECTROBOT_CDE_SERVOS_AX 5
@@ -284,6 +287,15 @@
 #define PHYS2BRUTE_rack_consigne_moteur(val) (short)( (val - (0.000000)) / (1.000000) )
 #define BRUTE2PHYS_rack_convergence(val) ( ((float)val * (1.000000)) + (0.000000) )
 #define PHYS2BRUTE_rack_convergence(val) (unsigned char)( (val - (0.000000)) / (1.000000) )
+#define BRUTE2PHYS_battery_voltage(val) ( ((float)val * (0.001000)) + (0.000000) )
+#define PHYS2BRUTE_battery_voltage(val) (unsigned char)( (val - (0.000000)) / (0.001000) )
+#define BRUTE2PHYS_global_current(val) ( ((float)val * (0.001000)) + (0.000000) )
+#define PHYS2BRUTE_global_current(val) (unsigned char)( (val - (0.000000)) / (0.001000) )
+#define BRUTE2PHYS_current_out1(val) ( ((float)val * (0.001000)) + (0.000000) )
+#define PHYS2BRUTE_current_out1(val) (unsigned char)( (val - (0.000000)) / (0.001000) )
+#define BRUTE2PHYS_current_out2(val) ( ((float)val * (0.001000)) + (0.000000) )
+#define PHYS2BRUTE_current_out2(val) (unsigned char)( (val - (0.000000)) / (0.001000) )
+
 
 // -----------------------------
 //! Classe de base pour les trames CAN
@@ -348,6 +360,33 @@ public :
         CTrameLaBotBox_ELECTROBOT_CDE_POWER_SWITCH();
         void Decode(tStructTrameLaBotBox* trameRecue);
 };
+
+// -----------------------------
+//! Classe de base pour les trames CAN
+class CTrameLaBotBox_COMMANDE_POWER_ELECTROBOT : public CTrameLaBotBox {
+public :
+        //! Les signaux de la messagerie
+        unsigned short commande;
+        unsigned short val;
+
+        CTrameLaBotBox_COMMANDE_POWER_ELECTROBOT();
+        void Decode(tStructTrameLaBotBox* trameRecue);
+};
+
+// -----------------------------
+//! Classe de base pour les trames CAN
+class CTrameLaBotBox_ETAT_POWER_ELECTROBOT : public CTrameLaBotBox {
+public :
+        //! Les signaux de la messagerie
+        unsigned short battery_voltage_mV;
+        unsigned short global_current_mA;
+        unsigned short current_out1_mA;
+        unsigned short current_out2_mA;
+
+        CTrameLaBotBox_ETAT_POWER_ELECTROBOT();
+        tStructTrameLaBotBox* Encode(void);
+};
+
 
 // -----------------------------
 //! Classe de base pour les trames CAN
