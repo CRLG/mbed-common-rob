@@ -484,7 +484,6 @@ void CLaBotBox::CheckReceptionTrame(void)
           break;
           case  cCDE_PWR_ELECTROBOT_OUTPUT_1:
               Application.m_power_electrobot.setOutput(PowerElectrobot::OUTPUT_STOR1, m_COMMANDE_POWER_ELECTROBOT.val);
-              _led3 = !_led3;
           break;
           case  cCDE_PWR_ELECTROBOT_OUTPUT_2:
               Application.m_power_electrobot.setOutput(PowerElectrobot::OUTPUT_STOR2, m_COMMANDE_POWER_ELECTROBOT.val);
