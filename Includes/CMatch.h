@@ -5,15 +5,13 @@
 #ifndef _MATCH_H_
 #define _MATCH_H_
 
-#include "../ModeleSCT/src/CPPTimerInterface.h"
 #include "CMoteurs.h"
 #include "CServoMoteurSD20.h"
 #include "CServoMoteurAX.h"
 #include "math.h"
+#include "ia.h"
 
 #define SQUARE(A) (A*A)
-
-class IA;
 
 // -----------------------------
 //! Classe de gestion des options d'exécution passees en ligne de commande
@@ -31,7 +29,7 @@ public :
     unsigned short m_score_total;
     //tableau contenant la stratégie à appliquer
 
-    int32_t strategie[10];
+    unsigned long strategie[10];
 
     CMatch();
     ~CMatch();
@@ -50,11 +48,9 @@ public :
     //! Debug sur la RS232
     void debug(void);
 
-    IA *m_ia;
-    CPPTimerInterface m_timer_sct;
-    //    IA::DefaultSCI *m_iaSCI;
-    //    IA::SCI_Chariot *m_iaSCI_Chariot;
     static bool frontMontant(float prec_value, float value);
+
+    IA m_ia;
 
     // Détection et évitement d'obstacle
     float m_telemetre_AVG;
@@ -93,12 +89,6 @@ private :
 
 
 };
-
-/*class methodeAsser : public GROSBOT::SCI_Ascenseur_OCB
-{
-public:
-    void Manuel(sc_real mot_gauche, sc_real mot_droit) = 0;
-};*/
 
 #endif
 
