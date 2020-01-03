@@ -144,6 +144,11 @@ void SM_StateMachineBase::gotoStateIfConvergence(unsigned short next_state, long
     gotoStateIfTrue(next_state, m_ia->m_inputs_interface.Convergence, timeout);
 }
 
+// ________________________________________________
+void SM_StateMachineBase::gotoStateIfConvergenceRapide(unsigned short next_state, long timeout)
+{
+    gotoStateIfTrue(next_state, m_ia->m_inputs_interface.Convergence_rapide, timeout);
+}
 
 // ________________________________________________
 bool SM_StateMachineBase::onEntry()
