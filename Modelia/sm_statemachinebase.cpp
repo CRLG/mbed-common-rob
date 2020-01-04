@@ -141,13 +141,13 @@ void SM_StateMachineBase::gotoStateIfTrue(unsigned short next_state, bool condit
 // ________________________________________________
 void SM_StateMachineBase::gotoStateIfConvergence(unsigned short next_state, long timeout)
 {
-    gotoStateIfTrue(next_state, m_ia->m_inputs_interface.Convergence, timeout);
+    gotoStateIfTrue(next_state, m_ia->m_inputs_interface.FrontM_Convergence, timeout);
 }
 
 // ________________________________________________
 void SM_StateMachineBase::gotoStateIfConvergenceRapide(unsigned short next_state, long timeout)
 {
-    gotoStateIfTrue(next_state, m_ia->m_inputs_interface.Convergence_rapide, timeout);
+    gotoStateIfTrue(next_state, m_ia->m_inputs_interface.FrontM_Convergence_rapide, timeout);
 }
 
 // ________________________________________________
