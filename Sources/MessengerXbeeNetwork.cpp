@@ -81,26 +81,6 @@ void MessengerXbeeNetwork::execute()
 }
 
 // ===================================================
-//          COMMUNICATION DIAGNOSTIC
-// ===================================================
-// ______________________________________________
-bool MessengerXbeeNetwork::isRobotPartnerPresent()
-{
-    return m_database.m_node_legobot.isPresent();
-}
-// ______________________________________________
-bool MessengerXbeeNetwork::isExperiencePresent()
-{
-    return m_database.m_node_experience.isPresent();
-}
-// ______________________________________________
-bool MessengerXbeeNetwork::isBalisePresent()
-{
-    return m_database.m_node_balise.isPresent();
-}
-
-
-// ===================================================
 //              MESSENGER OUTPUT
 // ===================================================
 // ______________________________________________

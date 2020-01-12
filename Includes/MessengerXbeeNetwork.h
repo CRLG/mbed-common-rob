@@ -44,10 +44,6 @@ public:
     // This method is called by messenger (message) to inform a data in a message changed value
     virtual void dataChanged(char *name, char *val_str);
 
-    bool isRobotPartnerPresent();
-    bool isExperiencePresent();
-    bool isBalisePresent();
-
     DatabaseXbeeNetwork2019 m_database;
     TransporterGeneric m_transporter;
 
