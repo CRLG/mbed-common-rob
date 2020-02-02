@@ -151,6 +151,12 @@ void SM_StateMachineBase::gotoStateIfConvergenceRapide(unsigned short next_state
 }
 
 // ________________________________________________
+void SM_StateMachineBase::gotoStateIfConvergenceRack(unsigned short next_state, long timeout)
+{
+    gotoStateIfTrue(next_state, m_ia->m_inputs_interface.FrontM_ConvergenceRack, timeout);
+}
+
+// ________________________________________________
 bool SM_StateMachineBase::onEntry()
 {
     bool result = (m_state != m_old_state);
