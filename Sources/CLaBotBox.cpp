@@ -941,10 +941,10 @@ void CLaBotBox::SendTramesLaBotBox(void)
     // _____________________________________________
     if (m_ELECTROBOT_ETAT_TELEMETRES.isTimeToSend())
     {
-        m_ELECTROBOT_ETAT_TELEMETRES.Telemetre1 = Application.m_capteurs.m_telemetres.m_distance[0];
-        m_ELECTROBOT_ETAT_TELEMETRES.Telemetre2 = Application.m_capteurs.m_telemetres.m_distance[1];
-        m_ELECTROBOT_ETAT_TELEMETRES.Telemetre3 = Application.m_capteurs.m_telemetres.m_distance[2];
-        m_ELECTROBOT_ETAT_TELEMETRES.Telemetre4 = Application.m_capteurs.m_telemetres.m_distance[3];
+        m_ELECTROBOT_ETAT_TELEMETRES.Telemetre1 = Application.m_telemetres.getDistanceAVG();
+        m_ELECTROBOT_ETAT_TELEMETRES.Telemetre2 = Application.m_telemetres.getDistanceAVD();
+        m_ELECTROBOT_ETAT_TELEMETRES.Telemetre3 = Application.m_telemetres.getDistanceARG();
+        m_ELECTROBOT_ETAT_TELEMETRES.Telemetre4 = Application.m_telemetres.getDistanceARD();
         SerialiseTrame(m_ELECTROBOT_ETAT_TELEMETRES.Encode());
     }
     // _____________________________________________

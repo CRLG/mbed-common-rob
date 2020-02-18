@@ -95,7 +95,7 @@ void CGlobale::SequenceurModePiloteTerminal(void)
   	cpt20msec = 0;
 
   	m_capteurs.Traitement();
-		
+    m_telemetres.Traitement();
   	m_asservissement.CalculsMouvementsRobots();
 
   }

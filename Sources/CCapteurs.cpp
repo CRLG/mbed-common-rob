@@ -69,7 +69,6 @@ void CCapteurs::Traitement(void)
   AcquisitionEntreesANA();
 
   TraitementTensionBatterie();
-  TraitementTelemetresUltrason();
   //TraitementDepartMatch();
   //TraitementCapteurRecalageBordure();
 
@@ -279,32 +278,6 @@ void CCapteurs::TraitementDepartMatch(void)
  
   //_led3 = _Etor3.read();
 }
-
-
-//___________________________________________________________________________
- /*!
-   \brief Acquisition et filtrage des capteurs du suiveur de ligne
-
-   \param --
-   \return --
-*/
-#define COEF_TELEMETRE_ULTRASON (3.3 * 259.183)   // TODO : ajuster le coeff pour transformer en cm
-void  CCapteurs::TraitementTelemetresUltrason(void)
-{
-  m_telemetres.Traitement();
-
-  // Todo : appliquer un filtrage / une calibration automatique / une comparaison entre capteurs
-  // Loi de commande : 9.8mV/inch = 9.8mV/2.54mm
-  // resultat en cm
-  //m_ultrason_AR = MoyenneGlissante_float(_Eana1.read() * COEF_TELEMETRE_ULTRASON, m_tabFiltUS_AV, NBRE_ECH_FILTRAGE_CAPTEURS_US);
-  //m_ultrason_AV = MoyenneGlissante_float(_Eana2.read() * COEF_TELEMETRE_ULTRASON, m_tabFiltUS_AR, NBRE_ECH_FILTRAGE_CAPTEURS_US);
-
-  // Confirme la présence d'un obstacle
-  m_obstacleDetecte_AR = Hysterisis(m_ultrason_AR, &m_obstacleDetecte_AR, SEUIL_CM_DETECTION_OBSTACLE-3, SEUIL_CM_DETECTION_OBSTACLE+3, 1, 0);
-  m_obstacleDetecte_AV = Hysterisis(m_ultrason_AV, &m_obstacleDetecte_AV, SEUIL_CM_DETECTION_OBSTACLE-3, SEUIL_CM_DETECTION_OBSTACLE+3, 1, 0);
-
-}
-
 
 // _____________________________________________________
 /*!

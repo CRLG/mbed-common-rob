@@ -115,13 +115,6 @@ public :
 	signed long m_CumulCodeurPosition3;
 	signed long m_CumulCodeurPosition4;
 
-	// Les télémètres
-    CTelemetres m_telemetres;
-	float m_TelemetreAVD;
-	float m_TelemetreAVG;
-	float m_TelemetreARD;
-	float m_TelemetreARG;
-
     // Diagnostic de communication avec les dsPIC
     unsigned long m_compteurErrCom_dsPIC1;
     unsigned long m_compteurErrCom_dsPIC2;
@@ -158,8 +151,6 @@ private :
 
     //! Traitement pour la mesure de la tension batterie
     void TraitementTensionBatterie(void);
-	//! Traitement pour les entrees capteurs ultrasons
-	void TraitementTelemetresUltrason(void);
 	//! Traitement ordre de debut de match
 	void TraitementDepartMatch(void);
 	//! Traitement des capteurs de recalage avant

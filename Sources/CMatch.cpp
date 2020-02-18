@@ -72,10 +72,10 @@ void CMatch::Initialise(void)
     m_convergence_rack_conf=0;
 
     m_obstacleDetecte=0;
-    m_telemetre_AVD=Application.m_capteurs.m_telemetres.m_distance[0];
-    m_telemetre_ARD=Application.m_capteurs.m_telemetres.m_distance[1];
-    m_telemetre_AVG=Application.m_capteurs.m_telemetres.m_distance[2];
-    m_telemetre_ARG=Application.m_capteurs.m_telemetres.m_distance[3];
+    m_telemetre_AVD=Application.m_telemetres.getDistanceAVD();
+    m_telemetre_ARD=Application.m_telemetres.getDistanceARD();
+    m_telemetre_AVG=Application.m_telemetres.getDistanceAVG();
+    m_telemetre_ARG=Application.m_telemetres.getDistanceARG();
     m_seuil_detection_obstacle = 35; // [cm] valeur par défaut historique si aucune autre valeur n'est affectée
     m_obstacle_detecte_AVG = m_telemetre_AVG<=m_seuil_detection_obstacle;
     m_obstacle_detecte_AVD = m_telemetre_AVD<=m_seuil_detection_obstacle;
@@ -145,10 +145,10 @@ void CMatch::step(void)
 
     //____________________________
     //capteurs US
-    m_telemetre_AVD=Application.m_capteurs.m_telemetres.m_distance[0];
-    m_telemetre_ARD=Application.m_capteurs.m_telemetres.m_distance[1];
-    m_telemetre_AVG=Application.m_capteurs.m_telemetres.m_distance[2];
-    m_telemetre_ARG=Application.m_capteurs.m_telemetres.m_distance[3];
+    m_telemetre_AVD=Application.m_telemetres.getDistanceAVD();
+    m_telemetre_ARD=Application.m_telemetres.getDistanceARD();
+    m_telemetre_AVG=Application.m_telemetres.getDistanceAVG();
+    m_telemetre_ARG=Application.m_telemetres.getDistanceARG();
 
     m_obstacle_detecte_AVG = m_telemetre_AVG<=m_seuil_detection_obstacle;
     m_obstacle_detecte_AVD = m_telemetre_AVD<=m_seuil_detection_obstacle;

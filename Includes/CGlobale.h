@@ -20,6 +20,7 @@
 #include "MessengerXbeeNetwork.h"
 #include "PowerSwitch.h"
 #include "PowerElectrobot.h"
+#include "CTelemetres.h"
 
 
 typedef enum {
@@ -84,6 +85,8 @@ public :
     CServoMoteurAX m_servos_ax;
     //! Gestion des moteurs
     CMoteurs m_moteurs;
+    //! Gestion des télémètres
+    CTelemetres m_telemetres;
 
     //! Gestion de l'asservissement de la sulfateuse
     CAsservissementSulfateuse m_asservissement_sulfateuse;
