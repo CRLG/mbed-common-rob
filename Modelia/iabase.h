@@ -30,17 +30,7 @@ public:
     SM_Main                     m_sm_main;
     SM_Sequenceur               m_sm_sequenceur;
     SM_Evitement                m_sm_evitement;
-/*
-    SM_Autotest                 m_sm_autotest;
-    SM_ActiverPhare             m_sm_activer_phare;
-    SM_DeployerPavillon         m_sm_deployer_pavillon;
-    SM_DeposerBoueesDansPort    m_sm_deposer_bouees_dans_port;
-    SM_DetecterNordSud          m_sm_detecter_nord_sud;
-    SM_Recup2BoueesZoneDepart   m_sm_recup_2_bouees_zone_depart;
-    SM_Recup4BoueesChemin       m_sm_recup_4_bouees_chemin;
-    SM_RecupBoueesDistributeur  m_sm_recup_bouees_distributeur;
-    SM_ArriverABonPort          m_sm_arriver_a_bon_port;
-*/
+
     // Choix d'un algo parmi plusieurs pour la sélection de la prochaine mission à exécuter
     typedef enum {
         ALGO_PERTINENT_MISSION_NEXT_INDEX = 0,
