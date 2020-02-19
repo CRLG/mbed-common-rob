@@ -21,6 +21,7 @@
 #include "PowerSwitch.h"
 #include "PowerElectrobot.h"
 #include "CTelemetres.h"
+#include "CDetectionObstaclesBase.h"
 
 
 typedef enum {
@@ -87,6 +88,8 @@ public :
     CMoteurs m_moteurs;
     //! Gestion des télémètres
     CTelemetres m_telemetres;
+    //! Gestion des détections d'obstacles (à priori l'algo de la classe de base suffit).
+    CDetectionObstaclesBase m_detection_obstacles;
 
     //! Gestion de l'asservissement de la sulfateuse
     CAsservissementSulfateuse m_asservissement_sulfateuse;
