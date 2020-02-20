@@ -86,7 +86,7 @@ void CRoues::AdapteCommandeMoteur_D(float vitesse)
 */
 int CRoues::getCodeurG(void)
 {
-    return(Application.m_capteurs.m_CumulCodeurPosition4);
+    return(Application.m_electrobot.m_CumulCodeurPosition4);
 }
 
 
@@ -99,7 +99,7 @@ int CRoues::getCodeurG(void)
 */
 int CRoues::getCodeurD(void)
 {
-    return(Application.m_capteurs.m_CumulCodeurPosition2);
+    return(Application.m_electrobot.m_CumulCodeurPosition2);
 }
 
 
@@ -112,6 +112,6 @@ int CRoues::getCodeurD(void)
 */
 void CRoues::resetCodeurs(void)
 {
-    Application.m_capteurs.m_CumulCodeurPosition2 = 0;
-    Application.m_capteurs.m_CumulCodeurPosition4 = 0;
+    Application.m_electrobot.m_CumulCodeurPosition2 = 0;
+    Application.m_electrobot.m_CumulCodeurPosition4 = 0;
 }

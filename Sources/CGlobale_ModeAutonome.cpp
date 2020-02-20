@@ -86,7 +86,7 @@ void CGlobale::SequenceurModeAutonome(void)
   if (cpt20msec >= TEMPO_20msec) {
 	cpt20msec = 0;
 
-    m_capteurs.Traitement();
+    m_electrobot.Traitement();
     m_telemetres.Traitement();
     m_asservissement.CalculsMouvementsRobots();
     m_asservissement_chariot.Asser_chariot();

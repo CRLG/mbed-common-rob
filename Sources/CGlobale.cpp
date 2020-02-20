@@ -65,7 +65,7 @@ void CGlobale::Run(void)
     // Active les pull up sur les entrées
     //_Etor1.mode(PullUp);
     //_Etor2.mode(PullUp);
-    m_capteurs.Init();
+    m_electrobot.Init();
 
     //Init de l'asservissement chariot
     m_asservissement_chariot.Init();

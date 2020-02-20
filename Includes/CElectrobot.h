@@ -1,11 +1,10 @@
-/*! \file CCapteurs.h
-	\brief Classe qui contient la gestion des roues motrices gauche et droite
+/*! \file CElectrobot.h
+    \brief Classe qui contient la gestion de la carte Electrobot
 */
 
-#ifndef _CAPTEURS_H_
-#define _CAPTEURS_H_
+#ifndef _ELECTROBOT_H_
+#define _ELECTROBOT_H_
 
-#include "CTelemetres.h"
 #include "CdsPIC.h"
 
 #define TENSION_REF_EANA_MBED	3.3
@@ -23,7 +22,7 @@ typedef enum {
 
 // -----------------------------
 //! Classe de gestion des options d'exécution passees en ligne de commande
-class CCapteurs {
+class CElectrobot {
 public :
     // Valeurs brutes sur les entrées TOR ("_b" pour "brute")
 	unsigned char m_b_Etor1;
@@ -74,8 +73,8 @@ public :
     float m_tension_batterie;
     unsigned char m_alerte_batterie_faible;
 
-	CCapteurs();
-	~CCapteurs();
+    CElectrobot();
+    ~CElectrobot();
 
 	//! Initialisation des capteurs
 	void Init(void);

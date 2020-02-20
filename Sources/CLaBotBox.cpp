@@ -895,47 +895,47 @@ void CLaBotBox::SendTramesLaBotBox(void)
     // _____________________________________________
     if (m_ELECTROBOT_ETAT_CAPTEURS_1.isTimeToSend())
     {
-        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana1 = PHYS2BRUTE_Eana1(Application.m_capteurs.m_b_Eana1);
-        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana2 = PHYS2BRUTE_Eana2(Application.m_capteurs.m_b_Eana2);
-        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana3 = PHYS2BRUTE_Eana3(Application.m_capteurs.m_b_Eana3);
-        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana4 = PHYS2BRUTE_Eana4(Application.m_capteurs.m_b_Eana4);
-        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana5 = PHYS2BRUTE_Eana5(Application.m_capteurs.m_b_Eana5);
-        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana6 = PHYS2BRUTE_Eana6(Application.m_capteurs.m_b_Eana6);
-        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana7 = PHYS2BRUTE_Eana7(Application.m_capteurs.m_b_Eana7);
-        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana8 = PHYS2BRUTE_Eana8(Application.m_capteurs.m_b_Eana8);
+        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana1 = PHYS2BRUTE_Eana1(Application.m_electrobot.m_b_Eana1);
+        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana2 = PHYS2BRUTE_Eana2(Application.m_electrobot.m_b_Eana2);
+        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana3 = PHYS2BRUTE_Eana3(Application.m_electrobot.m_b_Eana3);
+        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana4 = PHYS2BRUTE_Eana4(Application.m_electrobot.m_b_Eana4);
+        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana5 = PHYS2BRUTE_Eana5(Application.m_electrobot.m_b_Eana5);
+        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana6 = PHYS2BRUTE_Eana6(Application.m_electrobot.m_b_Eana6);
+        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana7 = PHYS2BRUTE_Eana7(Application.m_electrobot.m_b_Eana7);
+        m_ELECTROBOT_ETAT_CAPTEURS_1.Eana8 = PHYS2BRUTE_Eana8(Application.m_electrobot.m_b_Eana8);
         SerialiseTrame(	m_ELECTROBOT_ETAT_CAPTEURS_1.Encode());
     }
     // _____________________________________________
     if (m_ELECTROBOT_ETAT_CAPTEURS_2.isTimeToSend())
     {
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Eana9 = PHYS2BRUTE_Eana9(Application.m_capteurs.m_b_Eana9);
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Eana10 = PHYS2BRUTE_Eana10(Application.m_capteurs.m_b_Eana10);
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Eana11 = PHYS2BRUTE_Eana11(Application.m_capteurs.m_b_Eana11);
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Eana12 = PHYS2BRUTE_Eana12(Application.m_capteurs.m_b_Eana12);
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Eana13 = PHYS2BRUTE_Eana13(Application.m_capteurs.m_b_Eana13);
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Vbat = PHYS2BRUTE_Vbat(Application.m_capteurs.m_tension_batterie);
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor1 = !Application.m_capteurs.m_b_Etor1;
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor2 = !Application.m_capteurs.m_b_Etor2;
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor3 = !Application.m_capteurs.m_b_Etor3;
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor4 = !Application.m_capteurs.m_b_Etor4;
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor5 = !Application.m_capteurs.m_b_Etor5;
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor6 = !Application.m_capteurs.m_b_Etor6;
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor_CAN_TX = !Application.m_capteurs.m_b_Etor_CanTx;
-        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor_CAN_RX = !Application.m_capteurs.m_b_Etor_CanRx;
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Eana9 = PHYS2BRUTE_Eana9(Application.m_electrobot.m_b_Eana9);
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Eana10 = PHYS2BRUTE_Eana10(Application.m_electrobot.m_b_Eana10);
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Eana11 = PHYS2BRUTE_Eana11(Application.m_electrobot.m_b_Eana11);
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Eana12 = PHYS2BRUTE_Eana12(Application.m_electrobot.m_b_Eana12);
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Eana13 = PHYS2BRUTE_Eana13(Application.m_electrobot.m_b_Eana13);
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Vbat = PHYS2BRUTE_Vbat(Application.m_electrobot.m_tension_batterie);
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor1 = !Application.m_electrobot.m_b_Etor1;
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor2 = !Application.m_electrobot.m_b_Etor2;
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor3 = !Application.m_electrobot.m_b_Etor3;
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor4 = !Application.m_electrobot.m_b_Etor4;
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor5 = !Application.m_electrobot.m_b_Etor5;
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor6 = !Application.m_electrobot.m_b_Etor6;
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor_CAN_TX = !Application.m_electrobot.m_b_Etor_CanTx;
+        m_ELECTROBOT_ETAT_CAPTEURS_2.Etor_CAN_RX = !Application.m_electrobot.m_b_Etor_CanRx;
         SerialiseTrame(	m_ELECTROBOT_ETAT_CAPTEURS_2.Encode());
     }
     // _____________________________________________
     if (m_ELECTROBOT_ETAT_CODEURS_1_2.isTimeToSend())
     {
-        m_ELECTROBOT_ETAT_CODEURS_1_2.Codeur_1 = Application.m_capteurs.m_CumulCodeurPosition1;
-        m_ELECTROBOT_ETAT_CODEURS_1_2.Codeur_2 = Application.m_capteurs.m_CumulCodeurPosition2;
+        m_ELECTROBOT_ETAT_CODEURS_1_2.Codeur_1 = Application.m_electrobot.m_CumulCodeurPosition1;
+        m_ELECTROBOT_ETAT_CODEURS_1_2.Codeur_2 = Application.m_electrobot.m_CumulCodeurPosition2;
         SerialiseTrame(m_ELECTROBOT_ETAT_CODEURS_1_2.Encode());
     }
     // _____________________________________________
     if (m_ELECTROBOT_ETAT_CODEURS_3_4.isTimeToSend())
     {
-        m_ELECTROBOT_ETAT_CODEURS_3_4.Codeur_3 = Application.m_capteurs.m_CumulCodeurPosition3;
-        m_ELECTROBOT_ETAT_CODEURS_3_4.Codeur_4 = Application.m_capteurs.m_CumulCodeurPosition4;
+        m_ELECTROBOT_ETAT_CODEURS_3_4.Codeur_3 = Application.m_electrobot.m_CumulCodeurPosition3;
+        m_ELECTROBOT_ETAT_CODEURS_3_4.Codeur_4 = Application.m_electrobot.m_CumulCodeurPosition4;
         SerialiseTrame(m_ELECTROBOT_ETAT_CODEURS_3_4.Encode());
     }
     // _____________________________________________
@@ -985,9 +985,9 @@ void CLaBotBox::SendTramesLaBotBox(void)
     // _____________________________________________
     if (m_COLOR_SENSOR.isTimeToSend())
     {
-        m_COLOR_SENSOR.R=0;//Application.m_capteurs.m_color_sensor_R;
-        m_COLOR_SENSOR.G=0;//Application.m_capteurs.m_color_sensor_G;
-        m_COLOR_SENSOR.B=0;//Application.m_capteurs.m_color_sensor_B;
+        m_COLOR_SENSOR.R=0;//Application.m_electrobot.m_color_sensor_R;
+        m_COLOR_SENSOR.G=0;//Application.m_electrobot.m_color_sensor_G;
+        m_COLOR_SENSOR.B=0;//Application.m_electrobot.m_color_sensor_B;
         SerialiseTrame(	m_COLOR_SENSOR.Encode());
     }
     // _____________________________________________

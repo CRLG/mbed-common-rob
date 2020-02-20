@@ -94,7 +94,7 @@ void CGlobale::SequenceurModePiloteTerminal(void)
   if (cpt20msec >= TEMPO_20msec) {
   	cpt20msec = 0;
 
-  	m_capteurs.Traitement();
+  	m_electrobot.Traitement();
     m_telemetres.Traitement();
   	m_asservissement.CalculsMouvementsRobots();
 
@@ -123,68 +123,68 @@ void CGlobale::SequenceurModePiloteTerminal(void)
 
 	_rs232_pc_tx.printf("%c", 0xc);
 	/*_rs232_pc_tx.printf("Entrees Etor = %d %d %d %d %d %d %d %d\n\r",
-				m_capteurs.m_b_Etor1,
-				m_capteurs.m_b_Etor2,
-				m_capteurs.m_b_Etor3,
-				m_capteurs.m_b_Etor4,
-				m_capteurs.m_b_Etor5,
-				m_capteurs.m_b_Etor6,
-                m_capteurs.m_b_Etor_CanRx,
-                m_capteurs.m_b_Etor_CanTx
+				m_electrobot.m_b_Etor1,
+				m_electrobot.m_b_Etor2,
+				m_electrobot.m_b_Etor3,
+				m_electrobot.m_b_Etor4,
+				m_electrobot.m_b_Etor5,
+				m_electrobot.m_b_Etor6,
+                m_electrobot.m_b_Etor_CanRx,
+                m_electrobot.m_b_Etor_CanTx
 				);
 */
 	_rs232_pc_tx.printf("Entrees Eana MBED = %f %f %f %f %f %f\n\r",
-			Application.m_capteurs.m_b_Mes_Vbat,
-			Application.m_capteurs.m_b_Eana1,
-			Application.m_capteurs.m_b_Eana2,
-			Application.m_capteurs.m_b_Eana3,
-			Application.m_capteurs.m_b_Eana4,
-			Application.m_capteurs.m_b_Eana5
+			Application.m_electrobot.m_b_Mes_Vbat,
+			Application.m_electrobot.m_b_Eana1,
+			Application.m_electrobot.m_b_Eana2,
+			Application.m_electrobot.m_b_Eana3,
+			Application.m_electrobot.m_b_Eana4,
+			Application.m_electrobot.m_b_Eana5
 				);
 /*
 	_rs232_pc_tx.printf("Entrees Eana dsPIC1 = %.3f %.3f %.3f %.3f\n\r", 
-				m_capteurs.m_b_Eana6,
-				m_capteurs.m_b_Eana7,
-				m_capteurs.m_b_Eana8,
-				m_capteurs.m_b_Eana9
+				m_electrobot.m_b_Eana6,
+				m_electrobot.m_b_Eana7,
+				m_electrobot.m_b_Eana8,
+				m_electrobot.m_b_Eana9
 				);
 
 	_rs232_pc_tx.printf("Entrees Eana dsPIC2 = %.3f %.3f %.3f %.3f\n\r", 
-				m_capteurs.m_b_Eana10,
-				m_capteurs.m_b_Eana11,
-				m_capteurs.m_b_Eana12,
-				m_capteurs.m_b_Eana13
+				m_electrobot.m_b_Eana10,
+				m_electrobot.m_b_Eana11,
+				m_electrobot.m_b_Eana12,
+				m_electrobot.m_b_Eana13
 				);*/
 
  	_rs232_pc_tx.printf("Tension batterie = %.2f [V] / %s\n\r", 
- 			Application.m_capteurs.m_tension_batterie,
-				((m_capteurs.m_alerte_batterie_faible==0)?"OK":"! Batterie faible")
+ 			Application.m_electrobot.m_tension_batterie,
+				((m_electrobot.m_alerte_batterie_faible==0)?"OK":"! Batterie faible")
                 );
 	/*_rs232_pc_tx.printf("Codeurs brut = %d %d %d %d\n\r",
-				m_capteurs.m_CodeurPosition1,
-				m_capteurs.m_CodeurPosition2,
-				m_capteurs.m_CodeurPosition3,
-				m_capteurs.m_CodeurPosition4
+				m_electrobot.m_CodeurPosition1,
+				m_electrobot.m_CodeurPosition2,
+				m_electrobot.m_CodeurPosition3,
+				m_electrobot.m_CodeurPosition4
 				);
 
 	_rs232_pc_tx.printf("Codeurs cumul = %d %d %d %d\n\r", 
-				m_capteurs.m_CumulCodeurPosition1,
-				m_capteurs.m_CumulCodeurPosition2,
-				m_capteurs.m_CumulCodeurPosition3,
-				m_capteurs.m_CumulCodeurPosition4
+				m_electrobot.m_CumulCodeurPosition1,
+				m_electrobot.m_CumulCodeurPosition2,
+				m_electrobot.m_CumulCodeurPosition3,
+				m_electrobot.m_CumulCodeurPosition4
 				);
 
 	_rs232_pc_tx.printf("Err COM dsPIC1=%d / dsPIC2=%d\n\r", 
-				m_capteurs.m_compteurErrCom_dsPIC1,
-				m_capteurs.m_compteurErrCom_dsPIC2
+				m_electrobot.m_compteurErrCom_dsPIC1,
+				m_electrobot.m_compteurErrCom_dsPIC2
 				);
 
 
 	_rs232_pc_tx.printf("Capteurs US = %.2f %.2f %.2f %.2f\n\r", 
-				m_capteurs.m_telemetres.m_distance[0],
-				m_capteurs.m_telemetres.m_distance[1],
-                m_capteurs.m_telemetres.m_distance[2],
-                m_capteurs.m_telemetres.m_distance[3]
+				m_electrobot.m_telemetres.m_distance[0],
+				m_electrobot.m_telemetres.m_distance[1],
+                m_electrobot.m_telemetres.m_distance[2],
+                m_electrobot.m_telemetres.m_distance[3]
 				);
 
 	_rs232_pc_tx.printf("Commandes moteurs = %.1f %.1f %.1f %.1f %.1f %.1f\n\r",
@@ -202,9 +202,9 @@ void CGlobale::SequenceurModePiloteTerminal(void)
                 m_asservissement.angle_robot
                 );*/
 	/*_rs232_pc_tx.printf("Capteur couleur R=%d\tG=%d\tB=%d\n\r",
-	                m_capteurs.m_color_sensor_R,
-	                m_capteurs.m_color_sensor_G,
-	                m_capteurs.m_color_sensor_B
+	                m_electrobot.m_color_sensor_R,
+	                m_electrobot.m_color_sensor_G,
+	                m_electrobot.m_color_sensor_B
 	                );*/
 
   }

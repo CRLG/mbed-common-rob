@@ -1,9 +1,9 @@
-/*! \file CCapteurs.cpp
-	\brief Classe qui contient les méthodes pour le dialogue avec ANACONBOT
+/*! \file CElectrobot.cpp
+    \brief Classe qui contient les méthodes la gestion de la carte Electrobot
 */
 #include "RessourcesHardware.h"
 #include "CGlobale.h"
-#include "CCapteurs.h"
+#include "CElectrobot.h"
 
 //___________________________________________________________________________
  /*!
@@ -12,7 +12,7 @@
    \param --
    \return --
 */
-CCapteurs::CCapteurs() 
+CElectrobot::CElectrobot()
 {
   m_compteurErrCom_dsPIC1 = 0;
   m_compteurErrCom_dsPIC2 = 0;
@@ -25,7 +25,7 @@ CCapteurs::CCapteurs()
    \param --
    \return --
 */
-CCapteurs::~CCapteurs() 
+CElectrobot::~CElectrobot()
 {
 
 }
@@ -38,7 +38,7 @@ CCapteurs::~CCapteurs()
    \param --
    \return --
 */
-void CCapteurs::Init(void)
+void CElectrobot::Init(void)
 {
  // Active les pulls up sur les entrées
   _Etor1.mode(PullUp);
@@ -60,7 +60,7 @@ void CCapteurs::Init(void)
    \return --
    \remark cette fonction est a appeler periodiquement par l'applicatif
 */
-void CCapteurs::Traitement(void)
+void CElectrobot::Traitement(void)
 {
   Lecture_dsPIC1();
   Lecture_dsPIC2();
@@ -77,7 +77,7 @@ void CCapteurs::Traitement(void)
    \param --
    \return --
 */
-void CCapteurs::AcquisitionEntreesTOR(void)
+void CElectrobot::AcquisitionEntreesTOR(void)
 {
   m_b_Etor1 		= _Etor1.read();
   m_b_Etor2 		= _Etor2.read();
@@ -97,7 +97,7 @@ void CCapteurs::AcquisitionEntreesTOR(void)
    \param --
    \return --
 */
-void CCapteurs::AcquisitionEntreesANA(void)
+void CElectrobot::AcquisitionEntreesANA(void)
 {
   m_b_Mes_Vbat    = _Mes_Vbat.read() * TENSION_REF_EANA_MBED;
   m_b_Eana1       = _Eana1.read() * TENSION_REF_EANA_MBED;
@@ -115,7 +115,7 @@ void CCapteurs::AcquisitionEntreesANA(void)
    \param --
    \return --
 */
-void CCapteurs::TraitementTensionBatterie(void)
+void CElectrobot::TraitementTensionBatterie(void)
 {
   m_tension_batterie = (m_b_Mes_Vbat / 0.17543859649) + 0.76;
   m_alerte_batterie_faible = Hysterisis(m_tension_batterie, &m_alerte_batterie_faible, SEUIL_TENSION_BATT_FAIBLE, SEUIL_TENSION_BATT_FAIBLE+3, 1, 0);
@@ -129,7 +129,7 @@ void CCapteurs::TraitementTensionBatterie(void)
    \param --
    \return --
 */
-void CCapteurs::Lecture_dsPIC1(void)
+void CElectrobot::Lecture_dsPIC1(void)
 {
   unsigned char checksum=0;
   unsigned char i;
@@ -169,7 +169,7 @@ void CCapteurs::Lecture_dsPIC1(void)
    \param --
    \return --
 */
-void CCapteurs::Lecture_dsPIC2(void)
+void CElectrobot::Lecture_dsPIC2(void)
 {
   unsigned char checksum=0;
   unsigned char i;
@@ -208,7 +208,7 @@ void CCapteurs::Lecture_dsPIC2(void)
    \param --
    \return --
 */
-void CCapteurs::RAZ_PositionCodeur(unsigned char num_codeur, signed long val /*=0*/)
+void CElectrobot::RAZ_PositionCodeur(unsigned char num_codeur, signed long val /*=0*/)
 {
   switch(num_codeur) {
     case CODEUR_1 : m_CumulCodeurPosition1 = val;   break;
@@ -234,7 +234,7 @@ void CCapteurs::RAZ_PositionCodeur(unsigned char num_codeur, signed long val /*=
 			- Les (samplesNumbers-1) echantillons precedents
 			Le tableau old_sanmples doit donc avoir une taille de (samplesNumber - 1) valeurs
 */
-float CCapteurs::MoyenneGlissante_float(float currentVal, float *buf_oldSamples, unsigned int samplesNumbers)
+float CElectrobot::MoyenneGlissante_float(float currentVal, float *buf_oldSamples, unsigned int samplesNumbers)
 {
   float moy=currentVal;
   int i=0;  // Attention : doit être un "int" et non un "unsigned int" à cause du test de fin dans le "for"
@@ -269,7 +269,7 @@ float CCapteurs::MoyenneGlissante_float(float currentVal, float *buf_oldSamples,
    
     \remarks
 */
-unsigned char CCapteurs::Hysterisis (float vin, unsigned char *etat, float swapOff, float swapOn, unsigned char valOff, unsigned char valOn)
+unsigned char CElectrobot::Hysterisis (float vin, unsigned char *etat, float swapOff, float swapOn, unsigned char valOff, unsigned char valOn)
 {
     if (vin <= swapOff) { // seuil bas
         *etat = valOff;

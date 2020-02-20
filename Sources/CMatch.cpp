@@ -141,10 +141,11 @@ void CMatch::step(void)
 	
     //____________________________
     //Variables de l'Ecran ou du switch
-    //if(Application.m_capteurs.m_b_Etor5==1)//jaune
+    //if(Application.m_electrobot.m_b_Etor5==1)//jaune
 
     //____________________________
     //capteurs US
+    /* Ajouté dans IA.cpp
     m_telemetre_AVD=Application.m_telemetres.getDistanceAVD();
     m_telemetre_ARD=Application.m_telemetres.getDistanceARD();
     m_telemetre_AVG=Application.m_telemetres.getDistanceAVG();
@@ -157,7 +158,7 @@ void CMatch::step(void)
 
     // Permet de reconstituer une valeur entre 0 et 15 représentant toutes les situations de blocage
     m_obstacle_detecte_bitfield = (m_obstacle_detecte_ARG << 3) | (m_obstacle_detecte_ARD << 2) | (m_obstacle_detecte_AVG << 1) | (m_obstacle_detecte_AVD << 0);
-
+*/
     //____________________________
     //Variables calculées
     //sens de deplacement: en fonction du signe si + alors marche avant
@@ -170,11 +171,11 @@ void CMatch::step(void)
     //____________________________
 	//Capteurs TOR
     //m_b_Etor1==1 => tirette enlevee
-    //m_ia.m_inputs_interface.Tirette = Application.m_capteurs.m_b_Eana1<2.0f;
-    //_led2 = Application.m_capteurs.m_b_Etor1;
-    m_ia.m_inputs_interface.Tirette = Application.m_capteurs.m_b_Etor1;
+    //m_ia.m_inputs_interface.Tirette = Application.m_electrobot.m_b_Eana1<2.0f;
+    //_led2 = Application.m_electrobot.m_b_Etor1;
+    m_ia.m_inputs_interface.Tirette = Application.m_electrobot.m_b_Etor1;
     /*
-    if((Application.m_capteurs.m_b_Eana1<2.0f)&&(m_tirette_old==0))
+    if((Application.m_electrobot.m_b_Eana1<2.0f)&&(m_tirette_old==0))
     {
         m_tirette_old=1;
     }*/

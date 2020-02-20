@@ -8,7 +8,8 @@
 #include "CAsservissement.h"
 #include "CRoues.h"
 #include "CLaBotBox.h"
-#include "CCapteurs.h"
+//#include "CCapteurs.h"
+#include "CElectrobot.h"
 #include "CLeds.h"
 #include "CLed.h"
 #include "CEEPROM.h"
@@ -64,7 +65,7 @@ public :
     //! La gestion d'Anaconbot
     CLaBotBox m_LaBotBox;
     //! La gestion des capteurs
-    CCapteurs m_capteurs;
+    CElectrobot m_electrobot;
     //! Le gestionnaire d'EEPROM
     CEEPROM m_eeprom;
     //! La gestion des Led
