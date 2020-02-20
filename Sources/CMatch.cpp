@@ -162,12 +162,15 @@ void CMatch::step(void)
     //____________________________
     //Variables calculées
     //sens de deplacement: en fonction du signe si + alors marche avant
+
+/* Gestion dans IA.cpp
     m_sens_deplacement=copysignf(1.0,Application.m_asservissement.erreur_distance);
     m_obstacleDetecte=isObstacle(Application.m_asservissement.X_robot,
                                 Application.m_asservissement.Y_robot,
                                 Application.m_asservissement.angle_robot,
                                 Application.m_asservissement.vitesse_avance_robot,
                                 m_sens_deplacement);
+*/
     //____________________________
 	//Capteurs TOR
     //m_b_Etor1==1 => tirette enlevee
@@ -180,7 +183,15 @@ void CMatch::step(void)
         m_tirette_old=1;
     }*/
 
+/* Déplacé dans IA.cpp
+    m_ia.m_inputs_interface.Convergence         = Application.m_asservissement.convergence_conf;
+    m_ia.m_inputs_interface.Convergence_rapide  = Application.m_asservissement.convergence_rapide;
+    m_ia.m_inputs_interface.ConvergenceRack     = Application.m_asservissement_chariot.isConverged();
+    m_ia.m_inputs_interface.X_robot             = Application.m_asservissement.X_robot;
+    m_ia.m_inputs_interface.Y_robot             = Application.m_asservissement.Y_robot;
+    m_ia.m_inputs_interface.angle_robot         = Application.m_asservissement.angle_robot;
 
+*/
     //____________________________
 	//Variables de l'aservissement
 	

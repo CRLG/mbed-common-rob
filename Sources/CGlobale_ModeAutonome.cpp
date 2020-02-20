@@ -87,6 +87,7 @@ void CGlobale::SequenceurModeAutonome(void)
 	cpt20msec = 0;
 
     m_electrobot.Traitement();
+    m_capteurs.Traitement();
     m_telemetres.Traitement();
     m_asservissement.CalculsMouvementsRobots();
     m_asservissement_chariot.Asser_chariot();

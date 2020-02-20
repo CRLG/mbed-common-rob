@@ -8,7 +8,7 @@
 #include "CAsservissement.h"
 #include "CRoues.h"
 #include "CLaBotBox.h"
-//#include "CCapteurs.h"
+#include "CCapteurs.h"
 #include "CElectrobot.h"
 #include "CLeds.h"
 #include "CLed.h"
@@ -91,6 +91,8 @@ public :
     CTelemetres m_telemetres;
     //! Gestion des détections d'obstacles (à priori l'algo de la classe de base suffit).
     CDetectionObstaclesBase m_detection_obstacles;
+    //! Gestion des capteurs
+    CCapteurs m_capteurs;
 
     //! Gestion de l'asservissement de la sulfateuse
     CAsservissementSulfateuse m_asservissement_sulfateuse;
