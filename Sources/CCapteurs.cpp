@@ -49,7 +49,6 @@ void CCapteurs::Init(void)
   _Etor6.mode(PullUp);
   _Etor_CanRx.mode(PullUp);
   _Etor_CanTx.mode(PullUp);
-  //Init_CapteurCouleur();
 }
 
 
@@ -67,12 +66,7 @@ void CCapteurs::Traitement(void)
   Lecture_dsPIC2();
   AcquisitionEntreesTOR();
   AcquisitionEntreesANA();
-
   TraitementTensionBatterie();
-  //TraitementDepartMatch();
-  //TraitementCapteurRecalageBordure();
-
-  //Lecture_CapteurCouleur();
 }
 
 
@@ -130,25 +124,6 @@ void CCapteurs::TraitementTensionBatterie(void)
 
 //___________________________________________________________________________
  /*!
-   \brief Acquisition et filtrage des capteurs de recalage bordure
-
-   \param --
-   \return --
-*/
-void CCapteurs::TraitementCapteurRecalageBordure(void)
-{
-  //static unsigned char cptRecalageAVD=0;
-  //static unsigned char cptRecalageAVG=0;
-  
-  m_recalage_AVD = !_Etor1.read();
-  m_recalage_AVG = !_Etor2.read();
-}
-
-
-
-
-//___________________________________________________________________________
- /*!
    \brief Lecture des données du dsPIC1
 
    \param --
@@ -158,11 +133,6 @@ void CCapteurs::Lecture_dsPIC1(void)
 {
   unsigned char checksum=0;
   unsigned char i;
-
-  //m_buff[0] = 0x5A;
-  //m_buff[1] = 0x12;
-  //_i2c.write(ADRESSE_I2C_dsPIC1, m_buff, 2);
-  //m_buff[15] = 0;
 
   m_buff[8] = 0xFF; // Pour être certain de ne pas conserver un bon checksum du coup d'avant
   _i2c.read(ADRESSE_I2C_dsPIC1, m_buff, 9);
@@ -249,35 +219,7 @@ void CCapteurs::RAZ_PositionCodeur(unsigned char num_codeur, signed long val /*=
   }
 }
 
-//___________________________________________________________________________
- /*!
-   \brief Acquisition et filtrage des capteurs du suiveur de ligne
 
-   \param --
-   \return --
-*/
-void CCapteurs::TraitementDepartMatch(void)
-{
-  static unsigned int cptAvantDebutMatch=0;
-  static unsigned int cptConfirmationTirette=0;
-/* 
-  if (_Etor3.read()) {
-  	if (cptConfirmationTirette < 0xFFFF) { cptConfirmationTirette++; }
-  }
-  else {
- 	cptConfirmationTirette = 0;
-  }
-*/ 
-  // Met en forme une information pour le match
-  // Comme Minibot n'a pas de tirette mais se sert du fait que 
-  // GrosBot est parti pour partir à son tour, il ne faut pas que Minibot
-  // parte dès qu'on met l'alimentation.
-  // Cette tempo permet de laisser le temps de positionner Minibot correctement
-  if (cptAvantDebutMatch<0xFFFF) { cptAvantDebutMatch++; }
-  DepartMatch = (cptConfirmationTirette > TEMPO_100msec) && (cptAvantDebutMatch > TEMPO_5sec);
- 
-  //_led3 = _Etor3.read();
-}
 
 // _____________________________________________________
 /*!
@@ -342,129 +284,6 @@ unsigned char CCapteurs::Hysterisis (float vin, unsigned char *etat, float swapO
     return *etat;
 }
 
-void CCapteurs::Init_CapteurCouleur(void){
-	m_color_sensor_OK=false;
-	// Connect to the Color sensor and verify the connection
-	char id_regval[1] = {0x92};
-	char data[1] = {0};
-	_i2c.write(ADRESSE_I2C_COLOR_SENSOR,id_regval,1);
-	_i2c.read(ADRESSE_I2C_COLOR_SENSOR,data,1);
-
-	//hack the init with led2
-	if ((data[0] != 0x44) && (data[0] != 0x10))
-	  {
-		m_color_sensor_OK=false;
-		/*for(int j=0;j<5;j++){
-						_led2 = 0;
-						wait_ms (1000);
-						_led2 = 1;
-						wait_ms (1000);
-						}*/
-	  }
-	else{
-
-		m_color_sensor_OK=true;
-		/*for(int j=0;j<10;j++){
-				_led2 = 0;
-				wait_ms (500);
-				_led2 = 1;
-				wait_ms (500);
-				}*/
-	}
-	/*if (data[0]==68)
-	{
-		for(int j=0;j<10;j++){
-		_led2 = 0;
-		wait_ms (500);
-		_led2 = 1;
-		wait_ms (500);
-		}
-	}
-	else{
-		for(int j=0;j<5;j++){
-				_led2 = 0;
-				wait_ms (1000);
-				_led2 = 1;
-				wait_ms (1000);
-				}
-	}*/
-
-	// Initialize color sensor
-
-	char timing_register[2] = {0x81,0};
-	_i2c.write(ADRESSE_I2C_COLOR_SENSOR,timing_register,2);
-
-	char control_register[2] = {0x8F,0};
-	_i2c.write(ADRESSE_I2C_COLOR_SENSOR,control_register,2);
-
-	char enable_register[2] = {0x80,0x03};
-	_i2c.write(ADRESSE_I2C_COLOR_SENSOR,enable_register,2);
-}
-
-void CCapteurs::Lecture_CapteurCouleur(void)
-{
-	// Read data from color sensor (Clear/Red/Green/Blue)
-	// TODO connect the led to a digitalout and enable it
-
-/*
-#define TCS34725_COMMAND_BIT      (0x80)
-
-#define TCS34725_ENABLE           (0x00)
-#define TCS34725_AILTL            (0x04)    // Clear channel lower interrupt threshold
-#define TCS34725_AILTH            (0x05)
-#define TCS34725_AIHTL            (0x06)    // Clear channel upper interrupt threshold
-#define TCS34725_AIHTH            (0x07)
-#define TCS34725_CONFIG           (0x0D)
-#define TCS34725_CONFIG_WLONG     (0x02)    //Choose between short and long (12x) wait times via TCS34725_WTIME
-#define TCS34725_CONTROL          (0x0F)    // Set the gain level for the sensor
-#define TCS34725_ID               (0x12)    // 0x44 = TCS34721/TCS34725, 0x4D = TCS34723/TCS34727
-#define TCS34725_STATUS           (0x13)
-#define TCS34725_STATUS_AINT      (0x10)    // RGBC Clean channel interrupt
-#define TCS34725_STATUS_AVALID    (0x01)    // Indicates that the RGBC channels have completed an integration cycle
-#define TCS34725_CDATAL           (0x14)    // Clear channel data
-#define TCS34725_CDATAH           (0x15)
-#define TCS34725_RDATAL           (0x16)    // Red channel data
-#define TCS34725_RDATAH           (0x17)
-#define TCS34725_GDATAL           (0x18)    // Green channel data
-#define TCS34725_GDATAH           (0x19)
-#define TCS34725_BDATAL           (0x1A)    // Blue channel data
-#define TCS34725_BDATAH           (0x1B)
-*/
-	//clear register
-	char clear_reg[1] = {0x94};
-	char clear_data[2] = {0,0};
-	_i2c.write(ADRESSE_I2C_COLOR_SENSOR,clear_reg,1);
-	_i2c.read(ADRESSE_I2C_COLOR_SENSOR,clear_data,2);
-
-	int clear_value = ((int)clear_data[1] << 8) | clear_data[0];
-
-	//get red value
-	char red_reg[1] = {0x96};
-	char red_data[2] = {0,0};
-	_i2c.write(ADRESSE_I2C_COLOR_SENSOR,red_reg,1);
-	_i2c.read(ADRESSE_I2C_COLOR_SENSOR,red_data,2);
-
-	m_color_sensor_R = ((int)red_data[1] << 8) | red_data[0];
-
-	//get green value
-	char green_reg[1] = {0x98};
-	char green_data[2] = {0,0};
-	_i2c.write(ADRESSE_I2C_COLOR_SENSOR,green_reg,1);
-	_i2c.read(ADRESSE_I2C_COLOR_SENSOR,green_data,2);
-
-	m_color_sensor_G = ((int)green_data[1] << 8) | green_data[0];
-
-	//get blue value
-	char blue_reg[1] = {0x9A};
-	char blue_data[2] = {0,0};
-	_i2c.write(ADRESSE_I2C_COLOR_SENSOR,blue_reg,1);
-	_i2c.read(ADRESSE_I2C_COLOR_SENSOR,blue_data,2);
-
-	m_color_sensor_B = ((int)blue_data[1] << 8) | blue_data[0];
-
-	// print sensor readings
-	//pc.printf("Clear (%d), Red (%d), Green (%d), Blue (%d)\n", clear_value, red_value, green_value, blue_value);
-}
 
 
 

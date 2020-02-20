@@ -985,9 +985,9 @@ void CLaBotBox::SendTramesLaBotBox(void)
     // _____________________________________________
     if (m_COLOR_SENSOR.isTimeToSend())
     {
-        m_COLOR_SENSOR.R=Application.m_capteurs.m_color_sensor_R;
-        m_COLOR_SENSOR.G=Application.m_capteurs.m_color_sensor_G;
-        m_COLOR_SENSOR.B=Application.m_capteurs.m_color_sensor_B;
+        m_COLOR_SENSOR.R=0;//Application.m_capteurs.m_color_sensor_R;
+        m_COLOR_SENSOR.G=0;//Application.m_capteurs.m_color_sensor_G;
+        m_COLOR_SENSOR.B=0;//Application.m_capteurs.m_color_sensor_B;
         SerialiseTrame(	m_COLOR_SENSOR.Encode());
     }
     // _____________________________________________

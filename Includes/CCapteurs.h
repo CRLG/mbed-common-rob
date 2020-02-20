@@ -8,16 +8,11 @@
 #include "CTelemetres.h"
 #include "CdsPIC.h"
 
-#define NBRE_ECH_FILTRAGE_CAPTEURS_US		5
-#define SEUIL_CM_DETECTION_OBSTACLE			30	// [cm]
-                                
 #define TENSION_REF_EANA_MBED	3.3
 
 #define SEUIL_TENSION_BATT_FAIBLE 14.0
 
 #define COEF_TENSION_ANA_dsPIC  (0.075796875)
-
-#define ADRESSE_I2C_COLOR_SENSOR 	0x52
 
 typedef enum {
  CODEUR_1 = 0,
@@ -30,54 +25,6 @@ typedef enum {
 //! Classe de gestion des options d'exécution passees en ligne de commande
 class CCapteurs {
 public :
-	//! Indique si la valeur lue par le capteur
-	float m_suiveurLigne_ARM;
-	//! Indique si la valeur lue par le capteur
-	float m_suiveurLigne_ARG;
-	//! Indique si la valeur lue par le capteur
-	float m_suiveurLigne_ARD;
-
-	//! Indique si le detecteur de ligne milieu voit la ligne ou non
-	unsigned char m_suiveurLigne01_ARM;
-	float m_seuil_suiveurLigne_ARM;
-	//! Indique si le detecteur de ligne gauche voit la ligne ou non
-	unsigned char m_suiveurLigne01_ARG;
-	float m_seuil_suiveurLigne_ARG;
-	//! Indique si le detecteur de ligne droit voit la ligne ou non
-	unsigned char m_suiveurLigne01_ARD;
-	float m_seuil_suiveurLigne_ARD;
-
-	//! Valeurs lues par le cpateur de couleur
-	int m_color_sensor_R;
-	int m_color_sensor_G;
-	int m_color_sensor_B;
-	bool m_color_sensor_OK;
-
-	//! Valeur lue par le capteur ultrason avant
-	float m_ultrason_AV;
-	//! Tableau du filtrage  
-	float m_tabFiltUS_AV[NBRE_ECH_FILTRAGE_CAPTEURS_US];
-	//! Flag d'indication d'un obstacle détecté
-	unsigned char m_obstacleDetecte_AV;
-
-
-	//! Valeur lue par le capteur ultrason arriere
-	float m_ultrason_AR;
-	//! Tableau du filtrage  
-	float m_tabFiltUS_AR[NBRE_ECH_FILTRAGE_CAPTEURS_US];
-	//! Flag d'indication d'un obstacle détecté
-	unsigned char  m_obstacleDetecte_AR;
-
-	//! Flag de recallage AVD
-	unsigned char m_recalage_AVD;
-	//! Flag de recallage AVG
-	unsigned char m_recalage_AVG;
-
-	
-
-	//! Ordre de départ
-	unsigned char DepartMatch;
-
     // Valeurs brutes sur les entrées TOR ("_b" pour "brute")
 	unsigned char m_b_Etor1;
 	unsigned char m_b_Etor2;
@@ -148,13 +95,8 @@ private :
 	void AcquisitionEntreesTOR(void);
 	//! Traitements pour les entrées analogiques du MBED
 	void AcquisitionEntreesANA(void);
-
     //! Traitement pour la mesure de la tension batterie
     void TraitementTensionBatterie(void);
-	//! Traitement ordre de debut de match
-	void TraitementDepartMatch(void);
-	//! Traitement des capteurs de recalage avant
-	void TraitementCapteurRecalageBordure(void);
 
 	//! Lecture des données du dsPIC1
 	void Lecture_dsPIC1(void);
@@ -163,18 +105,9 @@ private :
 
     // ____________________________________________
 	// Fonctions de traitement du signal
-
 	//! Moyenne glissante	
 	float MoyenneGlissante_float(float currentVal, float *buf_oldSamples, unsigned int samplesNumbers);
  	//! Hysterisis
 	unsigned char Hysterisis (float vin, unsigned char *etat, float swapOff, float swapOn, unsigned char valOff, unsigned char valOn);
-
-
-
-
 };
-
-
 #endif
-
-
