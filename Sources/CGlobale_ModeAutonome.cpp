@@ -27,7 +27,7 @@ void CGlobale::ModeAutonome(void)
    m_LaBotBox.setAllTransmitPeriod(200);
    m_messenger_xbee_ntw.start();
 
-   m_match.Initialise();
+   m_modelia.init();
 
    periodicTick.attach(&Application, &CGlobale::IRQ_Tick_ModeAutonome, (float(PERIODE_TICK)/1000.0f));
 
@@ -93,7 +93,7 @@ void CGlobale::SequenceurModeAutonome(void)
     m_asservissement_chariot.Asser_chariot();
 
 	// Execute un pas de calcul du modele
-    m_match.step();
+    m_modelia.step();
  }
 
 
@@ -121,7 +121,7 @@ void CGlobale::SequenceurModeAutonome(void)
 
     // dès que le match est commencé, supprime l'IRQ sur RS232 de l'ecran pour ne pas risquer d'interrompre le match
     // lorsque le match est terminé, ré-active la communication entrante et diffuse à nouveau toutes les trames
-    if (m_match.isMatchEnCours()) {
+    if (m_modelia.isMatchEnCours()) {
         if (m_LaBotBox.isRxEnabled()) {  // Ca permet de détecter un front montant du début de match
             m_LaBotBox.StopRx();
             m_LaBotBox.setAllTransmitPeriod(CTrameLaBotBox::NO_PERIODIC);  // Inhibe toutes les émissions de trames

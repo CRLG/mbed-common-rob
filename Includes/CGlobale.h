@@ -4,7 +4,7 @@
 #ifndef _GLOBALE_H_
 #define _GLOBALE_H_
 
-#include "CMatch.h"
+#include "ia.h"
 #include "CAsservissement.h"
 #include "CRoues.h"
 #include "CLaBotBox.h"
@@ -59,7 +59,7 @@ public :
     unsigned int TempsMaxGonflage;
 
     //! Le match à  jouer
-    CMatch m_match;
+    IA m_modelia;
     //! La gestion des roues gauches et droites
     CRoues m_roues;
     //! La gestion d'Anaconbot

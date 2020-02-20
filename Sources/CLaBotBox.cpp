@@ -810,15 +810,15 @@ void CLaBotBox::CheckReceptionTrame(void)
       switch(m_ETAT_ECRAN.CodeCommande) {
       // _________________________________________
       case LBB_CMDE_CHOIX_EQUIPE : // Choix couleur équipe
-          Application.m_match.m_dde_couleur_equipe = m_ETAT_ECRAN.Valeur;
+          Application.m_modelia.m_inputs_interface.dde_couleur_equipe = m_ETAT_ECRAN.Valeur;
           break;
       // _________________________________________
       case LBB_CMDE_TEST_ACTIONNEURS :
-          Application.m_match.m_dde_test_actionneurs=1;
+          Application.m_modelia.m_inputs_interface.dde_test_actionneurs=1;
           break;
       // _________________________________________
       case LBB_CMDE_CHOIX_NUMERO_STRATEGIE : //Choix de la stratégie
-          Application.m_match.m_dde_choix_strategie = m_ETAT_ECRAN.Valeur;
+          Application.m_modelia.setStrategie(m_ETAT_ECRAN.Valeur);
           break;
       // _______________________
       default :
@@ -950,27 +950,27 @@ void CLaBotBox::SendTramesLaBotBox(void)
     // _____________________________________________
     if (m_ETAT_MATCH.isTimeToSend())
     {
-        m_ETAT_MATCH.TempsMatch = (unsigned char)(Application.m_match.m_duree);
-        m_ETAT_MATCH.CouleurEquipe = Application.m_match.m_couleur_equipe;
+        m_ETAT_MATCH.TempsMatch = (unsigned char)(Application.m_modelia.m_datas_interface.TempsMatch);
+        m_ETAT_MATCH.CouleurEquipe = Application.m_modelia.m_datas_interface.CouleurEquipe;
         m_ETAT_MATCH.ModeFonctionnement = Application.ModeFonctionnement;
-        m_ETAT_MATCH.ObstacleDetecte = Application.m_match.m_obstacleDetecte;
+        m_ETAT_MATCH.ObstacleDetecte = Application.m_modelia.m_inputs_interface.obstacleDetecte;
         m_ETAT_MATCH.ConvergenceAsserv = (Application.m_asservissement.convergence_conf == 1);
         m_ETAT_MATCH.DiagBlocage = Application.m_asservissement.diag_blocage;
-        m_ETAT_MATCH.Score = Application.m_match.m_score_total;
-        m_ETAT_MATCH.ChoixStrategie = Application.m_match.m_choix_strategie;
+        m_ETAT_MATCH.Score = Application.m_modelia.getScore();
+        m_ETAT_MATCH.ChoixStrategie = Application.m_modelia.m_datas_interface.ChoixStrategie;
         SerialiseTrame(	m_ETAT_MATCH.Encode());
     }
     // _____________________________________________
     if (m_ETAT_EVITEMENT_OBSTACLE.isTimeToSend())
     {
-        m_ETAT_EVITEMENT_OBSTACLE.SensDeplacement = Application.m_match.m_sens_deplacement;
-        m_ETAT_EVITEMENT_OBSTACLE.ObstacleBitfield = Application.m_match.m_obstacle_detecte_bitfield;
-        m_ETAT_EVITEMENT_OBSTACLE.NumeroEtape = Application.m_match.m_num_etape_evitement;
-        m_ETAT_EVITEMENT_OBSTACLE.NombreTentatives = Application.m_match.m_nbre_tentatives_evitement;
-        m_ETAT_EVITEMENT_OBSTACLE.EvitementEnCours = Application.m_match.m_evitement_en_cours;
-        m_ETAT_EVITEMENT_OBSTACLE.ObstacleDetecte = Application.m_match.m_obstacleDetecte;
-        m_ETAT_EVITEMENT_OBSTACLE.ObstacleInhibe = Application.m_match.m_inhibe_obstacle;
-        m_ETAT_EVITEMENT_OBSTACLE.ForcageDetectObstacleSansPosition = Application.m_match.m_forcage_detect_obstacle_sans_position;
+        m_ETAT_EVITEMENT_OBSTACLE.SensDeplacement = 0;//Application.m_modelia.m_sens_deplacement;
+        m_ETAT_EVITEMENT_OBSTACLE.ObstacleBitfield = Application.m_modelia.m_datas_interface.evit_detection_obstacle_bitfield;
+        m_ETAT_EVITEMENT_OBSTACLE.NumeroEtape = Application.m_modelia.m_datas_interface.evit_debug_etape;
+        m_ETAT_EVITEMENT_OBSTACLE.NombreTentatives = Application.m_modelia.m_datas_interface.evit_nombre_tentatives;
+        m_ETAT_EVITEMENT_OBSTACLE.EvitementEnCours = Application.m_modelia.m_datas_interface.evit_strategie_evitement_en_cours;
+        m_ETAT_EVITEMENT_OBSTACLE.ObstacleDetecte = Application.m_modelia.m_inputs_interface.obstacleDetecte;
+        m_ETAT_EVITEMENT_OBSTACLE.ObstacleInhibe = Application.m_modelia.m_datas_interface.evit_inhibe_obstacle;
+        m_ETAT_EVITEMENT_OBSTACLE.ForcageDetectObstacleSansPosition = 0;//Application.m_modelia.m_forcage_detect_obstacle_sans_position;
         SerialiseTrame(	m_ETAT_EVITEMENT_OBSTACLE.Encode());
     }
     // _____________________________________________
