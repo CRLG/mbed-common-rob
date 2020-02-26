@@ -951,13 +951,13 @@ void CLaBotBox::SendTramesLaBotBox(void)
     if (m_ETAT_MATCH.isTimeToSend())
     {
         m_ETAT_MATCH.TempsMatch = (unsigned char)(Application.m_modelia.m_datas_interface.TempsMatch);
-        m_ETAT_MATCH.CouleurEquipe = Application.m_modelia.m_datas_interface.CouleurEquipe;
+        m_ETAT_MATCH.CouleurEquipe = Application.m_modelia.m_datas_interface.couleur_equipe;
         m_ETAT_MATCH.ModeFonctionnement = Application.ModeFonctionnement;
         m_ETAT_MATCH.ObstacleDetecte = Application.m_modelia.m_inputs_interface.obstacleDetecte;
         m_ETAT_MATCH.ConvergenceAsserv = (Application.m_asservissement.convergence_conf == 1);
         m_ETAT_MATCH.DiagBlocage = Application.m_asservissement.diag_blocage;
         m_ETAT_MATCH.Score = Application.m_modelia.getScore();
-        m_ETAT_MATCH.ChoixStrategie = Application.m_modelia.m_datas_interface.ChoixStrategie;
+        m_ETAT_MATCH.ChoixStrategie = Application.m_modelia.m_datas_interface.ChoixStrategieMatch;
         SerialiseTrame(	m_ETAT_MATCH.Encode());
     }
     // _____________________________________________
