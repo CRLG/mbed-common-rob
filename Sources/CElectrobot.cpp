@@ -49,6 +49,11 @@ void CElectrobot::Init(void)
   _Etor6.mode(PullUp);
   _Etor_CanRx.mode(PullUp);
   _Etor_CanTx.mode(PullUp);
+  /*_Etor6.rise(this, &CElectrobot::risePWM);
+  _Etor6.fall(this, &CElectrobot::fallPWM);
+  _period = 0.0;
+  _pulsewidth = 0.0;
+  _Timer_PWM_In.start();*/
 }
 
 
@@ -87,6 +92,7 @@ void CElectrobot::AcquisitionEntreesTOR(void)
   m_b_Etor6 		= _Etor6.read();
   m_b_Etor_CanRx 	= _Etor_CanRx.read();
   m_b_Etor_CanTx 	= _Etor_CanTx.read();
+  //m_b_Etor_pwm_in   = readPWM();
 }
 
 
@@ -284,7 +290,25 @@ unsigned char CElectrobot::Hysterisis (float vin, unsigned char *etat, float swa
     return *etat;
 }
 
+/*
+ * unsigned char CElectrobot::readPWM() {
+    unsigned char uc_PWM_in=255;
+    if(_period!=0.)
+    {
+        uc_PWM_in = (unsigned char) (255*(_pulsewidth / _period));
+    }
 
+    return uc_PWM_in;
+}
 
+void CElectrobot::risePWM() {
+    _period = _Timer_PWM_In.read();
+    _Timer_PWM_In.reset();
+}
+
+void CElectrobot::fallPWM() {
+    _pulsewidth = _Timer_PWM_In.read();
+}
+*/
 
 

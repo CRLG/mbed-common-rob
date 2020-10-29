@@ -33,6 +33,7 @@ public :
 	unsigned char m_b_Etor6;
 	unsigned char m_b_Etor_CanRx;
 	unsigned char m_b_Etor_CanTx;
+    //unsigned char m_b_Etor_pwm_in;
 
     // Valeurs brutes sur les entrées analogiques
 	float m_b_Mes_Vbat;
@@ -87,6 +88,8 @@ public :
 	void Lecture_CapteurCouleur(void);
 private : 
 
+    float _pulsewidth, _period;
+
     //init du capteur couleur
     void Init_CapteurCouleur(void);
 
@@ -107,6 +110,11 @@ private :
 	//! Moyenne glissante	
 	float MoyenneGlissante_float(float currentVal, float *buf_oldSamples, unsigned int samplesNumbers);
  	//! Hysterisis
-	unsigned char Hysterisis (float vin, unsigned char *etat, float swapOff, float swapOn, unsigned char valOff, unsigned char valOn);
+    unsigned char Hysterisis (float vin, unsigned char *etat, float swapOff, float swapOn, unsigned char valOff, unsigned char valOn);
+    /*
+    unsigned char readPWM();
+    void risePWM();
+    void fallPWM();
+    */
 };
 #endif

@@ -105,7 +105,10 @@ void CGlobale::SequenceurModePiloteTerminal(void)
   cpt50msec++;
   if (cpt50msec >= TEMPO_50msec) {
   	cpt50msec = 0;
-							
+    /*
+    _rs232_pc_tx.printf("%c", 0xc);
+    _rs232_pc_tx.printf("Distance (cm) %d\n\r", m_electrobot.m_b_Etor_pwm_in);
+    */
   }
 
   // ______________________________
@@ -113,7 +116,6 @@ void CGlobale::SequenceurModePiloteTerminal(void)
   if (cpt100msec >= TEMPO_100msec) {
   	cpt100msec = 0;
 	//SendTramesEcran();
-
   }
 
   // ______________________________
@@ -121,26 +123,27 @@ void CGlobale::SequenceurModePiloteTerminal(void)
   if (cpt200msec >= TEMPO_200msec) {
   	cpt200msec = 0;
 
-	_rs232_pc_tx.printf("%c", 0xc);
-	/*_rs232_pc_tx.printf("Entrees Etor = %d %d %d %d %d %d %d %d\n\r",
+    /*_rs232_pc_tx.printf("%c", 0xc);
+    _rs232_pc_tx.printf("Entrees Etor = %d %d %d %d %d %d %d %d\n\r",
 				m_electrobot.m_b_Etor1,
 				m_electrobot.m_b_Etor2,
 				m_electrobot.m_b_Etor3,
 				m_electrobot.m_b_Etor4,
 				m_electrobot.m_b_Etor5,
-				m_electrobot.m_b_Etor6,
+                //m_electrobot.m_b_Etor6,
                 m_electrobot.m_b_Etor_CanRx,
-                m_electrobot.m_b_Etor_CanTx
-				);
-*/
-	_rs232_pc_tx.printf("Entrees Eana MBED = %f %f %f %f %f %f\n\r",
+                m_electrobot.m_b_Etor_CanTx,
+                m_electrobot.m_b_Etor_pwm_in
+                );*/
+
+    /*_rs232_pc_tx.printf("Entrees Eana MBED = %f %f %f %f %f %f\n\r",
 			Application.m_electrobot.m_b_Mes_Vbat,
 			Application.m_electrobot.m_b_Eana1,
 			Application.m_electrobot.m_b_Eana2,
 			Application.m_electrobot.m_b_Eana3,
 			Application.m_electrobot.m_b_Eana4,
 			Application.m_electrobot.m_b_Eana5
-				);
+                );*/
 /*
 	_rs232_pc_tx.printf("Entrees Eana dsPIC1 = %.3f %.3f %.3f %.3f\n\r", 
 				m_electrobot.m_b_Eana6,
@@ -156,10 +159,10 @@ void CGlobale::SequenceurModePiloteTerminal(void)
 				m_electrobot.m_b_Eana13
 				);*/
 
- 	_rs232_pc_tx.printf("Tension batterie = %.2f [V] / %s\n\r", 
+    /*_rs232_pc_tx.printf("Tension batterie = %.2f [V] / %s\n\r",
  			Application.m_electrobot.m_tension_batterie,
 				((m_electrobot.m_alerte_batterie_faible==0)?"OK":"! Batterie faible")
-                );
+                );*/
 	/*_rs232_pc_tx.printf("Codeurs brut = %d %d %d %d\n\r",
 				m_electrobot.m_CodeurPosition1,
 				m_electrobot.m_CodeurPosition2,
