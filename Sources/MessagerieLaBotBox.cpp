@@ -1311,6 +1311,70 @@ void CTrameLaBotBox_CONFIG_PERIODE_TRAME::Decode(tStructTrameLaBotBox *trameRecu
   m_nombre_recue++;
 }
 
+// ========================================================
+//             TRAME MBED_CMDE
+// ========================================================
+CTrameLaBotBox_MBED_CMDE::CTrameLaBotBox_MBED_CMDE()
+{
+    m_trame_brute.ID = ID_MBED_CMDE;
+    m_trame_brute.DLC = DLC_MBED_CMDE;
+}
+
+//___________________________________________________________________________
+/*!
+  \brief Encode et envoie la trame
+*/
+void CTrameLaBotBox_MBED_CMDE::Decode(tStructTrameLaBotBox *trameRecue)
+{
+    Valeur_04 = ( ((short)(trameRecue->Data[7])) & 0xFF);
+    Valeur_03 = ( ((short)(trameRecue->Data[6])) & 0xFF) ;
+
+    Valeur_02 = ( ( ((short)(trameRecue->Data[5])) & 0xFF) )  |  ( ( ((short)(trameRecue->Data[4])) & 0xFF) << 8 );
+
+    Valeur_01 = ( ( ((short)(trameRecue->Data[3])) & 0xFF) )  |  ( ( ((short)(trameRecue->Data[2])) & 0xFF) << 8 );
+
+    CodeCommande = ( ( ((unsigned short)(trameRecue->Data[1])) & 0xFF) )  |  ( ( ((unsigned short)(trameRecue->Data[0])) & 0xFF) << 8 );
+
+    m_new_trame = true;
+    m_nombre_recue++;
+}
+
+// ========================================================
+//             TRAME MBED_ETAT
+// ========================================================
+CTrameLaBotBox_MBED_ETAT::CTrameLaBotBox_MBED_ETAT()
+{
+    m_trame_brute.ID = ID_MBED_ETAT;
+    m_trame_brute.DLC = DLC_MBED_ETAT;
+}
+//___________________________________________________________________________
+/*!
+  \brief Decode les signaux de la trame
+  \param trameRecue la trame brute recue a decoder
+*/
+tStructTrameLaBotBox* CTrameLaBotBox_MBED_ETAT::Encode(void)
+{
+    unsigned char i=0;
+
+    for (i=0; i<DLC_MBED_ETAT; i++) {
+      m_trame_brute.Data[i] = 0;
+    }
+
+    // Encode chacun des signaux de la trame
+    m_trame_brute.Data[7] |= (unsigned char)( ( (Valeur_mbed_etat_04) & 0xFF) );
+    m_trame_brute.Data[6] |= (unsigned char)( ( (Valeur_mbed_etat_03) & 0xFF) );
+
+    m_trame_brute.Data[5] |= (unsigned char)( ( (Valeur_mbed_etat_02) & 0xFF) );
+    m_trame_brute.Data[4] |= (unsigned char)( ( (Valeur_mbed_etat_02 >> 8) & 0xFF) );
+
+    m_trame_brute.Data[3] |= (unsigned char)( ( (Valeur_mbed_etat_01) & 0xFF) );
+    m_trame_brute.Data[2] |= (unsigned char)( ( (Valeur_mbed_etat_01 >> 8) & 0xFF) );
+
+    m_trame_brute.Data[1] |= (unsigned char)( ( (Cde_mbed_etat) & 0xFF) );
+    m_trame_brute.Data[0] |= (unsigned char)( ( (Cde_mbed_etat >> 8) & 0xFF) );
+
+    return(&m_trame_brute);
+}
 
 /*! @} */
 

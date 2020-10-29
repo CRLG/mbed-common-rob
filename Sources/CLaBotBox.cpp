@@ -842,6 +842,10 @@ void CLaBotBox::CheckReceptionTrame(void)
           }
       }
   }
+  // ___________________________
+  if (m_MBED_CMDE_TRAME.isNewTrame()){
+      Application.m_distance_camera=m_MBED_CMDE_TRAME.Valeur_01;
+  }
 }
 
 
@@ -998,6 +1002,13 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_POWER_ELECTROBOT.current_out1_mA = Application.m_power_electrobot.getRawCurrentOut1();
         m_ETAT_POWER_ELECTROBOT.current_out2_mA = Application.m_power_electrobot.getRawCurrentOut2();
         SerialiseTrame(m_ETAT_POWER_ELECTROBOT.Encode());
+    }
+    // _____________________________________________
+    if (m_MBED_ETAT_TRAME.isTimeToSend())
+    {
+        //m_MBED_ETAT_TRAME.Valeur_mbed_etat_01=
+
+        SerialiseTrame(m_MBED_ETAT_TRAME.Encode());
     }
 }
 

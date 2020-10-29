@@ -197,6 +197,8 @@ public :
     CTrameLaBotBox_ETAT_RACK                    m_ETAT_RACK;
     CTrameLaBotBox_ELECTROBOT_COLOR_SENSOR      m_COLOR_SENSOR;
     CTrameLaBotBox_CONFIG_PERIODE_TRAME         m_CONFIG_PERIODE_TRAME;
+    CTrameLaBotBox_MBED_CMDE                    m_MBED_CMDE_TRAME;
+    CTrameLaBotBox_MBED_ETAT                    m_MBED_ETAT_TRAME;
 
 private : 
     //! Autorise la réception de données en IRQ en provenance de Labotbox

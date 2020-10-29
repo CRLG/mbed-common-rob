@@ -53,6 +53,8 @@
 #define ID_ETAT_MATCH 0x41
 #define ID_ETAT_EVITEMENT_OBSTACLE 0x42
 #define ID_CONFIG_PERIODE_TRAME 0x108
+#define ID_MBED_CMDE 0x95
+#define ID_MBED_ETAT 0x96
 
 #define DLC_COMMANDE_POWER_ELECTROBOT 4
 #define DLC_ETAT_POWER_ELECTROBOT 8
@@ -86,6 +88,8 @@
 #define DLC_ETAT_MATCH 6
 #define DLC_ETAT_EVITEMENT_OBSTACLE 8
 #define DLC_CONFIG_PERIODE_TRAME 4
+#define DLC_MBED_CMDE 8
+#define DLC_MBED_ETAT 8
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
 #define PHYS2BRUTE_valeur_commande_sd20(val) (unsigned short)( (val - (0.000000)) / (1.000000) ) 
@@ -295,7 +299,12 @@
 #define PHYS2BRUTE_current_out1(val) (unsigned char)( (val - (0.000000)) / (0.001000) )
 #define BRUTE2PHYS_current_out2(val) ( ((float)val * (0.001000)) + (0.000000) )
 #define PHYS2BRUTE_current_out2(val) (unsigned char)( (val - (0.000000)) / (0.001000) )
-
+#define BRUTE2PHYS_cde_mbed_char(val) ( ((float)val * (1.000000)) + (0.000000) )
+#define PHYS2BRUTE_cde_mbed_char(val) (char)( (val - (0.000000)) / (1.000000) )
+#define BRUTE2PHYS_code_mbed_etat(val) ( ((float)val * (1.000000)) + (0.000000) )
+#define PHYS2BRUTE_code_mbed_etat(val) (unsigned short)( (val - (0.000000)) / (1.000000) )
+#define BRUTE2PHYS_valeur_mbed_etat(val) ( ((float)val * (1.000000)) + (0.000000) )
+#define PHYS2BRUTE_valeur_mbed_etat(val) (short)( (val - (0.000000)) / (1.000000) )
 
 // -----------------------------
 //! Classe de base pour les trames CAN
@@ -741,7 +750,7 @@ public :
 };
 
 // -----------------------------
-//! Classe de base pour les trames CAN
+//! Classe pour la messagerie de rack (ascenseur,...)
 class CTrameLaBotBox_ETAT_RACK : public CTrameLaBotBox {
 public :
 	//! Les signaux de la messagerie
@@ -756,7 +765,7 @@ public :
 };
 
 // -----------------------------
-//! Classe de base pour les trames CAN
+//! Classe pour la messagerie d'un capteur de couleur
 class CTrameLaBotBox_ELECTROBOT_COLOR_SENSOR : public CTrameLaBotBox {
 public :
 	//! Les signaux de la messagerie
@@ -781,6 +790,39 @@ public :
 };
 
 
+// ========================================================
+//             TRAME MBED_CMDE
+// ========================================================
+class CTrameLaBotBox_MBED_CMDE : public CTrameLaBotBox
+{
+public :
+    //! Les signaux de la messagerie
+    short Valeur_01;
+    short Valeur_02;
+    char Valeur_03;
+    char Valeur_04;
+    unsigned short CodeCommande;
+
+    CTrameLaBotBox_MBED_CMDE();
+    void Decode(tStructTrameLaBotBox* trameRecue);
+};
+
+// ========================================================
+//             TRAME MBED_ETAT
+// ========================================================
+class CTrameLaBotBox_MBED_ETAT : public CTrameLaBotBox
+{
+public :
+    //! Les signaux de la messagerie
+    short Valeur_mbed_etat_01;
+    short Valeur_mbed_etat_02;
+    char Valeur_mbed_etat_03;
+    char Valeur_mbed_etat_04;
+    unsigned short Cde_mbed_etat;
+
+    CTrameLaBotBox_MBED_ETAT();
+    tStructTrameLaBotBox* Encode(void);
+};
 #endif
 /*! @} */
 

@@ -20,6 +20,7 @@ CGlobale::CGlobale()
       m_leds(&m_led1, &m_led2, &m_led3, &m_led4)
 {
     ModeFonctionnement = MODE_AUTONOME;
+    m_distance_camera=0;
 }
 
 //___________________________________________________________________________
@@ -129,6 +130,7 @@ void CGlobale::readEEPROM()
     m_eeprom.getValue("compteur_max", &(m_asservissement.compteur_max));
     m_eeprom.getValue("zone_morte_D", &(m_asservissement.zone_morte_D));
     m_eeprom.getValue("zone_morte_G", &(m_asservissement.zone_morte_G));
+    m_eeprom.getValue("id_perf", &(m_asservissement.Ind_perfo));
 
     m_eeprom.getValue("rackCommandeMax", &(m_asservissement_chariot.commande_chariot_max_C));
     m_eeprom.getValue("rackGainPosVit", &(m_asservissement_chariot.gain_position_vitesse_C));

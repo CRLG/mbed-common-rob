@@ -105,6 +105,9 @@ public :
     //debug
     float m_x_debug, m_y_debug, m_teta_debug;
 
+    //camera
+    int m_distance_camera;
+
 
     CGlobale();
     ~CGlobale();
