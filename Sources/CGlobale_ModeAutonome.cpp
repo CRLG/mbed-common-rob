@@ -126,6 +126,7 @@ void CGlobale::SequenceurModeAutonome(void)
             m_LaBotBox.StopRx();
             m_LaBotBox.setAllTransmitPeriod(CTrameLaBotBox::NO_PERIODIC);  // Inhibe toutes les émissions de trames
             m_LaBotBox.m_ETAT_MATCH.setTransmitPeriod(200);                // sauf la trame spécifique match
+            m_LaBotBox.m_MBED_ETAT_TRAME.setTransmitPeriod(200);
             m_LaBotBox.m_POSITION_ABSOLUE_XY_TETA.setTransmitPeriod(500);
         }
     }
