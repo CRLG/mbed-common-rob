@@ -843,20 +843,13 @@ void CLaBotBox::CheckReceptionTrame(void)
       }
   }
   // ___________________________
-  if (m_MBED_CMDE_TRAME.isNewTrame()){
-      switch(m_MBED_CMDE_TRAME.CodeCommande)
-      {
-      case 0:
-          Application.m_modelia.m_inputs_interface.m_distance_balise1=m_MBED_CMDE_TRAME.Valeur_01;
-          Application.m_modelia.m_inputs_interface.m_distance_balise2=m_MBED_CMDE_TRAME.Valeur_02;
-          break;
-      case 1:
-          Application.m_modelia.m_inputs_interface.m_nord=m_MBED_CMDE_TRAME.Valeur_03;
-          Application.m_modelia.m_inputs_interface.m_sud=m_MBED_CMDE_TRAME.Valeur_04;
-          break;
-      default: break;
-      }
-
+  if (m_MBED_CMDE_TRAME.isNewTrame())
+  {
+      Application.m_modelia.m_datas_interface.m_rx_code_cmd=m_MBED_CMDE_TRAME.CodeCommande;
+      Application.m_modelia.m_datas_interface.m_rx_value_01=m_MBED_CMDE_TRAME.Valeur_01;
+      Application.m_modelia.m_datas_interface.m_rx_value_02=m_MBED_CMDE_TRAME.Valeur_02;
+      Application.m_modelia.m_datas_interface.m_rx_value_03=m_MBED_CMDE_TRAME.Valeur_03;
+      Application.m_modelia.m_datas_interface.m_rx_value_04=m_MBED_CMDE_TRAME.Valeur_04;
   }
 }
 
@@ -1018,11 +1011,11 @@ void CLaBotBox::SendTramesLaBotBox(void)
     // _____________________________________________
     if (m_MBED_ETAT_TRAME.isTimeToSend())
     {
-        m_MBED_ETAT_TRAME.Valeur_mbed_etat_01=Application.m_modelia.m_datas_interface.m_gen_value_01;
-        m_MBED_ETAT_TRAME.Valeur_mbed_etat_02=Application.m_modelia.m_datas_interface.m_gen_value_02;
-        m_MBED_ETAT_TRAME.Valeur_mbed_etat_03=Application.m_modelia.m_datas_interface.m_gen_value_03;
-        m_MBED_ETAT_TRAME.Valeur_mbed_etat_04=Application.m_modelia.m_datas_interface.m_gen_value_04;
-        m_MBED_ETAT_TRAME.Cde_mbed_etat=Application.m_modelia.m_datas_interface.m_gen_code_cmd;
+        m_MBED_ETAT_TRAME.Valeur_mbed_etat_01=Application.m_modelia.m_datas_interface.m_tx_value_01;
+        m_MBED_ETAT_TRAME.Valeur_mbed_etat_02=Application.m_modelia.m_datas_interface.m_tx_value_02;
+        m_MBED_ETAT_TRAME.Valeur_mbed_etat_03=Application.m_modelia.m_datas_interface.m_tx_value_03;
+        m_MBED_ETAT_TRAME.Valeur_mbed_etat_04=Application.m_modelia.m_datas_interface.m_tx_value_04;
+        m_MBED_ETAT_TRAME.Cde_mbed_etat=Application.m_modelia.m_datas_interface.m_tx_code_cmd;
         SerialiseTrame(m_MBED_ETAT_TRAME.Encode());
     }
 }
