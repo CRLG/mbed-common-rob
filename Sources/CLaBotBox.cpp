@@ -1026,12 +1026,15 @@ void CLaBotBox::SendTramesLaBotBox(void)
         // Si aucun servo n'a été détecté,
         for(unsigned int i=0; i<Application.m_servos_ax.m_present_count; i++)
         {
-            unsigned char servo_id = Application.m_servos_ax.m_presents_list[i]; // pour essayer. A terme, il faudra une liste de tous les servos AX utilisés sur le robot
-            m_ETAT_SERVO_AX.num_servo_ax = servo_id;
-            m_ETAT_SERVO_AX.position = Application.m_servos_ax.getPosition(servo_id);
-            m_ETAT_SERVO_AX.mouvement_en_cours = Application.m_servos_ax.isMoving(servo_id);
+            int servo_id = Application.m_servos_ax.m_presents_list[i];
+            if (servo_id != -1) {
+                m_ETAT_SERVO_AX.num_servo_ax = servo_id;
+                m_ETAT_SERVO_AX.position = Application.m_servos_ax.getPosition(servo_id);
+                m_ETAT_SERVO_AX.mouvement_en_cours = Application.m_servos_ax.isMoving(servo_id);
 
-            SerialiseTrame(m_ETAT_SERVO_AX.Encode());
+                SerialiseTrame(m_ETAT_SERVO_AX.Encode());
+            }
+
         }
 
     }

@@ -36,7 +36,7 @@ public:
 
     tAxErr Init();
 
-    unsigned char m_presents_list[NBRE_SERVOS_AX];    // list all AX detected when checkPresents() called
+    int m_presents_list[NBRE_SERVOS_AX];    // list all AX detected when checkPresents() called
     unsigned char m_present_count;
 
 private :
