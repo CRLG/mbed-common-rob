@@ -83,6 +83,49 @@ void CTrameLaBotBox::setTransmitPeriod(short period_msec)
 
 //___________________________________________________________________________
  /*!
+   \brief Encode une donnée 8 bits dans le buffer
+   \param buff : le buffer de destination
+   \param position : position de la data dans le buffer
+   \param data : la valeur à encoder
+   \return --
+*/
+void CTrameLaBotBox::encode_int8(unsigned char *buff, unsigned char position, unsigned char data)
+{
+    buff[position] = data;
+}
+
+//___________________________________________________________________________
+ /*!
+   \brief Encode une donnée 16 bits dans le buffer
+   \param buff : le buffer de destination
+   \param position : position de la data dans le buffer
+   \param data : la valeur à encoder
+   \return --
+*/
+void CTrameLaBotBox::encode_int16(unsigned char *buff, unsigned char position, unsigned short data)
+{
+    buff[position]      = (data >> 8)&0xFF;
+    buff[position+1]    = (data&0xFF);
+}
+//___________________________________________________________________________
+ /*!
+   \brief Encode une donnée 16 bits dans le buffer
+   \param buff : le buffer de destination
+   \param position : position de la data dans le buffer
+   \param data : la valeur à encoder
+   \return --
+*/
+void CTrameLaBotBox::encode_int32(unsigned char *buff, unsigned char position, unsigned long data)
+{
+    buff[position]      = (data >> 24)&0xFF;
+    buff[position+1]    = (data >> 16)&0xFF;
+    buff[position+2]    = (data >> 8)&0xFF;
+    buff[position+3]    = (data&0xFF);
+}
+
+
+//___________________________________________________________________________
+ /*!
    \brief Vérifie s'il est l'heure d'émettre la trame périodique
    \param --
    \return true si l'heure est venue d'émettre la trame / false sinon
