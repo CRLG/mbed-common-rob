@@ -3,7 +3,7 @@
 
 #include "servoaxbase.h"
 
-#define NBRE_SERVOS_AX 253
+#define NBRE_SERVOS_AX      (253)
 
 class CServoMoteurAX : public ServoAXBase
 {
@@ -32,7 +32,12 @@ public:
     virtual tAxErr setLimitPositionMin(unsigned char id, unsigned short pos);
     virtual tAxErr setLimitPositionMax(unsigned char id, unsigned short pos);
 
+    virtual tAxErr checkPresents(unsigned char max_id=NBRE_SERVOS_AX);
+
     tAxErr Init();
+
+    unsigned char m_presents_list[NBRE_SERVOS_AX];    // list all AX detected when checkPresents() called
+    unsigned char m_present_count;
 
 private :
     tAxErr readEEPROM();

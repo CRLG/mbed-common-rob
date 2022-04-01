@@ -147,6 +147,16 @@ tAxErr CServoMoteurAX::setLimitPositionMax(unsigned char id, unsigned short pos)
 
 
 
+// ____________________________________________________________
+// Detect all AX servo present
+tAxErr CServoMoteurAX::checkPresents(unsigned char max_id)
+{
+    m_present_count = 0;
+    for (unsigned char i=0; i<=max_id; i++)
+    {
+        if (isPresent(i)) m_presents_list[m_present_count++] = i;
+    }
+}
 
 // ______________________________________________________________
 tAxErr CServoMoteurAX::Init(void)
@@ -156,6 +166,10 @@ tAxErr CServoMoteurAX::Init(void)
 
     setTxEnable(false);
     _ax12_serial.baud(1000000);
+
+    for (unsigned char i=0; i<=NBRE_SERVOS_AX; i++) m_presents_list[i] = -1;  // par défaut, aucun n'est détecté
+    m_present_count = 0;
+    checkPresents(20); // limite la recherche aux 20 premiers ID
 
     return err;
 }
