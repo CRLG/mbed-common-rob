@@ -1376,5 +1376,36 @@ tStructTrameLaBotBox* CTrameLaBotBox_MBED_ETAT::Encode(void)
     return(&m_trame_brute);
 }
 
+// ========================================================
+//             TRAME ETAT_SERVO_AX
+// ========================================================
+CTrameLaBotBox_ETAT_SERVO_AX::CTrameLaBotBox_ETAT_SERVO_AX()
+{
+    m_trame_brute.ID = ID_ETAT_SERVO_AX;
+    m_trame_brute.DLC = DLC_ETAT_SERVO_AX;
+}
+//___________________________________________________________________________
+/*!
+  \brief Decode les signaux de la trame
+  \param trameRecue la trame brute recue a decoder
+*/
+tStructTrameLaBotBox* CTrameLaBotBox_ETAT_SERVO_AX::Encode(void)
+{
+    unsigned char i=0;
+
+    for (i=0; i<DLC_ETAT_SERVO_AX; i++) {
+      m_trame_brute.Data[i] = 0;
+    }
+
+    // Encode chacun des signaux de la trame
+    encode_int8(m_trame_brute.Data,     0,  num_servo_ax);
+    encode_int16(m_trame_brute.Data,    1,  position);
+    encode_int8(m_trame_brute.Data,     3,  temperature);
+    encode_int16(m_trame_brute.Data,    4,  couple);
+    encode_int8(m_trame_brute.Data,     6,  mouvement_en_cours);
+
+    return(&m_trame_brute);
+}
+
 /*! @} */
 

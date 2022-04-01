@@ -55,6 +55,7 @@
 #define ID_CONFIG_PERIODE_TRAME 0x108
 #define ID_MBED_CMDE 0x95
 #define ID_MBED_ETAT 0x96
+#define ID_ETAT_SERVO_AX 0x97
 
 #define DLC_COMMANDE_POWER_ELECTROBOT 4
 #define DLC_ETAT_POWER_ELECTROBOT 8
@@ -90,6 +91,8 @@
 #define DLC_CONFIG_PERIODE_TRAME 4
 #define DLC_MBED_CMDE 8
 #define DLC_MBED_ETAT 8
+#define DLC_ETAT_SERVO_AX 8
+
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
 #define PHYS2BRUTE_valeur_commande_sd20(val) (unsigned short)( (val - (0.000000)) / (1.000000) ) 
@@ -823,6 +826,25 @@ public :
     CTrameLaBotBox_MBED_ETAT();
     tStructTrameLaBotBox* Encode(void);
 };
+
+
+// ========================================================
+//             TRAME ETAT_SERVO_AX
+// ========================================================
+class CTrameLaBotBox_ETAT_SERVO_AX : public CTrameLaBotBox
+{
+public :
+    //! Les signaux de la messagerie
+    unsigned char num_servo_ax;
+    unsigned short position;
+    unsigned char temperature;
+    unsigned short couple;
+    unsigned char mouvement_en_cours;
+
+    CTrameLaBotBox_ETAT_SERVO_AX();
+    tStructTrameLaBotBox* Encode(void);
+};
+
 #endif
 /*! @} */
 
