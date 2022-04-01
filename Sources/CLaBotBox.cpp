@@ -75,6 +75,7 @@ void CLaBotBox::initListeTrames()
     m_liste_trames[m_nombre_trames++] = &m_ETAT_RACK;
     m_liste_trames[m_nombre_trames++] = &m_COLOR_SENSOR;
     m_liste_trames[m_nombre_trames++] = &m_CONFIG_PERIODE_TRAME;
+    m_liste_trames[m_nombre_trames++] = &m_ETAT_SERVO_AX;
 }
 
 
@@ -1017,6 +1018,22 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_MBED_ETAT_TRAME.Valeur_mbed_etat_04=Application.m_modelia.m_datas_interface.m_tx_value_04;
         m_MBED_ETAT_TRAME.Cde_mbed_etat=Application.m_modelia.m_datas_interface.m_tx_code_cmd;
         SerialiseTrame(m_MBED_ETAT_TRAME.Encode());
+    }
+    // _____________________________________________
+    if (m_ETAT_SERVO_AX.isTimeToSend())
+    {
+        // Envoie tous les servos détectés au démarrage, à la suite
+        // Si aucun servo n'a été détecté,
+        for(unsigned int i=0; i<Application.m_servos_ax.m_present_count; i++)
+        {
+            unsigned char servo_id = Application.m_servos_ax.m_presents_list[i]; // pour essayer. A terme, il faudra une liste de tous les servos AX utilisés sur le robot
+            m_ETAT_SERVO_AX.num_servo_ax = servo_id;
+            m_ETAT_SERVO_AX.position = Application.m_servos_ax.getPosition(servo_id);
+            m_ETAT_SERVO_AX.mouvement_en_cours = Application.m_servos_ax.isMoving(servo_id);
+
+            SerialiseTrame(m_ETAT_SERVO_AX.Encode());
+        }
+
     }
 }
 
