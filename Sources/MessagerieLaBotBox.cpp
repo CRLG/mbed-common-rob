@@ -1407,5 +1407,29 @@ tStructTrameLaBotBox* CTrameLaBotBox_ETAT_SERVO_AX::Encode(void)
     return(&m_trame_brute);
 }
 
+// ========================================================
+//             TRAME COMMANDE_KMAR
+// ========================================================
+CTrameLaBotBox_COMMANDE_KMAR::CTrameLaBotBox_COMMANDE_KMAR()
+{
+    m_trame_brute.ID = ID_COMMANDE_KMAR;
+    m_trame_brute.DLC = DLC_COMMANDE_KMAR;
+}
+
+//___________________________________________________________________________
+/*!
+  \brief Encode et envoie la trame
+*/
+void CTrameLaBotBox_COMMANDE_KMAR::Decode(tStructTrameLaBotBox *trameRecue)
+{
+
+    num_kmar = decode_int8(trameRecue->Data, 0);
+    cmd_kmar = decode_int16(trameRecue->Data, 1);
+    value_cmd_kmar = decode_int16(trameRecue->Data, 3);
+
+    m_new_trame = true;
+    m_nombre_recue++;
+}
+
 /*! @} */
 

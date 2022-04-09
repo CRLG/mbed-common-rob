@@ -23,6 +23,7 @@
 // Enumérés, defines, ...
 #define ID_COMMANDE_POWER_ELECTROBOT 0x60
 #define ID_ETAT_POWER_ELECTROBOT 0x62
+#define ID_COMMANDE_KMAR 0x55
 #define ID_ELECTROBOT_CDE_POWER_SWITCH 0x54
 #define ID_ELECTROBOT_CDE_SERVOS_SD20 0x53
 #define ID_ELECTROBOT_CDE_SERVOS_AX 0x52
@@ -92,7 +93,7 @@
 #define DLC_MBED_CMDE 8
 #define DLC_MBED_ETAT 8
 #define DLC_ETAT_SERVO_AX 8
-
+#define DLC_COMMANDE_KMAR 5
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
 #define PHYS2BRUTE_valeur_commande_sd20(val) (unsigned short)( (val - (0.000000)) / (1.000000) ) 
@@ -844,6 +845,29 @@ public :
     CTrameLaBotBox_ETAT_SERVO_AX();
     tStructTrameLaBotBox* Encode(void);
 };
+
+// ========================================================
+//             TRAME COMMANDE_KMAR
+// ========================================================
+class CTrameLaBotBox_COMMANDE_KMAR : public CTrameLaBotBox
+{
+public :
+    //! Les signaux de la messagerie
+    unsigned char num_kmar;
+    unsigned short cmd_kmar;
+    unsigned short value_cmd_kmar;
+
+    typedef enum {
+        KMAR_CMD_MOUVEMENT      = 1,
+        KMAR_CMD_VITESSE        = 2,
+        KMAR_CMD_DISARM         = 3
+    }KmarCmd;
+
+    CTrameLaBotBox_COMMANDE_KMAR();
+    void Decode(tStructTrameLaBotBox* trameRecue);
+};
+
+
 
 #endif
 /*! @} */

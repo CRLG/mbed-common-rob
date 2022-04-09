@@ -96,7 +96,7 @@ void CTrameLaBotBox::encode_int8(unsigned char *buff, unsigned char position, un
 
 //___________________________________________________________________________
  /*!
-   \brief Encode une donnée 16 bits dans le buffer
+   \brief Encode une donnée 16 bits dans le buffer (MSB first)
    \param buff : le buffer de destination
    \param position : position de la data dans le buffer
    \param data : la valeur à encoder
@@ -109,7 +109,7 @@ void CTrameLaBotBox::encode_int16(unsigned char *buff, unsigned char position, u
 }
 //___________________________________________________________________________
  /*!
-   \brief Encode une donnée 16 bits dans le buffer
+   \brief Encode une donnée 32 bits dans le buffer (MSB first)
    \param buff : le buffer de destination
    \param position : position de la data dans le buffer
    \param data : la valeur à encoder
@@ -121,6 +121,45 @@ void CTrameLaBotBox::encode_int32(unsigned char *buff, unsigned char position, u
     buff[position+1]    = (data >> 16)&0xFF;
     buff[position+2]    = (data >> 8)&0xFF;
     buff[position+3]    = (data&0xFF);
+}
+
+//___________________________________________________________________________
+ /*!
+   \brief Décode une donnée 8 bits du buffer
+   \param buff : le buffer de destination
+   \param position : position de la data dans le buffer
+   \return la data sur 8 bits
+*/
+unsigned char CTrameLaBotBox::decode_int8(unsigned char *buff, unsigned char position)
+{
+    return buff[position];
+}
+
+//___________________________________________________________________________
+ /*!
+   \brief Décode une donnée 16 bits du buffer (MSB first)
+   \param buff : le buffer de destination
+   \param position : position de la data dans le buffer
+   \return la data sur 16 bits
+*/
+unsigned short CTrameLaBotBox::decode_int16(unsigned char *buff, unsigned char position)
+{
+    return ( ( ((unsigned short)(buff[position+1])) & 0xFF) )  |  ( ( ((unsigned short)(buff[position])) & 0xFF) << 8 ) ;
+}
+
+//___________________________________________________________________________
+ /*!
+   \brief Décode une donnée 32 bits du buffer (MSB first)
+   \param buff : le buffer de destination
+   \param position : position de la data dans le buffer
+   \return la data sur 32 bits
+*/
+unsigned long CTrameLaBotBox::decode_int32(unsigned char *buff, unsigned char position)
+{
+    return ( ( ((unsigned long)(buff[position+3])) & 0xFF) )  |
+            ( ( ((unsigned long)(buff[position+2])) & 0xFF) << 8 ) |
+            ( ( ((unsigned long)(buff[position+1])) & 0xFF) << 16 ) |
+            ( ( ((unsigned long)(buff[position])) & 0xFF) << 24 );
 }
 
 

@@ -76,6 +76,7 @@ void CLaBotBox::initListeTrames()
     m_liste_trames[m_nombre_trames++] = &m_COLOR_SENSOR;
     m_liste_trames[m_nombre_trames++] = &m_CONFIG_PERIODE_TRAME;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_SERVO_AX;
+    m_liste_trames[m_nombre_trames++] = &m_COMMANDE_KMAR;
 }
 
 
@@ -852,6 +853,32 @@ void CLaBotBox::CheckReceptionTrame(void)
       Application.m_modelia.m_datas_interface.m_rx_value_03=m_MBED_CMDE_TRAME.Valeur_03;
       Application.m_modelia.m_datas_interface.m_rx_value_04=m_MBED_CMDE_TRAME.Valeur_04;
   }
+  // ___________________________
+  if (m_COMMANDE_KMAR.isNewTrame())
+  {
+      CKmarBase *selected_kmar = nullptr;
+      if (m_COMMANDE_KMAR.num_kmar == 1) selected_kmar = &Application.m_kmar;
+      // TODO: ajouter ici l'aiguillage si plusieurs Kmar sur le même robot
+      else                               selected_kmar = &Application.m_kmar;  // pour éviter un pointeur null
+      if (selected_kmar) {
+          switch(m_COMMANDE_KMAR.cmd_kmar) {
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_MOUVEMENT:
+              selected_kmar->start(m_COMMANDE_KMAR.value_cmd_kmar);
+              break;
+
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_VITESSE :
+              selected_kmar->setSpeedFactor(m_COMMANDE_KMAR.value_cmd_kmar/100.);
+              break;
+
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_DISARM :
+              selected_kmar->stop();
+              break;
+
+          default:
+              break;
+          }
+      }
+  }
 }
 
 
@@ -1029,8 +1056,8 @@ void CLaBotBox::SendTramesLaBotBox(void)
             int servo_id = Application.m_servos_ax.m_presents_list[i];
             if (servo_id != -1) {
                 m_ETAT_SERVO_AX.num_servo_ax = servo_id;
-                m_ETAT_SERVO_AX.position = Application.m_servos_ax.getPosition(servo_id);
-                m_ETAT_SERVO_AX.mouvement_en_cours = Application.m_servos_ax.isMoving(servo_id);
+                m_ETAT_SERVO_AX.position = Application.m_servos_ax.m_positions[i];
+                m_ETAT_SERVO_AX.mouvement_en_cours = Application.m_servos_ax.m_moving[i];
 
                 SerialiseTrame(m_ETAT_SERVO_AX.Encode());
             }

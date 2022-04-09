@@ -43,6 +43,11 @@ protected:
     void encode_int8(unsigned char *buff, unsigned char position, unsigned char data);
     void encode_int16(unsigned char *buff, unsigned char position, unsigned short data);
     void encode_int32(unsigned char *buff, unsigned char position, unsigned long data);
+
+    unsigned char  decode_int8(unsigned char *buff, unsigned char position);
+    unsigned short decode_int16(unsigned char *buff, unsigned char position);
+    unsigned long  decode_int32(unsigned char *buff, unsigned char position);
+
 };
 
 
