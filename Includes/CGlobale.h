@@ -23,6 +23,7 @@
 #include "PowerElectrobot.h"
 #include "CTelemetres.h"
 #include "CDetectionObstaclesBase.h"
+#include "CKmar.h"
 
 
 typedef enum {
@@ -101,6 +102,8 @@ public :
     CAsservissementChariot m_asservissement_chariot;
 
     MessengerXbeeNetwork m_messenger_xbee_ntw;
+
+    CKmar       m_kmar;
 
     //debug
     float m_x_debug, m_y_debug, m_teta_debug;

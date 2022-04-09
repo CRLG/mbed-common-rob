@@ -87,6 +87,8 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
 
     m_messenger_xbee_ntw.execute();
     m_leds.compute();
+    m_servos_ax.compute();
+    m_kmar.compute();
   }
 
   // ______________________________
