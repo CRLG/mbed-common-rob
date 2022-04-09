@@ -178,6 +178,51 @@ tAxErr CServoMoteurAX::Init(void)
 }
 
 // ______________________________________________________________
+// Point d'entrée à appeler périodiquement pour la lecture des positions
+//  et autres infos sur le servo
+// Ne nécessite pas d'être appelé si le servo AX est utilisé en TX uniquement (les infos du servo AX ne sont pas lues)
+tAxErr CServoMoteurAX::compute()
+{
+    tAxErr err;
+    int count_error =0;
+
+    for (int i=0; i<m_present_count;i++)
+    {
+        int position = getPosition(m_presents_list[i], &err);
+        if (err == AX_OK)   m_positions[i] = position;
+        else {
+            m_positions[i] = 0xFFFF;
+            count_error++;
+        }
+    }
+    for (int i=0; i<m_present_count;i++)
+    {
+        bool ismoving= isMoving(m_presents_list[i], &err);
+        if (err == AX_OK)   m_moving[i] = ismoving;
+        else {
+            m_moving[i] = 1;  // par défaut, si la lecture n'est pas possible, on considère que le servo est en mouvement
+            count_error++;
+        }
+    }
+    return count_error==0?AX_OK:AX_INVALID_VALUE;
+}
+
+
+// ______________________________________________________________
+// Recherche dans la liste des présents, l'ID
+int CServoMoteurAX::servo_id_to_index_present(unsigned char servo_id)
+{
+    int index = -1;
+    for (int i=0; i<NBRE_SERVOS_AX; i++) {
+        if(m_presents_list[i] == servo_id) {
+            index = i;
+            break; // pas la peine de rechercher plus loin, on a trouvé
+        }
+    }
+    return index;
+}
+
+// ______________________________________________________________
 tAxErr CServoMoteurAX::readEEPROM(void)
 {
     tAxErr err;

@@ -36,7 +36,14 @@ public:
 
     tAxErr Init();
 
+    // a appeler périodiquement pour la lecture des états servos
+    tAxErr compute();
+
+    int servo_id_to_index_present(unsigned char servo_id);
+
     int m_presents_list[NBRE_SERVOS_AX];    // list all AX detected when checkPresents() called
+    int m_positions[NBRE_SERVOS_AX];
+    int m_moving[NBRE_SERVOS_AX];
     unsigned char m_present_count;
 
 private :
