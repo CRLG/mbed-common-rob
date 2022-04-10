@@ -8,6 +8,7 @@
 #include "mbed.h"
 #include "RessourcesHardware.h"
 #include "MessagerieLaBotBox.h"
+#include "data_encoder_decoder.h"
 
 
 //___________________________________________________________________________
@@ -1398,11 +1399,11 @@ tStructTrameLaBotBox* CTrameLaBotBox_ETAT_SERVO_AX::Encode(void)
     }
 
     // Encode chacun des signaux de la trame
-    encode_int8(m_trame_brute.Data,     0,  num_servo_ax);
-    encode_int16(m_trame_brute.Data,    1,  position);
-    encode_int8(m_trame_brute.Data,     3,  temperature);
-    encode_int16(m_trame_brute.Data,    4,  couple);
-    encode_int8(m_trame_brute.Data,     6,  mouvement_en_cours);
+    CDataEncoderDecoder::encode_int8(m_trame_brute.Data,     0,  num_servo_ax);
+    CDataEncoderDecoder::encode_int16(m_trame_brute.Data,    1,  position);
+    CDataEncoderDecoder::encode_int8(m_trame_brute.Data,     3,  temperature);
+    CDataEncoderDecoder::encode_int16(m_trame_brute.Data,    4,  couple);
+    CDataEncoderDecoder::encode_int8(m_trame_brute.Data,     6,  mouvement_en_cours);
 
     return(&m_trame_brute);
 }
@@ -1423,9 +1424,9 @@ CTrameLaBotBox_COMMANDE_KMAR::CTrameLaBotBox_COMMANDE_KMAR()
 void CTrameLaBotBox_COMMANDE_KMAR::Decode(tStructTrameLaBotBox *trameRecue)
 {
 
-    num_kmar = decode_int8(trameRecue->Data, 0);
-    cmd_kmar = decode_int16(trameRecue->Data, 1);
-    value_cmd_kmar = decode_int16(trameRecue->Data, 3);
+    num_kmar = CDataEncoderDecoder::decode_int8(trameRecue->Data, 0);
+    cmd_kmar = CDataEncoderDecoder::decode_int16(trameRecue->Data, 1);
+    value_cmd_kmar = CDataEncoderDecoder::decode_int16(trameRecue->Data, 3);
 
     m_new_trame = true;
     m_nombre_recue++;
