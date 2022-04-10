@@ -1432,5 +1432,38 @@ void CTrameLaBotBox_COMMANDE_KMAR::Decode(tStructTrameLaBotBox *trameRecue)
     m_nombre_recue++;
 }
 
+// ========================================================
+//             TRAME ETAT_KMAR_GENERAL
+// ========================================================
+CTrameLaBotBox_ETAT_KMAR_GENERAL::CTrameLaBotBox_ETAT_KMAR_GENERAL()
+{
+    m_trame_brute.ID = ID_ETAT_KMAR_GENERAL;
+    m_trame_brute.DLC = DLC_ETAT_KMAR_GENERAL;
+}
+//___________________________________________________________________________
+/*!
+  \brief Decode les signaux de la trame
+  \param trameRecue la trame brute recue a decoder
+*/
+tStructTrameLaBotBox* CTrameLaBotBox_ETAT_KMAR_GENERAL::Encode(void)
+{
+    unsigned char i=0;
+
+    for (i=0; i<DLC_ETAT_KMAR_GENERAL; i++) {
+      m_trame_brute.Data[i] = 0;
+    }
+
+    // Encode chacun des signaux de la trame
+    CDataEncoderDecoder::encode_int8(m_trame_brute.Data,     0,  num_kmar);
+    CDataEncoderDecoder::encode_int8(m_trame_brute.Data,     1,  status);
+    CDataEncoderDecoder::encode_int8(m_trame_brute.Data,     2,  num_mouvement_en_cours);
+    CDataEncoderDecoder::encode_bit(m_trame_brute.Data, 3, 0, moving);
+    CDataEncoderDecoder::encode_bit(m_trame_brute.Data, 3, 1, axis1_moving);
+    CDataEncoderDecoder::encode_bit(m_trame_brute.Data, 3, 2, axis2_moving);
+    CDataEncoderDecoder::encode_bit(m_trame_brute.Data, 3, 3, axis3_moving);
+    CDataEncoderDecoder::encode_bit(m_trame_brute.Data, 3, 4, axis4_moving);
+
+    return(&m_trame_brute);
+}
 /*! @} */
 

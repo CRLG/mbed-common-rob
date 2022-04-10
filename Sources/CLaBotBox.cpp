@@ -77,6 +77,7 @@ void CLaBotBox::initListeTrames()
     m_liste_trames[m_nombre_trames++] = &m_CONFIG_PERIODE_TRAME;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_SERVO_AX;
     m_liste_trames[m_nombre_trames++] = &m_COMMANDE_KMAR;
+    m_liste_trames[m_nombre_trames++] = &m_ETAT_KMAR_GENERAL;
 }
 
 
@@ -1064,6 +1065,20 @@ void CLaBotBox::SendTramesLaBotBox(void)
 
         }
 
+    }
+    // _____________________________________________
+    if (m_ETAT_KMAR_GENERAL.isTimeToSend())
+    {
+        m_ETAT_KMAR_GENERAL.num_kmar = 1;   // TODO : à voir si plusieurs sur le même robot
+        m_ETAT_KMAR_GENERAL.status = 1;     // pour le moment
+        m_ETAT_KMAR_GENERAL.moving = Application.m_kmar.isMoveInProgress();
+        m_ETAT_KMAR_GENERAL.num_mouvement_en_cours = Application.m_kmar.getNumMouvementInProgress();
+        m_ETAT_KMAR_GENERAL.axis1_moving = Application.m_kmar.isMoving(CKmar::AXIS_1);
+        m_ETAT_KMAR_GENERAL.axis2_moving = Application.m_kmar.isMoving(CKmar::AXIS_2);
+        m_ETAT_KMAR_GENERAL.axis3_moving = Application.m_kmar.isMoving(CKmar::AXIS_3);
+        m_ETAT_KMAR_GENERAL.axis4_moving = Application.m_kmar.isMoving(CKmar::AXIS_4);
+
+        SerialiseTrame(m_ETAT_KMAR_GENERAL.Encode());
     }
 }
 

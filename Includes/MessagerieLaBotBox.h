@@ -57,6 +57,7 @@
 #define ID_MBED_CMDE 0x95
 #define ID_MBED_ETAT 0x96
 #define ID_ETAT_SERVO_AX 0x97
+#define ID_ETAT_KMAR_GENERAL 0x98
 
 #define DLC_COMMANDE_POWER_ELECTROBOT 4
 #define DLC_ETAT_POWER_ELECTROBOT 8
@@ -94,6 +95,7 @@
 #define DLC_MBED_ETAT 8
 #define DLC_ETAT_SERVO_AX 8
 #define DLC_COMMANDE_KMAR 5
+#define DLC_ETAT_KMAR_GENERAL 5
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
 #define PHYS2BRUTE_valeur_commande_sd20(val) (unsigned short)( (val - (0.000000)) / (1.000000) ) 
@@ -865,6 +867,26 @@ public :
 
     CTrameLaBotBox_COMMANDE_KMAR();
     void Decode(tStructTrameLaBotBox* trameRecue);
+};
+
+// ========================================================
+//             TRAME ETAT_KMAR_GENERAL
+// ========================================================
+class CTrameLaBotBox_ETAT_KMAR_GENERAL : public CTrameLaBotBox
+{
+public :
+    //! Les signaux de la messagerie
+    unsigned char num_kmar;
+    unsigned char status;
+    unsigned char num_mouvement_en_cours;
+    bool moving;
+    bool axis1_moving;
+    bool axis2_moving;
+    bool axis3_moving;
+    bool axis4_moving;
+
+    CTrameLaBotBox_ETAT_KMAR_GENERAL();
+    tStructTrameLaBotBox* Encode(void);
 };
 
 
