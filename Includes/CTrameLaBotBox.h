@@ -8,7 +8,7 @@
 typedef struct {
 	unsigned int ID;		//!< L'identifiant de la trame
 	unsigned char DLC;		//!< La longueur de la trame
-	unsigned char Data[8];	//!< Les donnees utiles de la trame
+    unsigned char Data[16];	//!< Les donnees utiles de la trame
 }tStructTrameLaBotBox;
 
 // -----------------------------
