@@ -95,7 +95,7 @@
 #define DLC_MBED_ETAT 8
 #define DLC_ETAT_SERVO_AX 8
 #define DLC_COMMANDE_KMAR 5
-#define DLC_ETAT_KMAR_GENERAL 5
+#define DLC_ETAT_KMAR_GENERAL 12
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
 #define PHYS2BRUTE_valeur_commande_sd20(val) (unsigned short)( (val - (0.000000)) / (1.000000) ) 
@@ -884,6 +884,10 @@ public :
     bool axis2_moving;
     bool axis3_moving;
     bool axis4_moving;
+    unsigned short axis1_position;
+    unsigned short axis2_position;
+    unsigned short axis3_position;
+    unsigned short axis4_position;
 
     CTrameLaBotBox_ETAT_KMAR_GENERAL();
     tStructTrameLaBotBox* Encode(void);

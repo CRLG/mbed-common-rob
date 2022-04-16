@@ -1077,7 +1077,10 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_KMAR_GENERAL.axis2_moving = Application.m_kmar.isMoving(CKmar::AXIS_2);
         m_ETAT_KMAR_GENERAL.axis3_moving = Application.m_kmar.isMoving(CKmar::AXIS_3);
         m_ETAT_KMAR_GENERAL.axis4_moving = Application.m_kmar.isMoving(CKmar::AXIS_4);
-
+        m_ETAT_KMAR_GENERAL.axis1_position = Application.m_kmar.getPosition(CKmar::AXIS_1);
+        m_ETAT_KMAR_GENERAL.axis2_position = Application.m_kmar.getPosition(CKmar::AXIS_2);
+        m_ETAT_KMAR_GENERAL.axis3_position = Application.m_kmar.getPosition(CKmar::AXIS_3);
+        m_ETAT_KMAR_GENERAL.axis4_position = Application.m_kmar.getPosition(CKmar::AXIS_4);
         SerialiseTrame(m_ETAT_KMAR_GENERAL.Encode());
     }
 }
