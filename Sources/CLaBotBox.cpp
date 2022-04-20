@@ -892,6 +892,14 @@ void CLaBotBox::CheckReceptionTrame(void)
               selected_kmar->arm(m_COMMANDE_KMAR.value_cmd_kmar);
               break;
           // ___________________________
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_CATCH_OBJECT :
+              selected_kmar->catchObject();
+              break;
+          // ___________________________
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_RELEASE_OBJECT :
+              selected_kmar->releaseObject();
+              break;
+          // ___________________________
           default:  // ne rien faire
               break;
           }
@@ -1094,6 +1102,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_KMAR_GENERAL.axis2_moving = Application.m_kmar.isMoving(CKmar::AXIS_2);
         m_ETAT_KMAR_GENERAL.axis3_moving = Application.m_kmar.isMoving(CKmar::AXIS_3);
         m_ETAT_KMAR_GENERAL.axis4_moving = Application.m_kmar.isMoving(CKmar::AXIS_4);
+        m_ETAT_KMAR_GENERAL.object_catched = Application.m_kmar.isObjectCatched();
         m_ETAT_KMAR_GENERAL.axis1_position = Application.m_kmar.getPosition(CKmar::AXIS_1);
         m_ETAT_KMAR_GENERAL.axis2_position = Application.m_kmar.getPosition(CKmar::AXIS_2);
         m_ETAT_KMAR_GENERAL.axis3_position = Application.m_kmar.getPosition(CKmar::AXIS_3);

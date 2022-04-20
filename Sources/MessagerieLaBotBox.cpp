@@ -1462,6 +1462,7 @@ tStructTrameLaBotBox* CTrameLaBotBox_ETAT_KMAR_GENERAL::Encode(void)
     CDataEncoderDecoder::encode_bit(m_trame_brute.Data, 3, 2, axis2_moving);
     CDataEncoderDecoder::encode_bit(m_trame_brute.Data, 3, 3, axis3_moving);
     CDataEncoderDecoder::encode_bit(m_trame_brute.Data, 3, 4, axis4_moving);
+    CDataEncoderDecoder::encode_bit(m_trame_brute.Data, 3, 5, object_catched);
     CDataEncoderDecoder::encode_int16(m_trame_brute.Data,  4,  axis1_position);
     CDataEncoderDecoder::encode_int16(m_trame_brute.Data,  6,  axis2_position);
     CDataEncoderDecoder::encode_int16(m_trame_brute.Data,  8,  axis3_position);

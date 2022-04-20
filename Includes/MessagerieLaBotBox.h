@@ -866,7 +866,9 @@ public :
         KMAR_CMD_STOP_AND_DISARM_ALL,
         KMAR_CMD_ARM_ALL,
         KMAR_CMD_DISARM_AXIS,
-        KMAR_CMD_ARM_AXIS
+        KMAR_CMD_ARM_AXIS,
+        KMAR_CMD_CATCH_OBJECT,
+        KMAR_CMD_RELEASE_OBJECT
     }KmarCmd;
 
     CTrameLaBotBox_COMMANDE_KMAR();
@@ -888,6 +890,7 @@ public :
     bool axis2_moving;
     bool axis3_moving;
     bool axis4_moving;
+    bool object_catched;
     unsigned short axis1_position;
     unsigned short axis2_position;
     unsigned short axis3_position;
