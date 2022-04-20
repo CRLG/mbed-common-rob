@@ -871,8 +871,16 @@ void CLaBotBox::CheckReceptionTrame(void)
               selected_kmar->setSpeedFactor(m_COMMANDE_KMAR.value_cmd_kmar/100.);
               break;
 
-          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_DISARM :
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_STOP_AND_DISARM_ALL :
               selected_kmar->stop();
+              break;
+
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_DISARM_AXIS :
+              selected_kmar->disarm(m_COMMANDE_KMAR.value_cmd_kmar);
+              break;
+
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_ARM_AXIS :
+              selected_kmar->arm(m_COMMANDE_KMAR.value_cmd_kmar);
               break;
 
           default:
