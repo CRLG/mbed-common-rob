@@ -863,27 +863,36 @@ void CLaBotBox::CheckReceptionTrame(void)
       else                               selected_kmar = &Application.m_kmar;  // pour éviter un pointeur null
       if (selected_kmar) {
           switch(m_COMMANDE_KMAR.cmd_kmar) {
+          // ___________________________
           case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_MOUVEMENT:
               selected_kmar->start(m_COMMANDE_KMAR.value_cmd_kmar);
               break;
-
+          // ___________________________
           case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_VITESSE :
               selected_kmar->setSpeedFactor(m_COMMANDE_KMAR.value_cmd_kmar/100.);
               break;
-
-          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_STOP_AND_DISARM_ALL :
+          // ___________________________
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_STOP_AND_FIX_POSITION :
               selected_kmar->stop();
               break;
-
+          // ___________________________
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_STOP_AND_DISARM_ALL :
+              selected_kmar->emergencyStop();
+              break;
+          // ___________________________
+          case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_ARM_ALL :
+              selected_kmar->arm();
+              break;
+          // ___________________________
           case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_DISARM_AXIS :
               selected_kmar->disarm(m_COMMANDE_KMAR.value_cmd_kmar);
               break;
-
+          // ___________________________
           case CTrameLaBotBox_COMMANDE_KMAR::KMAR_CMD_ARM_AXIS :
               selected_kmar->arm(m_COMMANDE_KMAR.value_cmd_kmar);
               break;
-
-          default:
+          // ___________________________
+          default:  // ne rien faire
               break;
           }
       }

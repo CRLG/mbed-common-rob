@@ -860,9 +860,11 @@ public :
     unsigned short value_cmd_kmar;
 
     typedef enum {
-        KMAR_CMD_MOUVEMENT              = 1,
+        KMAR_CMD_MOUVEMENT = 1,
         KMAR_CMD_VITESSE,
+        KMAR_CMD_STOP_AND_FIX_POSITION,
         KMAR_CMD_STOP_AND_DISARM_ALL,
+        KMAR_CMD_ARM_ALL,
         KMAR_CMD_DISARM_AXIS,
         KMAR_CMD_ARM_AXIS
     }KmarCmd;
