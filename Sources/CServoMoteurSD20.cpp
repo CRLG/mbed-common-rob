@@ -95,6 +95,11 @@ void CServoMoteurSD20::readEEPROM(void)
         if (Application.m_eeprom.getValue(sBuff, &servo_val)) {
             CommandePositionVitesse(i, servo_val, 0);
         }
+
+        sprintf(sBuff, "duree_avant_relache_servo_sd20_%d", i);
+        if (Application.m_eeprom.getValue(sBuff, &servo_val)) {
+            setDureeAvantRelache(i, servo_val);
+        }
     }
 }
 
