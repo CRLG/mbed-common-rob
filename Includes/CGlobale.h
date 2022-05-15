@@ -23,7 +23,7 @@
 #include "PowerElectrobot.h"
 #include "CTelemetres.h"
 #include "CDetectionObstaclesBase.h"
-#include "CKmar.h"
+#include "kmar.h"
 
 
 typedef enum {
