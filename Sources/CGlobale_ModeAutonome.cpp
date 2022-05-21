@@ -119,6 +119,8 @@ void CGlobale::SequenceurModeAutonome(void)
   if (cpt200msec >= TEMPO_200msec) {
   	cpt200msec = 0;
 
+    m_kmar.compute();
+
     // dès que le match est commencé, supprime l'IRQ sur RS232 de l'ecran pour ne pas risquer d'interrompre le match
     // lorsque le match est terminé, ré-active la communication entrante et diffuse à nouveau toutes les trames
     if (m_modelia.isMatchEnCours()) {
