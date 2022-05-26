@@ -20,6 +20,9 @@ void MessengerXbeeNetwork::initMessages()
 
     m_database.m_GrosbotPosition.setDestinationAddress(0xFFFF);
     m_database.m_GrosbotPosition.setTransmitPeriod(2100);
+
+    m_database.m_CommandeExperience.setDestinationAddress(0xFFFF);
+    m_database.m_CommandeExperience.setTransmitPeriod(1020);
 }
 
 // ______________________________________________
@@ -57,6 +60,7 @@ void MessengerXbeeNetwork::start()
     _rs232_xbee_network_rx.format(8, Serial::None, 1);   	// 8 bits de données / Pas de parité / 1 bit de stop
 
     m_database.restart();
+    m_database.m_CommandeExperience.ExperienceCmd = Message_COMMANDE_EXPERIENCE::EXPERIENCE_CMD_NO_ACTION;
     while (_rs232_xbee_network_rx.readable()) _rs232_xbee_network_rx.getc(); // Nettoie tout octet en attente dans le buffer
     _rs232_xbee_network_rx.attach(this, &MessengerXbeeNetwork::IRQ_ReceiveRS232);  	// Callback sur réception d'une donnée sur la RS232
 
