@@ -104,6 +104,8 @@ void CGlobale::SequenceurModeAutonome(void)
 
     m_messenger_xbee_ntw.execute();
     m_leds.compute();
+    m_servos_ax.compute();
+    m_kmar.compute();
   }
 
   // ______________________________
@@ -118,8 +120,6 @@ void CGlobale::SequenceurModeAutonome(void)
   cpt200msec++;
   if (cpt200msec >= TEMPO_200msec) {
   	cpt200msec = 0;
-
-    m_kmar.compute();
 
     // dès que le match est commencé, supprime l'IRQ sur RS232 de l'ecran pour ne pas risquer d'interrompre le match
     // lorsque le match est terminé, ré-active la communication entrante et diffuse à nouveau toutes les trames
