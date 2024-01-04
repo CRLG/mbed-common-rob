@@ -25,24 +25,11 @@ typedef enum {
 //! Cet enumere contient toutes les valeurs prises par la machine d'etat de reconstitution des donnees
 typedef enum {
   cETAT_INIT = 0,
-
-  // --------------
-  cETAT_ERREUR,
-  cETAT_PILE_PLEINE,
-  // --------------
   cETAT_ID_MSB,
   cETAT_ID_LSB,
   cETAT_DLC,
-  cETAT_DATA_0,
-  cETAT_DATA_1,
-  cETAT_DATA_2,
-  cETAT_DATA_3,
-  cETAT_DATA_4,
-  cETAT_DATA_5,
-  cETAT_DATA_6,
-  cETAT_DATA_7,
+  cETAT_DATA_i,
   cETAT_CHECKSUM
-
 } tETATS_RECONST;
 
 
@@ -212,6 +199,7 @@ private :
 	unsigned char m_etatReconst;
 	//! Trame en cours de reconstruction
 	tStructTrameLaBotBox m_trameCourante;
+    unsigned char m_data_number;
 
     CTrameLaBotBox* m_liste_trames[NOMBRE_MAX_TRAMES_LABOTBOX];
     unsigned int m_nombre_trames;

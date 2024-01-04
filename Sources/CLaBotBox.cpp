@@ -95,8 +95,10 @@ CTrameLaBotBox* CLaBotBox::getTrameFromID(unsigned int ID)
 {
     for (unsigned int i=0; i<m_nombre_trames; i++)
     {
-        if (ID == m_liste_trames[i]->m_trame_brute.ID)
-            return m_liste_trames[i];
+        if (m_liste_trames[i]) {
+            if (ID == m_liste_trames[i]->m_ID)
+                return m_liste_trames[i];
+        }
     }
     return nullptr;
 }
@@ -235,156 +237,59 @@ void CLaBotBox::IRQ_ReceiveRS232(void)
    */
 void CLaBotBox::Reconstitution(unsigned char newData)
 {
-   //time_t heure;
-   //clock_t time;   // clock_t est en fait un unsigned int dans CVI
    switch(m_etatReconst)
    {
-      // ----------------------------------------- ETATS PRIMAIRE D'AIGUILLAGE DU TYPE D'INFO RECUES
-          case  cETAT_INIT :
-                  // Initialise les champs d'une précédente réception
-                  Init_Reconstitution();
+   // -----------------------------------------
+   case  cETAT_INIT :
+       // Initialise les champs d'une précédente réception
+       Init_Reconstitution();
 
-                  // Le message est une trame
-                  if (newData == 'T') {
-                   m_etatReconst = cETAT_ID_MSB;
-                   //m_trameCourante.Datation = clock();
-                  }
-                  // Le message est un message de diag
-                  //! todo mettre en place un mécanisme plus complet pour le diag
-                  else if (newData == 'D') {
-                   //PresencePIC_OK();
-                  }
-                  else {
-                    //ErreurReconstitutionTrame(cERREUR_ENTETE_INCONNU);
-                  }
+       // Le message est une trame
+       if (newData == 'T') {
+           m_etatReconst = cETAT_ID_MSB;
+       }
+       break;
 
-                break;
-
-      // ----------------------------------------- ETATS D'ERREURS
-          case  cETAT_ERREUR :
-
-                break;
-
-
-          case  cETAT_PILE_PLEINE :
-
-                break;
-
-
-
-      // ----------------------------------------- ETATS LIES A LA RECEPTION DE TRAMES
-      case  cETAT_ID_MSB :
-                           m_trameCourante.ID = (newData << 8);
-                           m_etatReconst = cETAT_ID_LSB;
-                break;
-
-      case  cETAT_ID_LSB :
-                           m_trameCourante.ID += (newData&0xFF);
-                           m_etatReconst = cETAT_DLC;
-                break;
-
-
-      case  cETAT_DLC :
-                           m_trameCourante.DLC = newData;
-                           if (newData > 8) {
-                               //ErreurReconstitutionTrame(cERREUR_DLC_INCORRECT);
-                               m_etatReconst = cETAT_INIT;
-                            }
-                           else if (newData > 0)
-                                {  m_etatReconst = cETAT_DATA_0; }
-                           else
-                                {  m_etatReconst = cETAT_CHECKSUM; }
-                break;
-
-
-       case  cETAT_DATA_0 :
-                           m_trameCourante.Data[0] = newData;
-                           if (m_trameCourante.DLC > 1)
-                                {  m_etatReconst = cETAT_DATA_1; }
-                           else
-                                {  m_etatReconst = cETAT_CHECKSUM; }
-                break;
-
-       case  cETAT_DATA_1 :
-                           m_trameCourante.Data[1] = newData;
-                           if (m_trameCourante.DLC > 2)
-                                {  m_etatReconst = cETAT_DATA_2; }
-                           else
-                                {  m_etatReconst = cETAT_CHECKSUM; }
-
-                break;
-
-       case  cETAT_DATA_2 :
-                           m_trameCourante.Data[2] = newData;
-                           if (m_trameCourante.DLC > 3)
-                                {  m_etatReconst = cETAT_DATA_3; }
-                           else
-                                {  m_etatReconst = cETAT_CHECKSUM; }
-
-                break;
-
-       case  cETAT_DATA_3 :
-                           m_trameCourante.Data[3] = newData;
-                           if (m_trameCourante.DLC > 4)
-                                {  m_etatReconst = cETAT_DATA_4; }
-                           else
-                                {  m_etatReconst = cETAT_CHECKSUM; }
-
-                break;
-
-       case  cETAT_DATA_4 :
-                           m_trameCourante.Data[4] = newData;
-                           if (m_trameCourante.DLC > 5)
-                                {  m_etatReconst = cETAT_DATA_5; }
-                           else
-                                {  m_etatReconst = cETAT_CHECKSUM; }
-
-                break;
-
-       case  cETAT_DATA_5 :
-                           m_trameCourante.Data[5] = newData;
-                           if (m_trameCourante.DLC > 6)
-                                {  m_etatReconst = cETAT_DATA_6; }
-                           else
-                                {  m_etatReconst = cETAT_CHECKSUM; }
-
-                break;
-
-       case  cETAT_DATA_6 :
-                           m_trameCourante.Data[6] = newData;
-                           if (m_trameCourante.DLC > 7)
-                                {  m_etatReconst = cETAT_DATA_7; }
-                           else
-                                {  m_etatReconst = cETAT_CHECKSUM; }
-
-                break;
-
-       case  cETAT_DATA_7 :
-                           m_trameCourante.Data[7] = newData;
-                           m_etatReconst = cETAT_CHECKSUM;
-
-                break;
-
-         case  cETAT_CHECKSUM :
-                           if (isChecksumTrameCouranteOK(newData)) {
-                               // Trame de config ou trame CAN
-                               if (m_trameCourante.ID <= 0x7FF) {
-                                   //printf("trame %x reçue\n",m_trameCourante.ID);
-                                        DecodeTrame(&m_trameCourante);
-                                }
-                                else {
-                                        //DecodeTrameConfig(m_trameCourante);
-                                }
-
-                                   //EnregistreTrame(m_trameCourante);
-                           }
-                           else {
-                                   //ErreurReconstitutionTrame(cERREUR_CHECKSUM);
-                           }
-
-                           m_etatReconst = cETAT_INIT;
-
-                break;
+   // -----------------------------------------
+   case  cETAT_ID_MSB :
+       m_trameCourante.ID = ((unsigned short)newData << 8);
+       m_etatReconst = cETAT_ID_LSB;
+       break;
+   // -----------------------------------------
+   case  cETAT_ID_LSB :
+       m_trameCourante.ID |= (newData&0xFF);
+       m_etatReconst = cETAT_DLC;
+       break;
+   // -----------------------------------------
+   case  cETAT_DLC :
+       m_trameCourante.DLC = newData;
+       if (newData > LABOTBOX_MAX_DATA_LEN) {  // la taille du message dépasse la taille max autorisé
+           m_etatReconst = cETAT_INIT;
+       }
+       else if (newData > 0) {  // il y a des données utiles a lire dans la trame
+           m_etatReconst = cETAT_DATA_i;
+       }
+       else {   // aucune donnée utile, juste un message de commande
+           m_etatReconst = cETAT_CHECKSUM;
+       }
+       break;
+   // -----------------------------------------
+   case cETAT_DATA_i :
+       m_trameCourante.Data[m_data_number] = newData;
+       m_data_number++;
+       if (m_trameCourante.DLC > m_data_number)
+       {  /* ne rien faire : il reste des données à recevoir */ }
+       else {  // transfert des donnees utiles termine -> la prochaine donnee est le checksum
+           m_etatReconst = cETAT_CHECKSUM;
+       }
+       break;
+   // -----------------------------------------
+   case  cETAT_CHECKSUM :
+       if (isChecksumTrameCouranteOK(newData)) {
+           DecodeTrame(&m_trameCourante);
+       }
+       m_etatReconst = cETAT_INIT;
+       break;
    }
 }
 
@@ -400,17 +305,13 @@ void CLaBotBox::Reconstitution(unsigned char newData)
    */
 void CLaBotBox::Init_Reconstitution(void)
 {
-  // Initialise les champs de la trame courante
-  m_trameCourante.ID = 0xFFF;
-  m_trameCourante.DLC = 0xFF;
-  m_trameCourante.Data[0] = 0xFF;
-  m_trameCourante.Data[1] = 0xFF;
-  m_trameCourante.Data[2] = 0xFF;
-  m_trameCourante.Data[3] = 0xFF;
-  m_trameCourante.Data[4] = 0xFF;
-  m_trameCourante.Data[5] = 0xFF;
-  m_trameCourante.Data[6] = 0xFF;
-  m_trameCourante.Data[7] = 0xFF;
+    m_data_number = 0;  // comptabilise le numero d'octet de donnees recu
+    // Initialise les champs de la trame courante
+    m_trameCourante.ID = 0xFFFF;
+    m_trameCourante.DLC = 0xFF;
+    for (unsigned int i=0; i<LABOTBOX_MAX_DATA_LEN; i++) {
+        m_trameCourante.Data[i] = 0xFF;
+    }
 }
 
 
@@ -427,17 +328,17 @@ void CLaBotBox::Init_Reconstitution(void)
    */
 unsigned char CLaBotBox::isChecksumTrameCouranteOK(unsigned char CS_attendu)
 {
- unsigned char CS_calcule = 0;
- unsigned char i=0;
+    unsigned char CS_calcule = 0;
+    unsigned char i=0;
 
- CS_calcule += m_trameCourante.ID;
- CS_calcule += m_trameCourante.DLC;
- for(i=0; i<m_trameCourante.DLC; i++) {
-          CS_calcule += m_trameCourante.Data[i];
- }
+    CS_calcule += m_trameCourante.ID;
+    CS_calcule += m_trameCourante.DLC;
+    for(i=0; i<m_trameCourante.DLC; i++) {
+        CS_calcule += m_trameCourante.Data[i];
+    }
 
- return(CS_calcule == CS_attendu);
-// return(1); // toujours vrai pour les tests
+    return(CS_calcule == CS_attendu);
+    // return(1); // toujours vrai pour les tests
 }
 
 
@@ -457,16 +358,14 @@ void CLaBotBox::DecodeTrame(tStructTrameLaBotBox *trameRecue)
 {
     for (unsigned int i=0; i<m_nombre_trames; i++)
     {
-        if (trameRecue->ID == m_liste_trames[i]->m_trame_brute.ID)
-        {
-            if (m_liste_trames[i])
-            {
+        if (m_liste_trames[i]) {
+            if (trameRecue->ID == m_liste_trames[i]->m_ID) {
                 m_liste_trames[i]->Decode(trameRecue);
                 return;
             }
         }
     }
- }
+}
 
 
 //___________________________________________________________________________
@@ -922,6 +821,8 @@ void CLaBotBox::CheckReceptionTrame(void)
 */
 void CLaBotBox::SendTramesLaBotBox(void)
 {
+    tStructTrameLaBotBox trame;
+
     // _____________________________________________
     if (m_ETAT_ASSERVISSEMENT.isTimeToSend())
     {
@@ -929,14 +830,14 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_ASSERVISSEMENT.cde_moteur_D = (int)Application.m_roues.m_cde_roue_D;
         m_ETAT_ASSERVISSEMENT.Convergence = (Application.m_asservissement.diag_blocage==1)?2:Application.m_asservissement.convergence_conf;
         m_ETAT_ASSERVISSEMENT.ModeAsservissement = Application.m_asservissement.ModeAsservissement;
-        SerialiseTrame(	m_ETAT_ASSERVISSEMENT.Encode());
+        SerialiseTrame(m_ETAT_ASSERVISSEMENT.Encode(&trame));
     }
     // _____________________________________________
     if (m_POSITION_CODEURS.isTimeToSend())
     {
         m_POSITION_CODEURS.PosCodeurG = Application.m_roues.getCodeurG();
         m_POSITION_CODEURS.PosCodeurD = Application.m_roues.getCodeurD();
-        SerialiseTrame(	m_POSITION_CODEURS.Encode());
+        SerialiseTrame(m_POSITION_CODEURS.Encode(&trame));
     }
     // _____________________________________________
     if (m_POSITION_ABSOLUE_XY_TETA.isTimeToSend())
@@ -944,7 +845,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_POSITION_ABSOLUE_XY_TETA.x_pos = PHYS2BRUTE_x_pos(Application.m_asservissement.X_robot);
         m_POSITION_ABSOLUE_XY_TETA.y_pos = PHYS2BRUTE_y_pos(Application.m_asservissement.Y_robot);
         m_POSITION_ABSOLUE_XY_TETA.teta_pos = PHYS2BRUTE_teta_pos(Application.m_asservissement.angle_robot);
-        SerialiseTrame(	m_POSITION_ABSOLUE_XY_TETA.Encode());
+        SerialiseTrame(m_POSITION_ABSOLUE_XY_TETA.Encode(&trame));
     }
     // _____________________________________________
     if (m_ETAT_PID_ASSERVISSEMENT.isTimeToSend())
@@ -953,7 +854,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_PID_ASSERVISSEMENT.consigne_vitesse_avance_filt   = PHYS2BRUTE_consigne_vitesse_avance_filt(Application.m_asservissement.consigne_vitesse_avance_filt);
         m_ETAT_PID_ASSERVISSEMENT.vitesse_rotation_robot_filt    = PHYS2BRUTE_vitesse_rotation_robot_filt(Application.m_asservissement.vitesse_rotation_robot_filt);
         m_ETAT_PID_ASSERVISSEMENT.consigne_vitesse_rotation_filt = PHYS2BRUTE_consigne_vitesse_rotation_filt(Application.m_asservissement.consigne_vitesse_rotation_filt);
-        SerialiseTrame(	m_ETAT_PID_ASSERVISSEMENT.Encode());
+        SerialiseTrame(m_ETAT_PID_ASSERVISSEMENT.Encode(&trame));
     }
     // _____________________________________________
     if (m_ELECTROBOT_ETAT_CAPTEURS_1.isTimeToSend())
@@ -966,7 +867,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ELECTROBOT_ETAT_CAPTEURS_1.Eana6 = PHYS2BRUTE_Eana6(Application.m_electrobot.m_b_Eana6);
         m_ELECTROBOT_ETAT_CAPTEURS_1.Eana7 = PHYS2BRUTE_Eana7(Application.m_electrobot.m_b_Eana7);
         m_ELECTROBOT_ETAT_CAPTEURS_1.Eana8 = PHYS2BRUTE_Eana8(Application.m_electrobot.m_b_Eana8);
-        SerialiseTrame(	m_ELECTROBOT_ETAT_CAPTEURS_1.Encode());
+        SerialiseTrame(m_ELECTROBOT_ETAT_CAPTEURS_1.Encode(&trame));
     }
     // _____________________________________________
     if (m_ELECTROBOT_ETAT_CAPTEURS_2.isTimeToSend())
@@ -985,21 +886,21 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ELECTROBOT_ETAT_CAPTEURS_2.Etor6 = !Application.m_electrobot.m_b_Etor6;
         m_ELECTROBOT_ETAT_CAPTEURS_2.Etor_CAN_TX = !Application.m_electrobot.m_b_Etor_CanTx;
         m_ELECTROBOT_ETAT_CAPTEURS_2.Etor_CAN_RX = !Application.m_electrobot.m_b_Etor_CanRx;
-        SerialiseTrame(	m_ELECTROBOT_ETAT_CAPTEURS_2.Encode());
+        SerialiseTrame(m_ELECTROBOT_ETAT_CAPTEURS_2.Encode(&trame));
     }
     // _____________________________________________
     if (m_ELECTROBOT_ETAT_CODEURS_1_2.isTimeToSend())
     {
         m_ELECTROBOT_ETAT_CODEURS_1_2.Codeur_1 = Application.m_electrobot.m_CumulCodeurPosition1;
         m_ELECTROBOT_ETAT_CODEURS_1_2.Codeur_2 = Application.m_electrobot.m_CumulCodeurPosition2;
-        SerialiseTrame(m_ELECTROBOT_ETAT_CODEURS_1_2.Encode());
+        SerialiseTrame(m_ELECTROBOT_ETAT_CODEURS_1_2.Encode(&trame));
     }
     // _____________________________________________
     if (m_ELECTROBOT_ETAT_CODEURS_3_4.isTimeToSend())
     {
         m_ELECTROBOT_ETAT_CODEURS_3_4.Codeur_3 = Application.m_electrobot.m_CumulCodeurPosition3;
         m_ELECTROBOT_ETAT_CODEURS_3_4.Codeur_4 = Application.m_electrobot.m_CumulCodeurPosition4;
-        SerialiseTrame(m_ELECTROBOT_ETAT_CODEURS_3_4.Encode());
+        SerialiseTrame(m_ELECTROBOT_ETAT_CODEURS_3_4.Encode(&trame));
     }
     // _____________________________________________
     if (m_ELECTROBOT_ETAT_TELEMETRES.isTimeToSend())
@@ -1008,7 +909,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ELECTROBOT_ETAT_TELEMETRES.Telemetre2 = Application.m_telemetres.getDistanceAVD();
         m_ELECTROBOT_ETAT_TELEMETRES.Telemetre3 = Application.m_telemetres.getDistanceARG();
         m_ELECTROBOT_ETAT_TELEMETRES.Telemetre4 = Application.m_telemetres.getDistanceARD();
-        SerialiseTrame(m_ELECTROBOT_ETAT_TELEMETRES.Encode());
+        SerialiseTrame(m_ELECTROBOT_ETAT_TELEMETRES.Encode(&trame));
     }
     // _____________________________________________
     if (m_ETAT_MATCH.isTimeToSend())
@@ -1021,7 +922,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_MATCH.DiagBlocage = Application.m_asservissement.diag_blocage;
         m_ETAT_MATCH.Score = Application.m_modelia.getScore();
         m_ETAT_MATCH.ChoixStrategie = Application.m_modelia.m_datas_interface.ChoixStrategieMatch;
-        SerialiseTrame(	m_ETAT_MATCH.Encode());
+        SerialiseTrame(m_ETAT_MATCH.Encode(&trame));
     }
     // _____________________________________________
     if (m_ETAT_EVITEMENT_OBSTACLE.isTimeToSend())
@@ -1034,7 +935,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_EVITEMENT_OBSTACLE.ObstacleDetecte = Application.m_modelia.m_inputs_interface.obstacleDetecte;
         m_ETAT_EVITEMENT_OBSTACLE.ObstacleInhibe = Application.m_modelia.m_datas_interface.evit_inhibe_obstacle;
         m_ETAT_EVITEMENT_OBSTACLE.ForcageDetectObstacleSansPosition = 0;//Application.m_modelia.m_forcage_detect_obstacle_sans_position;
-        SerialiseTrame(	m_ETAT_EVITEMENT_OBSTACLE.Encode());
+        SerialiseTrame(m_ETAT_EVITEMENT_OBSTACLE.Encode(&trame));
     }
     // _____________________________________________
     if (m_ETAT_RACK.isTimeToSend())
@@ -1043,7 +944,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_RACK.rack_consigne_moteur = (int)Application.m_asservissement_chariot.commande_moteur_chariot;
         m_ETAT_RACK.rack_convergence = (Application.m_asservissement_chariot.etat_asser_chariot==2)?1:0;
         m_ETAT_RACK.rack_modeAsservissement = Application.m_asservissement_chariot.etat_asser_chariot;
-        SerialiseTrame(	m_ETAT_RACK.Encode());
+        SerialiseTrame(m_ETAT_RACK.Encode(&trame));
     }
     // _____________________________________________
     if (m_COLOR_SENSOR.isTimeToSend())
@@ -1051,7 +952,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_COLOR_SENSOR.R=0;//Application.m_electrobot.m_color_sensor_R;
         m_COLOR_SENSOR.G=0;//Application.m_electrobot.m_color_sensor_G;
         m_COLOR_SENSOR.B=0;//Application.m_electrobot.m_color_sensor_B;
-        SerialiseTrame(	m_COLOR_SENSOR.Encode());
+        SerialiseTrame(m_COLOR_SENSOR.Encode(&trame));
     }
     // _____________________________________________
     if (m_ETAT_POWER_ELECTROBOT.isTimeToSend())
@@ -1060,7 +961,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_POWER_ELECTROBOT.global_current_mA = Application.m_power_electrobot.getRawGlobalCurrent();
         m_ETAT_POWER_ELECTROBOT.current_out1_mA = Application.m_power_electrobot.getRawCurrentOut1();
         m_ETAT_POWER_ELECTROBOT.current_out2_mA = Application.m_power_electrobot.getRawCurrentOut2();
-        SerialiseTrame(m_ETAT_POWER_ELECTROBOT.Encode());
+        SerialiseTrame(m_ETAT_POWER_ELECTROBOT.Encode(&trame));
     }
     // _____________________________________________
     if (m_MBED_ETAT_TRAME.isTimeToSend())
@@ -1070,7 +971,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_MBED_ETAT_TRAME.Valeur_mbed_etat_03=Application.m_modelia.m_datas_interface.m_tx_value_03;
         m_MBED_ETAT_TRAME.Valeur_mbed_etat_04=Application.m_modelia.m_datas_interface.m_tx_value_04;
         m_MBED_ETAT_TRAME.Cde_mbed_etat=Application.m_modelia.m_datas_interface.m_tx_code_cmd;
-        SerialiseTrame(m_MBED_ETAT_TRAME.Encode());
+        SerialiseTrame(m_MBED_ETAT_TRAME.Encode(&trame));
     }
     // _____________________________________________
     if (m_ETAT_SERVO_AX.isTimeToSend())
@@ -1085,11 +986,9 @@ void CLaBotBox::SendTramesLaBotBox(void)
                 m_ETAT_SERVO_AX.position = Application.m_servos_ax.m_positions[i];
                 m_ETAT_SERVO_AX.mouvement_en_cours = Application.m_servos_ax.m_moving[i];
 
-                SerialiseTrame(m_ETAT_SERVO_AX.Encode());
+                SerialiseTrame(m_ETAT_SERVO_AX.Encode(&trame));
             }
-
         }
-
     }
     // _____________________________________________
     if (m_ETAT_KMAR_GENERAL.isTimeToSend())
@@ -1107,7 +1006,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_KMAR_GENERAL.axis2_position = Application.m_kmar.getPosition(CKmar::AXIS_2);
         m_ETAT_KMAR_GENERAL.axis3_position = Application.m_kmar.getPosition(CKmar::AXIS_3);
         m_ETAT_KMAR_GENERAL.axis4_position = Application.m_kmar.getPosition(CKmar::AXIS_4);
-        SerialiseTrame(m_ETAT_KMAR_GENERAL.Encode());
+        SerialiseTrame(m_ETAT_KMAR_GENERAL.Encode(&trame));
     }
 }
 
@@ -1152,16 +1051,15 @@ void CLaBotBox::SerialiseTrame(tStructTrameLaBotBox *trameBrute)
    */
 unsigned char CLaBotBox::getCheckSumTrame(tStructTrameLaBotBox *trameBrute)
 {
- unsigned char checksum = 0;
- unsigned char i=0;
+    unsigned char checksum = 0;
+    unsigned char i=0;
 
- checksum += trameBrute->ID;
- checksum += trameBrute->DLC;
- for(i=0; i<trameBrute->DLC; i++) {
-          checksum += trameBrute->Data[i];
- }
-
- return(checksum);
+    checksum += trameBrute->ID;
+    checksum += trameBrute->DLC;
+    for(i=0; i<trameBrute->DLC; i++) {
+        checksum += trameBrute->Data[i];
+    }
+    return(checksum);
 }
 
 

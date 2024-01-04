@@ -1,7 +1,6 @@
 /*! \file CTrameLaBotBox.cpp
 	\brief Classe qui contient les méthodes pour le dialogue avec ANACONBOT
 */
-#include "mbed.h"
 #include "RessourcesHardware.h"
 #include "CTrameLaBotBox.h"
 
@@ -12,7 +11,7 @@
    \param --
    \return --
 */
-CTrameLaBotBox::CTrameLaBotBox() 
+CTrameLaBotBox::CTrameLaBotBox()
 {
   m_nombre_recue = 0;
   m_new_trame = false;
@@ -41,18 +40,34 @@ CTrameLaBotBox::~CTrameLaBotBox()
 */
 void CTrameLaBotBox::Decode(tStructTrameLaBotBox *trameRecue)
 {
+    (void)trameRecue;
 }
 
 //___________________________________________________________________________
  /*!
    \brief Encodage de la trame pour envoie
-   \param --
-   \return la trame à envoyer
+   \param trame un pointeur sur une structure trame deja allouee
+   \return la trame à envoyer (renvoie le pointeur passe en parametre)
    \remark Méthode de la classe mère jamais appelée
 */
-tStructTrameLaBotBox* CTrameLaBotBox::Encode(void)
+tStructTrameLaBotBox* CTrameLaBotBox::Encode(tStructTrameLaBotBox *trame)
 {
-    return nullptr;
+    return trame;
+}
+
+//___________________________________________________________________________
+/*!
+ * \brief Initialise les chamos de la trame
+ * \param trame la trame
+ */
+void CTrameLaBotBox::initTrame(tStructTrameLaBotBox *trame)
+{
+    if (!trame) return;
+    trame->ID = m_ID;
+    trame->DLC = m_DLC;
+    for (unsigned int i=0; i<m_DLC; i++) {
+      trame->Data[i] = 0;
+    }
 }
 
 //___________________________________________________________________________
@@ -100,10 +115,3 @@ bool CTrameLaBotBox::isTimeToSend()
     }
     return false;
 }
-
-
-
-
-
-
-

@@ -322,7 +322,7 @@ public :
 	unsigned char num_servo_sd20;
 
 	CTrameLaBotBox_ELECTROBOT_CDE_SERVOS_SD20();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 	void Decode(tStructTrameLaBotBox* trameRecue);
 };
 
@@ -399,7 +399,7 @@ public :
         unsigned short current_out2_mA;
 
         CTrameLaBotBox_ETAT_POWER_ELECTROBOT();
-        tStructTrameLaBotBox* Encode(void);
+        tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -566,7 +566,7 @@ public :
 	short vitesse_avance_robot_filt;
 
 	CTrameLaBotBox_ETAT_PID_ASSERVISSEMENT();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -582,7 +582,7 @@ public :
 	unsigned char Convergence;
 
 	CTrameLaBotBox_ETAT_ASSERVISSEMENT();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -595,7 +595,7 @@ public :
 	short PosCodeurD;
 
 	CTrameLaBotBox_POSITION_CODEURS();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -609,7 +609,7 @@ public :
 	short x_pos;
 
 	CTrameLaBotBox_POSITION_ABSOLUE_XY_TETA();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -622,7 +622,7 @@ public :
 	long Codeur_1;
 
 	CTrameLaBotBox_ELECTROBOT_ETAT_CODEURS_1_2();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -637,7 +637,7 @@ public :
 	unsigned char Telemetre1;
 
 	CTrameLaBotBox_ELECTROBOT_ETAT_TELEMETRES();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -650,7 +650,7 @@ public :
 	long Codeur_3;
 
 	CTrameLaBotBox_ELECTROBOT_ETAT_CODEURS_3_4();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -683,7 +683,7 @@ public :
 	unsigned char Eana9;
 
 	CTrameLaBotBox_ELECTROBOT_ETAT_CAPTEURS_2();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -702,7 +702,7 @@ public :
 	unsigned char Eana1;
 
 	CTrameLaBotBox_ELECTROBOT_ETAT_CAPTEURS_1();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -733,7 +733,7 @@ public :
         unsigned char ChoixStrategie;
 
 	CTrameLaBotBox_ECRAN_ETAT_MATCH();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 // -----------------------------
@@ -752,7 +752,7 @@ public :
         bool ForcageDetectObstacleSansPosition;
 
         CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE();
-        tStructTrameLaBotBox* Encode(void);
+        tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 // -----------------------------
@@ -767,7 +767,7 @@ public :
 	unsigned char rack_convergence;
 
 	CTrameLaBotBox_ETAT_RACK();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 // -----------------------------
@@ -780,7 +780,7 @@ public :
 	short B;
 
 	CTrameLaBotBox_ELECTROBOT_COLOR_SENSOR();
-	tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 // -----------------------------
@@ -827,7 +827,7 @@ public :
     unsigned short Cde_mbed_etat;
 
     CTrameLaBotBox_MBED_ETAT();
-    tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
@@ -845,7 +845,7 @@ public :
     unsigned char mouvement_en_cours;
 
     CTrameLaBotBox_ETAT_SERVO_AX();
-    tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 // ========================================================
@@ -897,7 +897,7 @@ public :
     unsigned short axis4_position;
 
     CTrameLaBotBox_ETAT_KMAR_GENERAL();
-    tStructTrameLaBotBox* Encode(void);
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 
