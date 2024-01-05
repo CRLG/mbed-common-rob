@@ -18,7 +18,7 @@
 
 
 #include "CTrameLaBotBox.h"
-
+#include "Lidar_utils.h"
 
 // Enumérés, defines, ...
 #define ID_COMMANDE_POWER_ELECTROBOT 0x60
@@ -58,6 +58,7 @@
 #define ID_MBED_ETAT 0x96
 #define ID_ETAT_SERVO_AX 0x97
 #define ID_ETAT_KMAR_GENERAL 0x98
+#define ID_ETAT_LIDAR 0x99
 
 #define DLC_COMMANDE_POWER_ELECTROBOT 4
 #define DLC_ETAT_POWER_ELECTROBOT 8
@@ -96,6 +97,7 @@
 #define DLC_ETAT_SERVO_AX 8
 #define DLC_COMMANDE_KMAR 5
 #define DLC_ETAT_KMAR_GENERAL 12
+#define DLC_ETAT_LIDAR 64
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
 #define PHYS2BRUTE_valeur_commande_sd20(val) (unsigned short)( (val - (0.000000)) / (1.000000) ) 
@@ -900,6 +902,18 @@ public :
     tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
+// ========================================================
+//             TRAME ETAT_LIDAR
+// ========================================================
+class CTrameLaBotBox_ETAT_LIDAR : public CTrameLaBotBox
+{
+public :
+    unsigned char m_status;         // voir enum "eLidarStatus"
+    LidarUtils::tLidarObstacles m_obstacles;  // tableaux
+
+    CTrameLaBotBox_ETAT_LIDAR();
+    void Decode(tStructTrameLaBotBox* trameRecue);
+};
 
 
 #endif

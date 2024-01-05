@@ -78,6 +78,7 @@ void CLaBotBox::initListeTrames()
     m_liste_trames[m_nombre_trames++] = &m_ETAT_SERVO_AX;
     m_liste_trames[m_nombre_trames++] = &m_COMMANDE_KMAR;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_KMAR_GENERAL;
+    m_liste_trames[m_nombre_trames++] = &m_ETAT_LIDAR;
 }
 
 
@@ -803,6 +804,14 @@ void CLaBotBox::CheckReceptionTrame(void)
               break;
           }
       }
+  }
+  // ___________________________
+  if (m_ETAT_LIDAR.isNewTrame())
+  {
+      // TODO : infos du LIDAR a transmettre a la couche applicative pour exploitation
+      // En attendant, une simple recopie de la structure
+      LidarUtils::copy_tab_obstacles(m_ETAT_LIDAR.m_obstacles, Application.m_modelia.m_inputs_interface.m_lidar_obstacles);
+      Application.m_modelia.m_inputs_interface.m_lidar_status = m_ETAT_LIDAR.m_status;
   }
 }
 

@@ -1377,5 +1377,48 @@ tStructTrameLaBotBox* CTrameLaBotBox_ETAT_KMAR_GENERAL::Encode(tStructTrameLaBot
 
     return(trame);
 }
+
+
+// ========================================================
+//             TRAME ETAT_LIDAR
+// ========================================================
+CTrameLaBotBox_ETAT_LIDAR::CTrameLaBotBox_ETAT_LIDAR()
+{
+    m_ID = ID_ETAT_LIDAR;
+    m_DLC = DLC_ETAT_LIDAR;
+}
+
+//___________________________________________________________________________
+/*!
+  \brief Encode et envoie la trame
+*/
+void CTrameLaBotBox_ETAT_LIDAR::Decode(tStructTrameLaBotBox *trameRecue)
+{
+    m_status = CDataEncoderDecoder::decode_int8(trameRecue->Data, 0);
+
+    /*  Recupere les infos des 20 obstacles :
+     *  2 octets pour l'angle signe
+     *  1 octet pour la distance non signee
+    m_obstacles[1].angle = CDataEncoderDecoder::decode_int16(trameRecue->Data, 1);
+    m_obstacles[1].distance = CDataEncoderDecoder::decode_int8(trameRecue->Data, 3);
+
+    m_obstacles[2].angle = CDataEncoderDecoder::decode_int16(trameRecue->Data, 4);
+    m_obstacles[2].distance = CDataEncoderDecoder::decode_int8(trameRecue->Data, 6);
+
+    ...
+    */
+    int _byte_num = 1;
+    for (int i=0; i<LidarUtils::NBRE_MAX_OBSTACLES; i++) {
+        m_obstacles[i].angle = CDataEncoderDecoder::decode_int16(trameRecue->Data, _byte_num);
+        _byte_num+=2;
+        m_obstacles[i].distance = (unsigned char)CDataEncoderDecoder::decode_int8(trameRecue->Data, _byte_num);
+        _byte_num+=1;
+    }
+
+    m_new_trame = true;
+    m_nombre_recue++;
+}
+
+
 /*! @} */
 
