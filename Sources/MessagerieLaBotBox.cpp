@@ -1419,6 +1419,32 @@ void CTrameLaBotBox_ETAT_LIDAR::Decode(tStructTrameLaBotBox *trameRecue)
     m_nombre_recue++;
 }
 
+// ========================================================
+//             TRAME FREE_STRING
+// ========================================================
+CTrameLaBotBox_FREE_STRING::CTrameLaBotBox_FREE_STRING()
+{
+    m_ID = ID_FREE_STRING;
+    m_DLC = DLC_FREE_STRING;
+}
+//___________________________________________________________________________
+ /*!
+   \brief Decode les signaux de la trame
+        - Renseigne les champs de la structure de donnee de la trame a transmettre
+   \param trame pointeur sur une structure trame deja alloue
+   \return le pointeur sur la trame a envoyer (renvoie le pointeur recu)
+   */
+tStructTrameLaBotBox* CTrameLaBotBox_FREE_STRING::Encode(tStructTrameLaBotBox* trame)
+{
+    initTrame(trame);
+
+    // Encode chacun des signaux de la trame
+    for (int i=0; i<m_DLC; i++) {
+        trame->Data[i] = m_str[i];
+    }
+
+    return(trame);
+}
 
 /*! @} */
 

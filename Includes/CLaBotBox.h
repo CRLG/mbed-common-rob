@@ -149,7 +149,7 @@ public :
     //! Fixe la période de toutes les trames TX d'un seul coup
     void setAllTransmitPeriod(int period_msec);
 
-#define NOMBRE_MAX_TRAMES_LABOTBOX 38
+#define NOMBRE_MAX_TRAMES_LABOTBOX 39
 	// __________________________________________ INSTANCE DE CHAQUE TRAME
 	//! Trame
     CTrameLaBotBox_COMMANDE_POWER_ELECTROBOT    m_COMMANDE_POWER_ELECTROBOT;
@@ -189,7 +189,8 @@ public :
     CTrameLaBotBox_ETAT_SERVO_AX                m_ETAT_SERVO_AX;
     CTrameLaBotBox_COMMANDE_KMAR                m_COMMANDE_KMAR;
     CTrameLaBotBox_ETAT_KMAR_GENERAL            m_ETAT_KMAR_GENERAL;
-    CTrameLaBotBox_ETAT_LIDAR                  m_ETAT_LIDAR;
+    CTrameLaBotBox_ETAT_LIDAR                   m_ETAT_LIDAR;
+    CTrameLaBotBox_FREE_STRING                  m_FREE_STRING;
 
 private : 
     //! Autorise la réception de données en IRQ en provenance de Labotbox

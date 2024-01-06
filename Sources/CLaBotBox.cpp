@@ -79,6 +79,7 @@ void CLaBotBox::initListeTrames()
     m_liste_trames[m_nombre_trames++] = &m_COMMANDE_KMAR;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_KMAR_GENERAL;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_LIDAR;
+    m_liste_trames[m_nombre_trames++] = &m_FREE_STRING;
 }
 
 

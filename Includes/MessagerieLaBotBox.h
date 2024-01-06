@@ -59,6 +59,7 @@
 #define ID_ETAT_SERVO_AX 0x97
 #define ID_ETAT_KMAR_GENERAL 0x98
 #define ID_ETAT_LIDAR 0x99
+#define ID_FREE_STRING 0x10A
 
 #define DLC_COMMANDE_POWER_ELECTROBOT 4
 #define DLC_ETAT_POWER_ELECTROBOT 8
@@ -98,6 +99,7 @@
 #define DLC_COMMANDE_KMAR 5
 #define DLC_ETAT_KMAR_GENERAL 12
 #define DLC_ETAT_LIDAR 64
+#define DLC_FREE_STRING 64
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
 #define PHYS2BRUTE_valeur_commande_sd20(val) (unsigned short)( (val - (0.000000)) / (1.000000) ) 
@@ -915,6 +917,18 @@ public :
     void Decode(tStructTrameLaBotBox* trameRecue);
 };
 
+// ========================================================
+//             TRAME FREE_STRING
+// ========================================================
+class CTrameLaBotBox_FREE_STRING : public CTrameLaBotBox
+{
+public :
+    //! Les signaux de la messagerie
+    char m_str[64];
+
+    CTrameLaBotBox_FREE_STRING();
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
+};
 
 #endif
 /*! @} */
