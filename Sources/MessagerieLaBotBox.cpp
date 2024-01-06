@@ -1396,23 +1396,18 @@ void CTrameLaBotBox_ETAT_LIDAR::Decode(tStructTrameLaBotBox *trameRecue)
 {
     m_status = CDataEncoderDecoder::decode_int8(trameRecue->Data, 0);
 
-    /*  Recupere les infos des 20 obstacles :
-     *  2 octets pour l'angle signe
-     *  1 octet pour la distance non signee
-    m_obstacles[1].angle = CDataEncoderDecoder::decode_int16(trameRecue->Data, 1);
-    m_obstacles[1].distance = CDataEncoderDecoder::decode_int8(trameRecue->Data, 3);
-
-    m_obstacles[2].angle = CDataEncoderDecoder::decode_int16(trameRecue->Data, 4);
-    m_obstacles[2].distance = CDataEncoderDecoder::decode_int8(trameRecue->Data, 6);
-
-    ...
-    */
+    //  Recupere les infos des 20 obstacles :
+    // 24 bits pour vehiculer angle (non signe [0;360deg] sur 12 bits) et distance (sur 12 bits)
+    // 12 bits MSB : angle / 12 bits LSB : distance
+    //   octet 1 |  octet2  |  octet3 |       octet4 |  octet5  |  octet6     ...
+    //  xxxx xxxx xxxx  xxxx xxxx xxxx       xxxx xxxx xxxx  xxxx xxxx xxxx    ...
+    // <     ANGLE1   ><   DISTANCE1  >     <     ANGLE2   ><   DISTANCE2  >   ...
     int _byte_num = 1;
     for (int i=0; i<LidarUtils::NBRE_MAX_OBSTACLES; i++) {
-        m_obstacles[i].angle = CDataEncoderDecoder::decode_int16(trameRecue->Data, _byte_num);
-        _byte_num+=2;
-        m_obstacles[i].distance = (unsigned char)CDataEncoderDecoder::decode_int8(trameRecue->Data, _byte_num);
-        _byte_num+=1;
+        unsigned long ulval_24bits = CDataEncoderDecoder::decode_uint24(trameRecue->Data, _byte_num);
+        m_obstacles[i].angle = ((ulval_24bits >> 12)&0xFFF) - 180; // ramene l'angle de [0;360] a [-180;+180]
+        m_obstacles[i].distance = ulval_24bits & 0xFFF;
+        _byte_num+=3;
     }
 
     m_new_trame = true;
