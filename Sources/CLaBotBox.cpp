@@ -45,7 +45,6 @@ void CLaBotBox::initListeTrames()
 
     m_liste_trames[m_nombre_trames++] = &m_COMMANDE_POWER_ELECTROBOT;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_POWER_ELECTROBOT;
-    m_liste_trames[m_nombre_trames++] = &m_ELECTROBOT_CDE_POWER_SWITCH;
     m_liste_trames[m_nombre_trames++] = &m_ELECTROBOT_CDE_MOTEURS;
     m_liste_trames[m_nombre_trames++] = &m_COMMANDE_MVT_XY;
     m_liste_trames[m_nombre_trames++] = &m_ASSERV_RESET;
@@ -446,10 +445,6 @@ void CLaBotBox::CheckReceptionTrame(void)
           default :
           break;
       }
-  }
-  // ___________________________
-  if  (m_ELECTROBOT_CDE_POWER_SWITCH.isNewTrame() ) {
-      Application.m_power_switch.setPort(m_ELECTROBOT_CDE_POWER_SWITCH.port);
   }
   // ___________________________
   if  (m_ELECTROBOT_CDE_MOTEURS.isNewTrame() ) {

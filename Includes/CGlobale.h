@@ -19,7 +19,6 @@
 #include "CAsservissementSulfateuse.h"
 #include "CAsservissementChariot.h"
 #include "MessengerXbeeNetwork.h"
-#include "PowerSwitch.h"
 #include "PowerElectrobot.h"
 #include "CTelemetres.h"
 #include "CDetectionObstaclesBase.h"
@@ -46,7 +45,6 @@ typedef enum {
 #define TEMPO_10sec     (10000/PERIODE_TICK)
 #define TEMPO_15sec     (15000/PERIODE_TICK)
 
-#define POWER_SWITCH_I2C_ADDR 0x48
 #define POWER_ELECTROBOT_I2C_ADDR 0x54
 
 // -----------------------------
@@ -78,8 +76,6 @@ public :
     //! L'asservissement de vitesse/position du robot
     // ATTENTION : l'instance de la classe asservisement doit être mise après l'instance de eeprom car CAsservissement utilise CEEPROM dans son constructeur
     CAsservissement m_asservissement;
-    //! Carte PowerSwitch
-    PowerSwitch m_power_switch;
     //! Carte PowerElectrobot
     PowerElectrobot m_power_electrobot;
     //! Gestion des servos moteurs controlés par le SD20

@@ -152,41 +152,6 @@ void CTrameLaBotBox_ELECTROBOT_CDE_MOTEURS::Decode(tStructTrameLaBotBox *trameRe
    \param --
    \return --
    */
-CTrameLaBotBox_ELECTROBOT_CDE_POWER_SWITCH::CTrameLaBotBox_ELECTROBOT_CDE_POWER_SWITCH()
-{
-  m_ID = ID_ELECTROBOT_CDE_POWER_SWITCH;
-  m_DLC = DLC_ELECTROBOT_CDE_POWER_SWITCH;
-}
-//___________________________________________________________________________
- /*!
-   \brief Decode les signaux de la trame ELECTROBOT_CDE_POWER_SWITCH
-
-        - Renseigne les champs de la structure de donnee de la trame
-   \param bufBrut le buffer des octets de la trames a decoder
-   \return --
-   */
-void CTrameLaBotBox_ELECTROBOT_CDE_POWER_SWITCH::Decode(tStructTrameLaBotBox *trameRecue)
-{
-   // Decode les signaux de la trame
-   cde_xt1 = (trameRecue->Data[0] >> 0) & 0x01;
-   cde_xt2 = (trameRecue->Data[0] >> 1) & 0x01;
-   cde_xt3 = (trameRecue->Data[0] >> 2) & 0x01;
-   cde_xt4 = (trameRecue->Data[0] >> 3) & 0x01;
-   cde_xt5 = (trameRecue->Data[0] >> 4) & 0x01;
-   cde_xt6 = (trameRecue->Data[0] >> 5) & 0x01;
-   cde_xt7 = (trameRecue->Data[0] >> 6) & 0x01;
-   cde_xt8 = (trameRecue->Data[0] >> 7) & 0x01;
-   port = trameRecue->Data[0];
-  m_new_trame = true;
-  m_nombre_recue++;
-}
-
-//___________________________________________________________________________
- /*!
-   \brief Constructeur
-   \param --
-   \return --
-   */
 CTrameLaBotBox_COMMANDE_POWER_ELECTROBOT::CTrameLaBotBox_COMMANDE_POWER_ELECTROBOT()
 {
   m_ID = ID_COMMANDE_POWER_ELECTROBOT;

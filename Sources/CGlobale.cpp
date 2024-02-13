@@ -77,9 +77,6 @@ void CGlobale::Run(void)
 
     m_messenger_xbee_ntw.start();
 
-    // Carte de commutationd e puissance Power Switch
-    m_power_switch.init(POWER_SWITCH_I2C_ADDR);
-
     // Carte PowerElectrobot
     m_power_electrobot.init(POWER_ELECTROBOT_I2C_ADDR);
 
