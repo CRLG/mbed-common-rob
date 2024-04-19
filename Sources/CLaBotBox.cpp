@@ -804,10 +804,16 @@ void CLaBotBox::CheckReceptionTrame(void)
   // ___________________________
   if (m_ETAT_LIDAR.isNewTrame())
   {
-      // TODO : infos du LIDAR a transmettre a la couche applicative pour exploitation
-      // En attendant, une simple recopie de la structure
       LidarUtils::copy_tab_obstacles(m_ETAT_LIDAR.m_obstacles, Application.m_modelia.m_inputs_interface.m_lidar_obstacles);
       Application.m_modelia.m_inputs_interface.m_lidar_status = m_ETAT_LIDAR.m_status;
+  }
+  else // recherche une perte de communication et force le statut LIDAR si c'est le cas
+  {
+      const int LOST_COM_ETAT_LIDAR = 500; // msec
+      int _current_time = _Global_Timer.read_ms();
+      if ((_current_time - m_ETAT_LIDAR.m_last_time_rx) > LOST_COM_ETAT_LIDAR) {
+        Application.m_modelia.m_inputs_interface.m_lidar_status = LidarUtils::LIDAR_DISCONNECTED;
+      }
   }
 }
 

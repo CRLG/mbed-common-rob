@@ -1351,6 +1351,7 @@ CTrameLaBotBox_ETAT_LIDAR::CTrameLaBotBox_ETAT_LIDAR()
 {
     m_ID = ID_ETAT_LIDAR;
     m_DLC = DLC_ETAT_LIDAR;
+    m_last_time_rx = 0;
 }
 
 //___________________________________________________________________________
@@ -1377,6 +1378,7 @@ void CTrameLaBotBox_ETAT_LIDAR::Decode(tStructTrameLaBotBox *trameRecue)
 
     m_new_trame = true;
     m_nombre_recue++;
+    m_last_time_rx = _Global_Timer.read_ms();  // note l'heure de la derniere reception pour la detection de perte de communication
 }
 
 // ========================================================

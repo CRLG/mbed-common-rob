@@ -891,6 +891,7 @@ class CTrameLaBotBox_ETAT_LIDAR : public CTrameLaBotBox
 public :
     unsigned char m_status;         // voir enum "eLidarStatus"
     LidarUtils::tLidarObstacles m_obstacles;  // tableaux
+    int m_last_time_rx;
 
     CTrameLaBotBox_ETAT_LIDAR();
     void Decode(tStructTrameLaBotBox* trameRecue);
