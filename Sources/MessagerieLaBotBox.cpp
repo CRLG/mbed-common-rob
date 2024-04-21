@@ -807,6 +807,10 @@ tStructTrameLaBotBox* CTrameLaBotBox_ELECTROBOT_ETAT_TELEMETRES::Encode(tStructT
     initTrame(trame);
 
   	// Encode chacun des signaux de la trame
+    trame->Data[5] |= (unsigned char)( ( (Telemetre6) & 0xFF) );
+
+    trame->Data[4] |= (unsigned char)( ( (Telemetre5) & 0xFF) );
+
     trame->Data[3] |= (unsigned char)( ( (Telemetre4) & 0xFF) );
 
     trame->Data[2] |= (unsigned char)( ( (Telemetre3) & 0xFF) );

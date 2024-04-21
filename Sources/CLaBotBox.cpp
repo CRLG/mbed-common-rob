@@ -920,6 +920,8 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ELECTROBOT_ETAT_TELEMETRES.Telemetre2 = Application.m_telemetres.getDistanceAVD();
         m_ELECTROBOT_ETAT_TELEMETRES.Telemetre3 = Application.m_telemetres.getDistanceARG();
         m_ELECTROBOT_ETAT_TELEMETRES.Telemetre4 = Application.m_telemetres.getDistanceARD();
+        m_ELECTROBOT_ETAT_TELEMETRES.Telemetre5 = Application.m_telemetres.getDistanceARGCentre();
+        m_ELECTROBOT_ETAT_TELEMETRES.Telemetre6 = Application.m_telemetres.getDistanceARDCentre();
         SerialiseTrame(m_ELECTROBOT_ETAT_TELEMETRES.Encode(&trame));
     }
     // _____________________________________________

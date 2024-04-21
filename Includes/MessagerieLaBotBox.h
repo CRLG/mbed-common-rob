@@ -81,7 +81,7 @@
 #define DLC_POSITION_CODEURS 8
 #define DLC_POSITION_ABSOLUE_XY_TETA 6
 #define DLC_ELECTROBOT_ETAT_CODEURS_1_2 8
-#define DLC_ELECTROBOT_ETAT_TELEMETRES 4
+#define DLC_ELECTROBOT_ETAT_TELEMETRES 6
 #define DLC_ELECTROBOT_ETAT_CODEURS_3_4 8
 #define DLC_ELECTROBOT_ETAT_CAPTEURS_2 8
 #define DLC_ELECTROBOT_ETAT_CAPTEURS_1 8
@@ -217,6 +217,10 @@
 #define PHYS2BRUTE_Codeur_2(val) (long)( (val - (0.000000)) / (1.000000) ) 
 #define BRUTE2PHYS_Codeur_1(val) ( ((float)val * (1.000000)) + (0.000000) ) 
 #define PHYS2BRUTE_Codeur_1(val) (long)( (val - (0.000000)) / (1.000000) ) 
+#define BRUTE2PHYS_Telemetre6(val) ( ((float)val * (1.000000)) + (0.000000) )
+#define PHYS2BRUTE_Telemetre6(val) (unsigned char)( (val - (0.000000)) / (1.000000) )
+#define BRUTE2PHYS_Telemetre5(val) ( ((float)val * (1.000000)) + (0.000000) )
+#define PHYS2BRUTE_Telemetre5(val) (unsigned char)( (val - (0.000000)) / (1.000000) )
 #define BRUTE2PHYS_Telemetre4(val) ( ((float)val * (1.000000)) + (0.000000) ) 
 #define PHYS2BRUTE_Telemetre4(val) (unsigned char)( (val - (0.000000)) / (1.000000) ) 
 #define BRUTE2PHYS_Telemetre3(val) ( ((float)val * (1.000000)) + (0.000000) ) 
@@ -614,7 +618,9 @@ public :
 class CTrameLaBotBox_ELECTROBOT_ETAT_TELEMETRES : public CTrameLaBotBox {
 public :
 	//! Les signaux de la messagerie
-	unsigned char Telemetre4;
+    unsigned char Telemetre6;
+    unsigned char Telemetre5;
+    unsigned char Telemetre4;
 	unsigned char Telemetre3;
 	unsigned char Telemetre2;
 	unsigned char Telemetre1;
