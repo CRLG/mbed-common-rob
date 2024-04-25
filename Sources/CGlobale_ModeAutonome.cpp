@@ -71,6 +71,7 @@ void CGlobale::SequenceurModeAutonome(void)
   static unsigned int cpt200msec = 0;
   static unsigned int cpt500msec = 0;
   static unsigned int cpt1sec = 0;
+  static bool old_match_en_cours=0;
 
   // ______________________________
   cpt10msec++;
@@ -122,8 +123,8 @@ void CGlobale::SequenceurModeAutonome(void)
     // dès que le match est commencé, supprime l'IRQ sur RS232 de l'ecran pour ne pas risquer d'interrompre le match
     // lorsque le match est terminé, ré-active la communication entrante et diffuse à nouveau toutes les trames
     if (m_modelia.isMatchEnCours()) {
-        if (m_LaBotBox.isRxEnabled()) {  // Ca permet de détecter un front montant du début de match
-            m_LaBotBox.StopRx();
+        if (old_match_en_cours == 0) {  // Ca permet de détecter un front montant du début de match
+            //m_LaBotBox.StopRx();  // utilisation du LIDAR en provenance de la RPI -> nécessite la communication RPI->MBED
             m_LaBotBox.setAllTransmitPeriod(CTrameLaBotBox::NO_PERIODIC);  // Inhibe toutes les émissions de trames
             m_LaBotBox.m_ETAT_MATCH.setTransmitPeriod(200);                // sauf la trame spécifique match
             m_LaBotBox.m_MBED_ETAT_TRAME.setTransmitPeriod(200);
@@ -131,13 +132,16 @@ void CGlobale::SequenceurModeAutonome(void)
             m_LaBotBox.m_MBED_CMDE_TRAME.setTransmitPeriod(200); //recoit des infos génériques de la rasp comme des traitements video
             m_LaBotBox.m_MBED_ETAT_TRAME.setTransmitPeriod(200); //envoit des demandes génériques à la rasp comme des demande de traitement video
         }
+        old_match_en_cours = 1;
     }
     else {
-        if (!m_LaBotBox.isRxEnabled()) {
-            m_LaBotBox.Start();
+        if (old_match_en_cours != 0) {  // detecte un front montant du match terminé
+            if (!m_LaBotBox.isRxEnabled()) m_LaBotBox.Start();  // réactive l'autorisation d'émettre si desactivé
             m_LaBotBox.setAllTransmitPeriod(200);  // Toutes les trames sont envoyées à Labotbox avec la même période
         }
+        old_match_en_cours = 0;
     }
+
     m_power_electrobot.periodicCall();
 
   }
