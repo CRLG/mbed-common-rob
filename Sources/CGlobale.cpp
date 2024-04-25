@@ -69,23 +69,31 @@ void CGlobale::Run(void)
     m_electrobot.Init();
 
     //Init de l'asservissement chariot
+#ifdef UTILISATION_CHARIOT
     m_asservissement_chariot.Init();
+#endif
 
     // Initialisation des servos moteurs
     m_servos_sd20.Init();
-    m_servos_ax.Init();
 
+#ifdef UTILSATION_SERVOS_AX
+    m_servos_ax.Init();
+#endif
+
+#ifdef UTILISATION_XBEE
     m_messenger_xbee_ntw.start();
+#endif
 
     // Carte PowerElectrobot
     m_power_electrobot.init(POWER_ELECTROBOT_I2C_ADDR);
 
+#ifdef UTILISATION_CHARIOT
     //Init de l'asservissement chariot en cas de plantage de l'eeprom
     if ((Application.m_asservissement_chariot.commande_chariot_max_C==0) ||
             (Application.m_asservissement_chariot.compensation_zone_morte_dw_C==0) ||
             (Application.m_asservissement_chariot.compensation_zone_morte_up_C==0))
         m_asservissement_chariot.Init();
-
+#endif
     _rs232_pc_tx.printf("ki_angle = %f\n\r", Application.m_asservissement.ki_angle);
     _rs232_pc_tx.printf("cde_max = %d\n\r", Application.m_asservissement.cde_max);
     _rs232_pc_tx.printf("cde_min = %d\n\r", Application.m_asservissement.cde_min);

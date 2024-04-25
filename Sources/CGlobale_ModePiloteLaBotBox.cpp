@@ -77,18 +77,26 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
     m_capteurs.Traitement();
     m_telemetres.Traitement();
     m_asservissement.CalculsMouvementsRobots();
+#ifdef UTILISATION_CHARIOT
     m_asservissement_chariot.Asser_chariot();
+#endif
+    _led3 = !_led3;
   }
 
   // ______________________________
   cpt50msec++;
   if (cpt50msec >= TEMPO_50msec) {
   	cpt50msec = 0;
-
+#ifdef UTILISATION_XBEE
     m_messenger_xbee_ntw.execute();
-    m_leds.compute();
+#endif
+#ifdef UTILSATION_SERVOS_AX
     m_servos_ax.compute();
+#endif
+#ifdef UTILISATION_KMAR
     m_kmar.compute();
+#endif
+    m_leds.compute();
   }
 
   // ______________________________
@@ -113,7 +121,7 @@ void CGlobale::SequenceurModePiloteLaBotBox(void)
   if (cpt1sec >= TEMPO_1sec) {
   	cpt1sec = 0;
 
-    Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.Timestamp++;
+   // Application.m_messenger_xbee_ntw.m_database.m_TimestampMatch.Timestamp++;
     m_power_electrobot.refreshOuptuts();
   }
 

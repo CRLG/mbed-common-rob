@@ -91,7 +91,9 @@ void CGlobale::SequenceurModeAutonome(void)
     m_capteurs.Traitement();
     m_telemetres.Traitement();
     m_asservissement.CalculsMouvementsRobots();
+#ifdef UTILISATION_CHARIOT
     m_asservissement_chariot.Asser_chariot();
+#endif
 
 	// Execute un pas de calcul du modele
     m_modelia.step();
@@ -103,10 +105,16 @@ void CGlobale::SequenceurModeAutonome(void)
   if (cpt50msec >= TEMPO_50msec) {
   	cpt50msec = 0;
 
+#ifdef UTILISATION_XBEE
     m_messenger_xbee_ntw.execute();
-    m_leds.compute();
+#endif
+#ifdef UTILSATION_SERVOS_AX
     m_servos_ax.compute();
+#endif
+#ifdef UTILISATION_KMAR
     m_kmar.compute();
+#endif
+    m_leds.compute();
   }
 
   // ______________________________
