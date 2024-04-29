@@ -1412,5 +1412,31 @@ tStructTrameLaBotBox* CTrameLaBotBox_FREE_STRING::Encode(tStructTrameLaBotBox* t
     return(trame);
 }
 
+// ========================================================
+//             TRAME ETAT_KMAR_GENERAL
+// ========================================================
+CTrameLaBotBox_ETAT_CHARGE_CPU::CTrameLaBotBox_ETAT_CHARGE_CPU()
+{
+    m_ID = ID_ETAT_CHARGE_CPU;
+    m_DLC = DLC_ETAT_CHARGE_CPU;
+}
+//___________________________________________________________________________
+ /*!
+   \brief Decode les signaux de la trame
+        - Renseigne les champs de la structure de donnee de la trame a transmettre
+   \param trame pointeur sur une structure trame deja alloue
+   \return le pointeur sur la trame a envoyer (renvoie le pointeur recu)
+   */
+tStructTrameLaBotBox* CTrameLaBotBox_ETAT_CHARGE_CPU::Encode(tStructTrameLaBotBox* trame)
+{
+    initTrame(trame);
+
+    // Encode chacun des signaux de la trame
+    CDataEncoderDecoder::encode_uint32(trame->Data,    0,  cpu_overload_counter);
+    CDataEncoderDecoder::encode_uint32(trame->Data,    4,  task_real_period_usec);
+
+    return(trame);
+}
+
 /*! @} */
 

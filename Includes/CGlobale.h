@@ -107,6 +107,10 @@ public :
     //camera
     int m_distance_camera;
 
+    // Charge CPU
+    unsigned long m_cpu_overload_counter;            // indicateur de surcharge CPU
+    unsigned long m_cpu_load_delta_t;       // delta T entre les 2 derniers appels de la tache surveillee
+    unsigned long m_cpu_load_last_time_us;
 
     CGlobale();
     ~CGlobale();
@@ -155,6 +159,9 @@ private :
 
     //! Lecture eeprom
     void readEEPROM();
+
+    //! Calcul de la surcharge CPU
+    void RefreshIndicateurSurchargeCPU();
 };
 
 

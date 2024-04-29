@@ -79,6 +79,7 @@ void CLaBotBox::initListeTrames()
     m_liste_trames[m_nombre_trames++] = &m_ETAT_KMAR_GENERAL;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_LIDAR;
     m_liste_trames[m_nombre_trames++] = &m_FREE_STRING;
+    m_liste_trames[m_nombre_trames++] = &m_ETAT_CHARGE_CPU;
 }
 
 
@@ -1020,6 +1021,13 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_KMAR_GENERAL.axis3_position = Application.m_kmar.getPosition(CKmar::AXIS_3);
         m_ETAT_KMAR_GENERAL.axis4_position = Application.m_kmar.getPosition(CKmar::AXIS_4);
         SerialiseTrame(m_ETAT_KMAR_GENERAL.Encode(&trame));
+    }
+    // _____________________________________________
+    if (m_ETAT_CHARGE_CPU.isTimeToSend())
+    {
+        m_ETAT_CHARGE_CPU.cpu_overload_counter = Application.m_cpu_overload_counter; //Application.m_cpu_overload_counter;
+        m_ETAT_CHARGE_CPU.task_real_period_usec= Application.m_cpu_load_delta_t;
+        SerialiseTrame(m_ETAT_CHARGE_CPU.Encode(&trame));
     }
 }
 

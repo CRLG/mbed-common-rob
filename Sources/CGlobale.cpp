@@ -21,6 +21,8 @@ CGlobale::CGlobale()
 {
     ModeFonctionnement = MODE_AUTONOME;
     m_distance_camera=0;
+    m_cpu_overload_counter=0;
+    m_cpu_load_last_time_us=0;
 }
 
 //___________________________________________________________________________
@@ -147,11 +149,29 @@ void CGlobale::readEEPROM()
     m_eeprom.getValue("rackGradVit", &(m_asservissement_chariot.offset_vitesse_max_C));
 }
 
+//___________________________________________________________________________
+/*!
+ * \brief Met a jour l'indicateur de surcharge CPU base sur le principe suivant
+ *     Si le delai calcule entre 2 appels est superieur a un certain seuil -> incremente l'indicateur de surcharge CPU
+ *     Sinon, RAZ du compteur
+ */
+const int PERIOD_REFRESH_INDICATEUR_CPU_USEC = (20000); // usec (periode d'appel de la fonction de calcul de la surcharge CPU)
+const int TOLERANCE_SURCHARGE_CPU_USEC = 10; // usec
+const int SEUIL_SURCHARGE_CPU_USEC  = (PERIOD_REFRESH_INDICATEUR_CPU_USEC+TOLERANCE_SURCHARGE_CPU_USEC);
+void CGlobale::RefreshIndicateurSurchargeCPU()
+{
+    int _current_time_us = _Global_Timer.read_us();
+    m_cpu_load_delta_t = _current_time_us - m_cpu_load_last_time_us;
 
+    int _diff = abs((long)m_cpu_load_delta_t - PERIOD_REFRESH_INDICATEUR_CPU_USEC);
 
+    if ( _diff  > TOLERANCE_SURCHARGE_CPU_USEC) {
+        m_cpu_overload_counter += 1;
+    }
+    else {
+        if (m_cpu_overload_counter>0) m_cpu_overload_counter -=1;
+    }
 
-
-
-
-
+    m_cpu_load_last_time_us = _current_time_us;
+}
 

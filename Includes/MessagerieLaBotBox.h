@@ -59,6 +59,7 @@
 #define ID_ETAT_KMAR_GENERAL 0x98
 #define ID_ETAT_LIDAR 0x99
 #define ID_FREE_STRING 0x10A
+#define ID_ETAT_CHARGE_CPU 0x10B
 
 #define DLC_COMMANDE_POWER_ELECTROBOT 4
 #define DLC_ETAT_POWER_ELECTROBOT 8
@@ -98,6 +99,8 @@
 #define DLC_ETAT_KMAR_GENERAL 12
 #define DLC_ETAT_LIDAR 64
 #define DLC_FREE_STRING 64
+#define DLC_ETAT_CHARGE_CPU 8
+
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
 #define PHYS2BRUTE_valeur_commande_sd20(val) (unsigned short)( (val - (0.000000)) / (1.000000) ) 
@@ -915,6 +918,21 @@ public :
     CTrameLaBotBox_FREE_STRING();
     tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
+
+// ========================================================
+//             TRAME ETAT_CHARGE_CPU
+// ========================================================
+class CTrameLaBotBox_ETAT_CHARGE_CPU : public CTrameLaBotBox
+{
+public :
+    //! Les signaux de la messagerie
+    unsigned long cpu_overload_counter;     // un compteur qui indique la derive de la charge CPU
+    unsigned long task_real_period_usec;    // le delta T entre les 2 derniers appels de la tache surveillee
+
+    CTrameLaBotBox_ETAT_CHARGE_CPU();
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
+};
+
 
 #endif
 /*! @} */
