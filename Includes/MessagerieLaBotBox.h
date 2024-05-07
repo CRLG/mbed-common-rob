@@ -716,6 +716,7 @@ class CTrameLaBotBox_ECRAN_ETAT_MATCH : public CTrameLaBotBox {
 public :
 	//! Les signaux de la messagerie
 	unsigned char ObstacleDetecte;
+    unsigned char OrigineDetectionObstacle; // 0=Ultrasons / 1=LIDAR
 	unsigned char DiagBlocage;
 	unsigned char ConvergenceAsserv;
 	unsigned char ModeFonctionnement;

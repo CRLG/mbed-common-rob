@@ -1036,7 +1036,9 @@ tStructTrameLaBotBox* CTrameLaBotBox_ECRAN_ETAT_MATCH::Encode(tStructTrameLaBotB
     trame->Data[4] |= (unsigned char)( ( (Score) & 0xFF) );
     trame->Data[3] |= (unsigned char)( ( (Score >> 8) & 0xFF) );
 
-    trame->Data[2] |= (unsigned char)( ( (ObstacleDetecte) & 0x3) << 6 );
+    trame->Data[2] |= (unsigned char)( ( (OrigineDetectionObstacle) & 0x1) << 7 );
+
+    trame->Data[2] |= (unsigned char)( ( (ObstacleDetecte) & 0x1) << 6 );
 
     trame->Data[2] |= (unsigned char)( ( (DiagBlocage) & 0x1) << 5 );
 

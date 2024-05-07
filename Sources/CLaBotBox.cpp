@@ -932,6 +932,7 @@ void CLaBotBox::SendTramesLaBotBox(void)
         m_ETAT_MATCH.CouleurEquipe = Application.m_modelia.m_datas_interface.couleur_equipe;
         m_ETAT_MATCH.ModeFonctionnement = Application.ModeFonctionnement;
         m_ETAT_MATCH.ObstacleDetecte = Application.m_modelia.m_inputs_interface.obstacleDetecte;
+        m_ETAT_MATCH.OrigineDetectionObstacle = (Application.m_modelia.m_inputs_interface.m_lidar_status==LidarUtils::LIDAR_OK);
         m_ETAT_MATCH.ConvergenceAsserv = (Application.m_asservissement.convergence_conf == 1);
         m_ETAT_MATCH.DiagBlocage = Application.m_asservissement.diag_blocage;
         m_ETAT_MATCH.Score = Application.m_modelia.getScore();
