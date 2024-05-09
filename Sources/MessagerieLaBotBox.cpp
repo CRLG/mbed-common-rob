@@ -1440,5 +1440,34 @@ tStructTrameLaBotBox* CTrameLaBotBox_ETAT_CHARGE_CPU::Encode(tStructTrameLaBotBo
     return(trame);
 }
 
+//___________________________________________________________________________
+ /*!
+   \brief Constructeur
+   \param --
+   \return --
+   */
+CTrameLaBotBox_RESET_CPU::CTrameLaBotBox_RESET_CPU()
+{
+  m_ID = ID_RESET_CPU;
+  m_DLC = DLC_RESET_CPU;
+  secure_code = 0;
+}
+//___________________________________________________________________________
+ /*!
+   \brief Decode les signaux de la trame RESET_CPU
+
+        - Renseigne les champs de la structure de donnee de la trame
+   \param bufBrut le buffer des octets de la trames a decoder
+   \return --
+   */
+void CTrameLaBotBox_RESET_CPU::Decode(tStructTrameLaBotBox *trameRecue)
+{
+
+  secure_code = CDataEncoderDecoder::decode_int8(trameRecue->Data, 0);
+
+  m_new_trame = true;
+  m_nombre_recue++;
+}
+
 /*! @} */
 

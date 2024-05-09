@@ -80,6 +80,7 @@ void CLaBotBox::initListeTrames()
     m_liste_trames[m_nombre_trames++] = &m_ETAT_LIDAR;
     m_liste_trames[m_nombre_trames++] = &m_FREE_STRING;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_CHARGE_CPU;
+    m_liste_trames[m_nombre_trames++] = &m_RESET_CPU;
 }
 
 
@@ -814,6 +815,14 @@ void CLaBotBox::CheckReceptionTrame(void)
       int _current_time = _Global_Timer.read_ms();
       if ((_current_time - m_ETAT_LIDAR.m_last_time_rx) > LOST_COM_ETAT_LIDAR) {
         Application.m_modelia.m_inputs_interface.m_lidar_status = LidarUtils::LIDAR_DISCONNECTED;
+      }
+  }
+
+  // ___________________________
+  if (m_RESET_CPU.isNewTrame())
+  {
+      if (m_RESET_CPU.secure_code == 0x69) {
+            mbed_interface_reset();
       }
   }
 }

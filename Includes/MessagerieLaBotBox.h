@@ -60,6 +60,7 @@
 #define ID_ETAT_LIDAR 0x99
 #define ID_FREE_STRING 0x10A
 #define ID_ETAT_CHARGE_CPU 0x10B
+#define ID_RESET_CPU 0x10C
 
 #define DLC_COMMANDE_POWER_ELECTROBOT 4
 #define DLC_ETAT_POWER_ELECTROBOT 8
@@ -100,6 +101,7 @@
 #define DLC_ETAT_LIDAR 64
 #define DLC_FREE_STRING 64
 #define DLC_ETAT_CHARGE_CPU 8
+#define DLC_RESET_CPU 1
 
 
 #define BRUTE2PHYS_valeur_commande_sd20(val) ( ((float)val * (1.000000)) + (0.000000) ) 
@@ -932,6 +934,19 @@ public :
 
     CTrameLaBotBox_ETAT_CHARGE_CPU();
     tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
+};
+
+
+// ========================================================
+//             TRAME RESET_CPU
+// ========================================================
+class CTrameLaBotBox_RESET_CPU : public CTrameLaBotBox
+{
+public :
+
+    unsigned char secure_code;
+    CTrameLaBotBox_RESET_CPU();
+    void Decode(tStructTrameLaBotBox* trameRecue);
 };
 
 
