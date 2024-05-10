@@ -70,7 +70,7 @@ void CLaBotBox::initListeTrames()
     m_liste_trames[m_nombre_trames++] = &m_ELECTROBOT_ETAT_CAPTEURS_1;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_ECRAN;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_MATCH;
-    m_liste_trames[m_nombre_trames++] = &m_ETAT_EVITEMENT_OBSTACLE;
+    m_liste_trames[m_nombre_trames++] = &m_ETAT_DETECTION_EVITEMENT_OBSTACLE;
     m_liste_trames[m_nombre_trames++] = &m_ETAT_RACK;
     m_liste_trames[m_nombre_trames++] = &m_COLOR_SENSOR;
     m_liste_trames[m_nombre_trames++] = &m_CONFIG_PERIODE_TRAME;
@@ -808,6 +808,7 @@ void CLaBotBox::CheckReceptionTrame(void)
   {
       LidarUtils::copy_tab_obstacles(m_ETAT_LIDAR.m_obstacles, Application.m_modelia.m_inputs_interface.m_lidar_obstacles);
       Application.m_modelia.m_inputs_interface.m_lidar_status = m_ETAT_LIDAR.m_status;
+      _led1= !_led1;
   }
   else // recherche une perte de communication et force le statut LIDAR si c'est le cas
   {
@@ -817,6 +818,7 @@ void CLaBotBox::CheckReceptionTrame(void)
         Application.m_modelia.m_inputs_interface.m_lidar_status = LidarUtils::LIDAR_DISCONNECTED;
       }
   }
+  _led2 = (Application.m_modelia.m_inputs_interface.m_lidar_status == LidarUtils::LIDAR_OK);
 
   // ___________________________
   if (m_RESET_CPU.isNewTrame())
@@ -949,17 +951,35 @@ void CLaBotBox::SendTramesLaBotBox(void)
         SerialiseTrame(m_ETAT_MATCH.Encode(&trame));
     }
     // _____________________________________________
-    if (m_ETAT_EVITEMENT_OBSTACLE.isTimeToSend())
+    if (m_ETAT_DETECTION_EVITEMENT_OBSTACLE.isTimeToSend())
     {
-        m_ETAT_EVITEMENT_OBSTACLE.SensDeplacement = 0;//Application.m_modelia.m_sens_deplacement;
-        m_ETAT_EVITEMENT_OBSTACLE.ObstacleBitfield = Application.m_modelia.m_datas_interface.evit_detection_obstacle_bitfield;
-        m_ETAT_EVITEMENT_OBSTACLE.NumeroEtape = Application.m_modelia.m_datas_interface.evit_debug_etape;
-        m_ETAT_EVITEMENT_OBSTACLE.NombreTentatives = Application.m_modelia.m_datas_interface.evit_nombre_tentatives;
-        m_ETAT_EVITEMENT_OBSTACLE.EvitementEnCours = Application.m_modelia.m_datas_interface.evit_strategie_evitement_en_cours;
-        m_ETAT_EVITEMENT_OBSTACLE.ObstacleDetecte = Application.m_modelia.m_inputs_interface.obstacleDetecte;
-        m_ETAT_EVITEMENT_OBSTACLE.ObstacleInhibe = Application.m_modelia.m_datas_interface.evit_inhibe_obstacle;
-        m_ETAT_EVITEMENT_OBSTACLE.ForcageDetectObstacleSansPosition = 0;//Application.m_modelia.m_forcage_detect_obstacle_sans_position;
-        SerialiseTrame(m_ETAT_EVITEMENT_OBSTACLE.Encode(&trame));
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.x_robot = Application.m_modelia.m_inputs_interface.X_robot;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.y_robot = Application.m_modelia.m_inputs_interface.Y_robot;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.teta_robot = Application.m_modelia.m_inputs_interface.angle_robot*100;  // rad
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.SensDeplacement = Application.m_asservissement.getSensDeplacement();;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.ObstacleBitfield = Application.m_modelia.m_datas_interface.evit_detection_obstacle_bitfield;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.NombreObstaclesPresents = Application.m_modelia.m_datas_interface.nombre_obstacles_presents;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.AnglePremierObstacleDetecte = Application.m_modelia.m_datas_interface.angle_premier_obstacle_detecte;  // degre
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.DistancePremierObstacleDetecte = Application.m_modelia.m_datas_interface.distance_premier_obstacle_detecte;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.ObstacleDetecte = Application.m_modelia.m_inputs_interface.obstacleDetecte;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.ObstacleAVD = Application.m_modelia.m_inputs_interface.obstacle_AVD;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.ObstacleAVG = Application.m_modelia.m_inputs_interface.obstacle_AVG;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.ObstacleARD = Application.m_modelia.m_inputs_interface.obstacle_ARD;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.ObstacleARG = Application.m_modelia.m_inputs_interface.obstacle_ARG;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.ObstacleInhibe = Application.m_modelia.m_datas_interface.evit_inhibe_obstacle;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.ForcageDetectObstacleSansPosition = 0;//Application.m_modelia.m_forcage_detect_obstacle_sans_position;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.OrigineDetectionObstacle = (Application.m_modelia.m_inputs_interface.m_lidar_status==LidarUtils::LIDAR_OK);
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.SeuilDetectionObstacleLidar = SEUIL_DETECTION_LIDAR;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.SeuilDetectionObstacleTelemetre = SEUIL_DETECTION_US;
+
+        // --------------------------------------
+        // Evitement d'obstacles
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.NumeroEtape = Application.m_modelia.m_datas_interface.evit_debug_etape;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.NombreTentatives = Application.m_modelia.m_datas_interface.evit_nombre_tentatives;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.ChoixStrategieEvitement = Application.m_modelia.m_datas_interface.evit_choix_strategie;
+        m_ETAT_DETECTION_EVITEMENT_OBSTACLE.EvitementEnCours = Application.m_modelia.m_datas_interface.evit_strategie_evitement_en_cours;
+
+        SerialiseTrame(m_ETAT_DETECTION_EVITEMENT_OBSTACLE.Encode(&trame));
     }
     // _____________________________________________
     if (m_ETAT_RACK.isTimeToSend())

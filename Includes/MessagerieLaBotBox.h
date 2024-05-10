@@ -51,7 +51,7 @@
 #define ID_ELECTROBOT_COLOR_SENSOR 0x21
 #define ID_ETAT_ECRAN 0x91
 #define ID_ETAT_MATCH 0x41
-#define ID_ETAT_EVITEMENT_OBSTACLE 0x42
+#define ID_ETAT_DETECTION_EVITEMENT_OBSTACLE 0x42
 #define ID_CONFIG_PERIODE_TRAME 0x108
 #define ID_MBED_CMDE 0x95
 #define ID_MBED_ETAT 0x96
@@ -91,7 +91,7 @@
 #define DLC_ELECTROBOT_COLOR_SENSOR 6
 #define DLC_ETAT_ECRAN 4
 #define DLC_ETAT_MATCH 6
-#define DLC_ETAT_EVITEMENT_OBSTACLE 8
+#define DLC_ETAT_DETECTION_EVITEMENT_OBSTACLE 20
 #define DLC_CONFIG_PERIODE_TRAME 4
 #define DLC_MBED_CMDE 8
 #define DLC_MBED_ETAT 8
@@ -733,21 +733,40 @@ public :
 
 // -----------------------------
 //! Classe de base pour les trames CAN
-class CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE : public CTrameLaBotBox {
+class CTrameLaBotBox_ETAT_DETECTION_EVITEMENT_OBSTACLE : public CTrameLaBotBox {
 public :
         //! Les signaux de la messagerie
-        signed char SensDeplacement;
-        unsigned char ObstacleBitfield;
-        unsigned char NumeroEtape;
-        unsigned char NombreTentatives;
-        unsigned char ChoixStrategieEvitement;
-        bool EvitementEnCours;
-        bool ObstacleDetecte;
-        bool ObstacleInhibe;
-        bool ForcageDetectObstacleSansPosition;
 
-        CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE();
-        tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
+    // --------------------------------------
+    // Detection d'obstacles
+    signed short x_robot;
+    signed short y_robot;
+    signed short teta_robot;  // rad
+    signed char SensDeplacement;
+    unsigned char ObstacleBitfield;
+    unsigned char NombreObstaclesPresents;
+    signed short AnglePremierObstacleDetecte;  // degre
+    unsigned short DistancePremierObstacleDetecte;
+    bool ObstacleDetecte;
+    bool ObstacleAVD;
+    bool ObstacleAVG;
+    bool ObstacleARD;
+    bool ObstacleARG;
+    bool ObstacleInhibe;
+    bool ForcageDetectObstacleSansPosition;
+    bool OrigineDetectionObstacle; // 1 = LIDAR / 0 = capteurs US
+    unsigned char SeuilDetectionObstacleLidar;
+    unsigned char SeuilDetectionObstacleTelemetre;
+
+    // --------------------------------------
+    // Evitement d'obstacles
+    unsigned char NumeroEtape;
+    unsigned char NombreTentatives;
+    unsigned char ChoixStrategieEvitement;
+    bool EvitementEnCours;
+
+    CTrameLaBotBox_ETAT_DETECTION_EVITEMENT_OBSTACLE();
+    tStructTrameLaBotBox* Encode(tStructTrameLaBotBox* trame);
 };
 
 // -----------------------------

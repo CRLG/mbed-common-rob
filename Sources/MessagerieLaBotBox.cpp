@@ -1059,37 +1059,46 @@ tStructTrameLaBotBox* CTrameLaBotBox_ECRAN_ETAT_MATCH::Encode(tStructTrameLaBotB
    \param --
    \return --
    */
-CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE::CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE()
+CTrameLaBotBox_ETAT_DETECTION_EVITEMENT_OBSTACLE::CTrameLaBotBox_ETAT_DETECTION_EVITEMENT_OBSTACLE()
 {
-  m_ID = ID_ETAT_EVITEMENT_OBSTACLE;
-  m_DLC = DLC_ETAT_EVITEMENT_OBSTACLE;
+  m_ID = ID_ETAT_DETECTION_EVITEMENT_OBSTACLE;
+  m_DLC = DLC_ETAT_DETECTION_EVITEMENT_OBSTACLE;
 }
 //___________________________________________________________________________
  /*!
-   \brief Decode les signaux de la trame ETAT_EVITEMENT_OBSTACLE
+   \brief Decode les signaux de la trame ETAT_DETECTION_EVITEMENT_OBSTACLE
         - Renseigne les champs de la structure de donnee de la trame a transmettre
    \param trame pointeur sur une structure trame deja alloue
    \return le pointeur sur la trame a envoyer (renvoie le pointeur recu)
    */
-tStructTrameLaBotBox* CTrameLaBotBox_ETAT_EVITEMENT_OBSTACLE::Encode(tStructTrameLaBotBox* trame)
+tStructTrameLaBotBox* CTrameLaBotBox_ETAT_DETECTION_EVITEMENT_OBSTACLE::Encode(tStructTrameLaBotBox* trame)
 {
     initTrame(trame);
 
     // Encode chacun des signaux de la trame
-    trame->Data[5] |= (unsigned char)( ( (ChoixStrategieEvitement) & 0xFF) );
+    CDataEncoderDecoder::encode_int16(trame->Data,      0,      x_robot);
+    CDataEncoderDecoder::encode_int16(trame->Data,      2,      y_robot);
+    CDataEncoderDecoder::encode_int16(trame->Data,      4,      teta_robot);
+    CDataEncoderDecoder::encode_int8(trame->Data,       6,      SensDeplacement);
+    CDataEncoderDecoder::encode_uint8(trame->Data,      7,      ObstacleBitfield);
+    CDataEncoderDecoder::encode_uint8(trame->Data,      8,      NombreObstaclesPresents);
+    CDataEncoderDecoder::encode_int16(trame->Data,      9,      AnglePremierObstacleDetecte);
+    CDataEncoderDecoder::encode_uint16(trame->Data,     11,     DistancePremierObstacleDetecte);
+    CDataEncoderDecoder::encode_bit(trame->Data,        13, 0,  ObstacleDetecte);
+    CDataEncoderDecoder::encode_bit(trame->Data,        13, 1,  ObstacleAVD);
+    CDataEncoderDecoder::encode_bit(trame->Data,        13, 2,  ObstacleAVG);
+    CDataEncoderDecoder::encode_bit(trame->Data,        13, 3,  ObstacleARD);
+    CDataEncoderDecoder::encode_bit(trame->Data,        13, 4,  ObstacleARG);
+    CDataEncoderDecoder::encode_bit(trame->Data,        13, 5,  ObstacleInhibe);
+    CDataEncoderDecoder::encode_bit(trame->Data,        13, 6,  ForcageDetectObstacleSansPosition);
+    CDataEncoderDecoder::encode_bit(trame->Data,        13, 7,  OrigineDetectionObstacle);
+    CDataEncoderDecoder::encode_uint8(trame->Data,      14,     SeuilDetectionObstacleLidar);
+    CDataEncoderDecoder::encode_uint8(trame->Data,      15,     SeuilDetectionObstacleTelemetre);
 
-    trame->Data[4] |= (unsigned char)( ( (NombreTentatives) & 0xFF) );
-
-    trame->Data[3] |= (unsigned char)( ( (NumeroEtape) & 0xFF) );
-
-    trame->Data[2] |= (unsigned char)( ( (ObstacleBitfield) & 0xFF) );
-
-    trame->Data[1] |= (unsigned char)( ( (SensDeplacement) & 0xFF) );
-
-    trame->Data[0] |= (unsigned char)( ( (ForcageDetectObstacleSansPosition) & 0x1) << 3 );
-    trame->Data[0] |= (unsigned char)( ( (ObstacleInhibe) & 0x1) << 2 );
-    trame->Data[0] |= (unsigned char)( ( (EvitementEnCours) & 0x1) << 1 );
-    trame->Data[0] |= (unsigned char)( ( (ObstacleDetecte) & 0x1) << 0 );
+    CDataEncoderDecoder::encode_uint8(trame->Data,      16,     NumeroEtape);
+    CDataEncoderDecoder::encode_uint8(trame->Data,      17,     NombreTentatives);
+    CDataEncoderDecoder::encode_uint8(trame->Data,      18,     ChoixStrategieEvitement);
+    CDataEncoderDecoder::encode_bit(trame->Data,        19, 0,  EvitementEnCours);
 
     return(trame);
 }
