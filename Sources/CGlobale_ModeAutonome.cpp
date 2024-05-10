@@ -135,11 +135,12 @@ void CGlobale::SequenceurModeAutonome(void)
         if (old_match_en_cours == 0) {  // Ca permet de détecter un front montant du début de match
             //m_LaBotBox.StopRx();  // utilisation du LIDAR en provenance de la RPI -> nécessite la communication RPI->MBED
             m_LaBotBox.setAllTransmitPeriod(CTrameLaBotBox::NO_PERIODIC);  // Inhibe toutes les émissions de trames
-            m_LaBotBox.m_ETAT_MATCH.setTransmitPeriod(200);                // sauf la trame spécifique match
-            m_LaBotBox.m_MBED_ETAT_TRAME.setTransmitPeriod(200);
+            m_LaBotBox.m_ETAT_MATCH.setTransmitPeriod(190);                // sauf la trame spécifique match (190 pour ne pas etre sur le meme tick sequenceur que celle a 200msec)
+            m_LaBotBox.m_ETAT_DETECTION_EVITEMENT_OBSTACLE.setTransmitPeriod(20);    // pour debugger l'evitement d'obstacle (rapide pour savoir exactement ce qu'il se passe)
+            //m_LaBotBox.m_MBED_ETAT_TRAME.setTransmitPeriod(200);
             m_LaBotBox.m_POSITION_ABSOLUE_XY_TETA.setTransmitPeriod(500);
-            m_LaBotBox.m_MBED_CMDE_TRAME.setTransmitPeriod(200); //recoit des infos génériques de la rasp comme des traitements video
-            m_LaBotBox.m_MBED_ETAT_TRAME.setTransmitPeriod(200); //envoit des demandes génériques à la rasp comme des demande de traitement video
+            //m_LaBotBox.m_MBED_CMDE_TRAME.setTransmitPeriod(200); //recoit des infos génériques de la rasp comme des traitements video
+            //m_LaBotBox.m_MBED_ETAT_TRAME.setTransmitPeriod(200); //envoit des demandes génériques à la rasp comme des demande de traitement video
         }
         old_match_en_cours = 1;
     }
